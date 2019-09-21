@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://github.com/2019/09/22/hello-world/</loc>
-    
-    <lastmod>2019-09-21T16:58:53.170Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://github.com/2018/09/11/python-01-%E5%9F%BA%E7%A1%80/</loc>
     
     <lastmod>2019-09-21T16:43:55.375Z</lastmod>
@@ -173,13 +166,6 @@
     <loc>http://github.com/2016/07/16/10-Servlet/</loc>
     
     <lastmod>2019-09-21T16:43:55.337Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://github.com/2018/09/11/1-python-%E5%9F%BA%E7%A1%80/</loc>
-    
-    <lastmod>2019-09-21T16:43:55.336Z</lastmod>
     
   </url>
   
