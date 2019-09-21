@@ -1,0 +1,42 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 10_android_应用脱壳 · hang 's blogs</title><meta name="description" content="10_android_应用脱壳 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">10_android_应用脱壳</h1><div class="post-info">Jan 13, 2018</div><div class="post-content"><p>360脱壳步骤:</p>
+<ol start="0">
+<li>前提：</li>
+</ol>
+<ul>
+<li>修改版的系统镜像system.img(x86或armv7-a)</li>
+<li>Android虚拟机(AndroidStudio自带虚拟机)</li>
+<li>已加固apk(需要脱壳的apk安装包)</li>
+</ul>
+<ol>
+<li><p>打开AndroidStudio, 打开AVD创建一个虚拟机, 配置x86 API19或ARM API19版本系统镜像(不需要带GoogleAPIs).</p>
+</li>
+<li><p>进入AndroidSDK目录下\android-sdk\system-images\android-19\default\x86或armeabi-v7a\ , 替换原版系统镜像为修改版system.img .(若没有原版镜像，可以先启动依次虚拟机后关闭即可)</p>
+</li>
+<li><p>启动AVD, 启动创建的虚拟机(x86架构启动更快, arm架构启动非常慢)</p>
+</li>
+<li><p>打开系统设置, 进入开发者选项，切换运行环境为ART模式, 重启AVD(arm架构重启非常慢, 等吧)</p>
+</li>
+<li><p>安装需要脱壳的Android apk(拖拽安装即可)</p>
+</li>
+<li><p>运行一次应用程序</p>
+</li>
+<li><p>打开cmd, adb shell</p>
+</li>
+<li><p>cd /data/data/</p>
+</li>
+<li><p>ls 查找应用包名com.xxx.xxx</p>
+</li>
+<li><p>cd com.xxx.xxx</p>
+</li>
+<li><p>ls -a 查找隐藏文件夹.jiagu</p>
+</li>
+<li><p>cd .jiagu</p>
+</li>
+<li><p>ls 出现classes.dex_数字.dex文件, 说明脱壳成功</p>
+</li>
+<li><p>另外再开一个cmd窗口(必须重开一个), pull dex文件到c:\下:  adb pull /data/data/com.xxx.xxx/.jiagu/classes.dex_数字.dex C:\</p>
+</li>
+<li><p>接下来反编译dex即可.(使用apktools反编译dex)</p>
+</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/01/15/01-spring-IOC/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/01/02/01-hexo-fix-css-bug-md/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

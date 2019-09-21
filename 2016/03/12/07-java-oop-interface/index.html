@@ -1,0 +1,39 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 07_java_oop_interface · hang 's blogs</title><meta name="description" content="07_java_oop_interface - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">07_java_oop_interface</h1><div class="post-info">Mar 12, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>接口</li>
+<li>注意事项</li>
+<li>内部类</li>
+<li>匿名内部类</li>
+</ul>
+<hr>
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><ul>
+<li>一个公共的模板,一种规范.用来此之上进行扩展.</li>
+<li>接口是一种特殊的抽象类.</li>
+<li>接口只能包含常量和抽象方法.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public interface 接口名&#123;</span><br><span class="line">  //常量</span><br><span class="line">  //抽象方法</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">子类 implements 接口名&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>接口中,默认会将其中的变量添加修饰符: public staitc final</li>
+<li>接口中,默认会将其中的方法添加修饰符: public abstract</li>
+<li>接口中,没有构造方法(jdk1.8增加了构造方法和静态方法的支持)</li>
+<li>一个类可以多实现多个接口.如 A implements B,C,D { … }</li>
+<li>接口可以多继承多个接口.如 A extends B,C,D { … }</li>
+<li>接口不可以实例化</li>
+</ol>
+<h1 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h1><ul>
+<li>类的成员: 成员变量,方法,构造器,内部类</li>
+<li>定义在外部类中的类.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class A&#123;</span><br><span class="line">  private int a = 666;</span><br><span class="line">  class B&#123;</span><br><span class="line">    public void test()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>注意:</p>
+<ol>
+<li>内部类和外部类方法,成员变量属于同一级别</li>
+<li>内部类可以调用外部类中的所有成员.</li>
+</ol>
+<h2 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h2><p>一个方法的参数列表位置是一个接口或抽象类类型,则会用到匿名内部类.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">interface A&#123;</span><br><span class="line">  void getName();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Test&#123;</span><br><span class="line">  public void demo(A a)&#123;</span><br><span class="line">    //.....</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<pre><code>[</code></pre></div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/15/01-java-api-String/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/10/06-java-oop-abstract/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

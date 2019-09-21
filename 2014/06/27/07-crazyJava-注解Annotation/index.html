@@ -1,0 +1,71 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 07_crazyJava_注解Annotation · hang 's blogs</title><meta name="description" content="07_crazyJava_注解Annotation - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">07_crazyJava_注解Annotation</h1><div class="post-info">Jun 27, 2014</div><div class="post-content"><h2 id="第十四章-Annotation-注释"><a href="#第十四章-Annotation-注释" class="headerlink" title="第十四章 Annotation 注释"></a>第十四章 Annotation 注释</h2><ul>
+<li>Java 增加对元数据MetaData的支持，即Annotation注释。</li>
+<li>其实是代码中的特殊标记，可以在编译、类加载、运行时被读取到，并执行相应的处理。</li>
+<li>通过Annotation，在不改变原有逻辑的情况下，在源文件中嵌入一些补充信息。（提供给代码分析工具、开发工具和部署工具进行验证或部署）</li>
+<li>Annotation 能被用来为程序元素（类、方法、field等）设置元数据。</li>
+<li>Annotation 的增减 不影响程序代码。如果希望Annotation起到一定作用，只有通过配套工具（APT）对其中的信息进行访问和处理。</li>
+</ul>
+<ol>
+<li>基本 Annotation（java.lang包下）</li>
+</ol>
+<p>Java提供四个基本Annotation使用：@Override/@Deprecated/@SuppressWarnings/@SafeVarargs</p>
+<ul>
+<li>限定重写父类方法@Override（只作用于方法）</li>
+<li>标示已过时@Deprecated（表示某个程序元素已过时，其他程序使用该元素时，编译器发出警告）</li>
+<li>抑制编译器警告@SuppressWarnings（表示修饰的程序元素，取消指定的编译器警告）</li>
+</ul>
+<p>// *一定要在括号内使用name=value的形式，为给Annotation设置值<br>@SuppressWarnings(value=”unchecked”)<br>public class XXXTest{<br>  …<br>}</p>
+<ul>
+<li>抑制“堆污染”警告@SafeVarargs</li>
+</ul>
+<ol>
+<li>元 Annotation （java.lang.annotation包下）</li>
+</ol>
+<p>JDK 提供 4 个Meta Annotation，用于修饰其他的 Annotation的定义：@Retention/@Target/@Documented/@Inherited</p>
+<ul>
+<li>@Retention：指定被修饰的 Annotation可以保留多长时间</li>
+</ul>
+<p>//包含一个RetentionPolicy类型value成员变量，该成员变量必须指定值。无须name=value形式，也可以。<br>//RetentionPolicy.SOURCE 注释只保留在源代码中，编译器直接丢弃<br>//RetentionPolicy.CLASS  编译器保留注释在class文件中，运行时JVM不在保留（默认）<br>//RetentionPolicy.RUNTIME编译器保留注释在class文件中，运行时JVM同样也保留，程序通过反射获取该Annotation信息<br>@Retention(value=RetentionPolicy.RUNTIME)<br>或者<br>@Retention(RetentionPolicy.SOURCE)<br>@Retention(RetentionPolicy.CLASS)<br>public @interface Testable { }</p>
+<ul>
+<li>@Target：指定被修饰的 Annotation 能用于哪些程序单元</li>
+</ul>
+<p>//包含一个value成员变量。<br>//ElementType.ANNOTATION_TYPE 被修饰的Annotation 只能用于（或修饰）Annotation<br>//ElementType.CONSTRUCTOR     被修饰的Annotation 只能用于（或修饰）构造器<br>//ElementType.FIELD           同理<br>//ElementType.METHOD<br>//ElementType.LOCAL_VARIABLE<br>//ElementType.PACKAGE<br>//ElemnetType.PARAMETER       修饰参数<br>//ElementType.TYPE            修饰类、接口（包括注释类型）或枚举定义<br>@Target(ElementType.FIELD)<br>public @interface Testable { }</p>
+<ul>
+<li>@Documented：指定被修饰的 Annotation 将被Javadoc 工具提取成文档</li>
+</ul>
+<p>@Retention(RetentionPolicy.RUNTIME)<br>@Target(ElementType.METHOD)<br>@Documented<br>public @interface Testable { }</p>
+<ul>
+<li>@Inherited：指定被修饰的 Annotation 将具有继承性（如果某个类被@Inherited修饰的@Testable 修饰，则子类将自动被@Testable 修饰）</li>
+</ul>
+<p>@Target(ElementType.TYPE)<br>@Retention(RetentionPolicy.RUNTIME)<br>@Inherited<br>public @interface Inheritable{ }</p>
+<p>//该注释是 上面自定义的 Annotation，被@Inherited修饰了<br>@Inheritable<br>class Base{ }</p>
+<p>//该类只是继承Base类，未直接被@Inheritable修饰<br>public class InheritableTest extends Base{<br>  public static void main(){<br>      //该类是否有@Inheritable 修饰, 输出true<br>      System.out.println(InheritableTest.class.isAnnotationPresent(Inheritable.class));<br>  }<br>}</p>
+<ol>
+<li>自定义 Annotation</li>
+</ol>
+<p>自定义新的 Annotation，使用@interface 关键字，和定义一个接口很类似。<br>public @interface Test{</p>
+<p>}</p>
+<p>//通常使用，放在修饰符之前，另起一行<br>@Test<br>public class Myclass{</p>
+<p>}</p>
+<p>public @interface MyTest{<br>  // 可以选择带成员变量（更加类似定义接口了）,如果定义了成员变量，使用时就得指定值<br>  // *Annotation 中的成员变量以方法的形式来定义<br>  String name();<br>  int age();<br>}</p>
+<p>public class Test{<br>  @MyTest(name=”tiny”,age=23)<br>  void info(){<br>      …<br>  }<br>}</p>
+<p>public @interface MyTest{<br>  //可以指定默认值,指定默认值后，使用时可以不指定值了<br>  String name() default “tiny”;<br>  int age() default 23;<br>}</p>
+<ol>
+<li>提取 Annotation信息</li>
+</ol>
+<ul>
+<li>必须由开发者提供相应的工具来提取并处理 Annotation信息。</li>
+<li>java.lang.reflect 包提供的反射API扩充了读取 运行时Annotation的能力。</li>
+<li>只有当  Annotation被定义为 运行时Annotation(即RetentionPolicy.RUNTIME)，jvm才会装在class文件中保留的annotation。</li>
+</ul>
+<ul>
+<li>AnnotatedElement 接口时所有 Annotation 类型的父接口，所以程序可以通过反射获取某个类的 AnnotatedElement 对象（如Class/Method/Constructor等，因为 AnnotatedElement 接口的实现类有 Class,Constructor,Field,Method,Package几个实现类）之后，调用该对象的方法来访问 Annotation 信息。</li>
+<li>getAnnotation(Class<t> annotationClass)</t></li>
+<li>Annotation[] getAnnotations()</li>
+<li>boolean isAnnotationPresent(Class&lt;? extends Annotation&gt; annotationClass)</li>
+</ul>
+<ol>
+<li>编译时处理 Annotation</li>
+</ol>
+<p>APT —— 处理注释工具。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2014/07/05/08-crazyJava-泛型/" class="prev">PREV</a><a href="/tinytinycn.github.io/2014/06/23/06-crazyJava-面向对象下/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

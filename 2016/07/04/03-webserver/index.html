@@ -1,0 +1,56 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 03_webserver · hang 's blogs</title><meta name="description" content="03_webserver - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">03_webserver</h1><div class="post-info">Jul 4, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>基于HTTP协议的webserver程序</li>
+<li>HTTP协议</li>
+</ul>
+<hr>
+<h2 id="基于HTTP协议的webserver程序"><a href="#基于HTTP协议的webserver程序" class="headerlink" title="基于HTTP协议的webserver程序"></a>基于HTTP协议的webserver程序</h2><ol start="0">
+<li>创建工程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">|--WebServer</span><br><span class="line">   |--src</span><br><span class="line">      |--cn.tinytiny.common</span><br><span class="line">      |--cn.tinytiny.core</span><br><span class="line">      |--cn.tinytiny.http</span><br><span class="line">   |--webapps</span><br><span class="line">   |--config      </span><br><span class="line">   |--JRE System Libaray</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>代码:</p>
+<ol>
+<li>创建WebServer类 cn.tinytiny.core.WebServer</li>
+<li>WebServer中, 创建成员变量ServerSocket</li>
+<li>WebServer中, 创建构造方法, 初始化服务器操作</li>
+<li>WebServer中, 创建start()方法, 接收处理客户端请求</li>
+</ol>
+<p>重构代码1:</p>
+<ol>
+<li>创建ClientHander类, 实现Runnable接口, 接收socket</li>
+<li>WebServer中, 创建ExecutorService对象, 管理线程对象ClientHandler</li>
+<li>修改start(), 启动线程对象处理客户端请求</li>
+</ol>
+<p>重构代码2:</p>
+<ol>
+<li>创建HttpRequest类, 封装http请求信息</li>
+<li>HttpRequest中, 提供method url protocol 属性, 分别实现getter方法</li>
+<li>HttpRequest中, 提供构造方法, 初始化method url protocol信息</li>
+<li>创建HttpResponse类, 封装http响应信息</li>
+<li>HttpResponse中, 提供构造方法, 接收输出流</li>
+<li>HttpResponse中, 提供status contentType contentLength属性, 分别实现setter/getter方法</li>
+<li>HttpResponse中, 提供一个Map集合statusMap, 存储所有状态码即对应描述信息</li>
+<li>HttpResponse中, 提供一个getOutputStream方法, 返回指向客户端的输出流, 发送状态行和响应头(仅一次)</li>
+<li>重构ClientHandler类, 将客户端请求信息封装在HttpRequest对象中</li>
+<li>重构ClientHandler类, 将发送给浏览器的响应信息封装在HttpResponse对象中</li>
+<li>ClientHandler中, 提供一个responseFile()方法, 返回文件给客户端</li>
+</ol>
+<p>重构代码3:</p>
+<ol>
+<li><p>工程文件下config, 创建config.xml文件, 配置服务端信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;server&gt;</span><br><span class="line">  &lt;service&gt;</span><br><span class="line">    &lt;connector protocol=&quot;HTTP/1.1&quot; port=&quot;8888&quot; maxThread=&quot;10&quot;/&gt;</span><br><span class="line">    &lt;webroot&gt;webapps&lt;/webroot&gt;</span><br><span class="line">  &lt;/service&gt;</span><br><span class="line">&lt;/server&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入dom4j开发包</p>
+</li>
+<li><p>使用ServerContext类中的成员变量, 替换程序中的参数</p>
+</li>
+</ol>
+<p>重构代码4:</p>
+<ol>
+<li>创建注册页面regist.html和 登陆页面login.html</li>
+<li>HttpRequest中, 提供一个Map成员变量parameters存储请求参数</li>
+<li>HttpRequest中, 提供一个getParameter()方法返回请求中的参数</li>
+<li>修改ClientHandler类中, 业务逻辑</li>
+<li>实现service方法, 完成后台注册功能</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/07/06/04-html/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/07/03/02-jdbc/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

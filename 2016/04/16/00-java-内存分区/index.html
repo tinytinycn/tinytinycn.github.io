@@ -1,0 +1,133 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 00_java_内存分区 · hang 's blogs</title><meta name="description" content="00_java_内存分区 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">00_java_内存分区</h1><div class="post-info">Apr 16, 2016</div><div class="post-content"><h1 id="JVM-运行时数据分区"><a href="#JVM-运行时数据分区" class="headerlink" title="JVM 运行时数据分区"></a>JVM 运行时数据分区</h1><p>what?</p>
+<ul>
+<li>内存&gt;&gt;内存分区&gt;&gt;各个分区有自己的用途, 创建和销毁时间.有的分区随着应用线程的启动和创建.</li>
+</ul>
+<p>why?</p>
+<ul>
+<li>内存分区主要目的是为了更好的进行垃圾回收和数据管理.</li>
+</ul>
+<p><img src="./jvm_memory_structure.jpg" alt="jvm_memory_structure.png"></p>
+<p><img src="./jvm_runtime_memory_partion.jpg" alt="memory_partion.jpg"></p>
+<hr>
+<h2 id="1-程序计数器-Program-Counter-Register"><a href="#1-程序计数器-Program-Counter-Register" class="headerlink" title="1 程序计数器 Program Counter Register"></a>1 程序计数器 Program Counter Register</h2><p>what?</p>
+<ul>
+<li>线程私有的区域, 用于存储线程的上下文.</li>
+<li>并发程序的执行是通过使用cpu时间片来执行, 当线程继续切换时, 就会将当前线程执行的一些信息存储到程序计数器内存中.</li>
+<li>每一个Java线程都有一个程序计数器来用于保存程序执行到当前方法的哪一个指令, 对于非Native方法, 这个区域记录的是正在执行的VM原语的地址, 如果正在执行的是Natvie方法, 这个区域则为空（undefined）.</li>
+</ul>
+<p>how?</p>
+<ul>
+<li>这个区域是Java虚拟机规范中唯一一个没有规定任何OutOfMemoryError的区域.</li>
+</ul>
+<h2 id="2-虚拟机栈-J-VM-Stack"><a href="#2-虚拟机栈-J-VM-Stack" class="headerlink" title="2 虚拟机栈 (J)VM Stack"></a>2 虚拟机栈 (J)VM Stack</h2><p>what?</p>
+<ul>
+<li>线程私有的区域, 声明周期和线程周期相同, 用于Java方法执行的内存模型.</li>
+<li>每个方法被执行的时候, 都会同时创建一个帧(Frame)用于存储本地变量表, 操作栈, 动态链接, 方法出入口等信息.每一个方法的调用至完成, 就意味着一个帧Frame在虚拟机栈中的入栈至出栈的过程.</li>
+</ul>
+<p>how?</p>
+<ul>
+<li>如果线程请求的栈深度大于虚拟机所允许的深度, 将抛出 StackOverflowError异常.</li>
+<li>如果 虚拟机栈可以动态扩展(VM Spec中允许固定长度的虚拟机栈), 当扩展时无法申请到足够内存则抛出 OutOfMemoryError异常.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">//-Xss128k  -XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line"></span><br><span class="line">// main thread</span><br><span class="line">public static void main(String[] args) throws Exception&#123;</span><br><span class="line">        OutOfMemoryTest oom = new OutOfMemoryTest();</span><br><span class="line">        try &#123;</span><br><span class="line">            oom.stackLeak();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            System.out.println(&quot;stacklength&gt;&gt; &quot;+oom.stackLength);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">static int stackLength = 1;</span><br><span class="line">static void stackLeak() &#123;</span><br><span class="line">    stackLength++;</span><br><span class="line">//        if (stackLength==1100)&#123;</span><br><span class="line">//            return;</span><br><span class="line">//        &#125;</span><br><span class="line">    stackLeak();</span><br><span class="line">&#125;    </span><br><span class="line"></span><br><span class="line">// 子线程</span><br><span class="line">public static void main() throws Exception&#123;</span><br><span class="line">  new Thread(new Runnable() &#123;</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                loop(0);</span><br><span class="line">            &#125;</span><br><span class="line">            private void loop(int i) &#123;</span><br><span class="line">                if (i == 1000) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    i++;</span><br><span class="line">                    loop(i);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><img src="outofmemory3.png" alt="outofmemory3.png"></p>
+<p><img src="outofmemory4.png" alt="outofmemory4.png"></p>
+<h2 id="3-本地方法栈-Native-Method-Stack"><a href="#3-本地方法栈-Native-Method-Stack" class="headerlink" title="3 本地方法栈 Native Method Stack"></a>3 本地方法栈 Native Method Stack</h2><p>what?</p>
+<ul>
+<li>本地方法栈和虚拟机栈功能类似.</li>
+<li>虚拟机栈用于提供虚拟机VM原语服务.</li>
+<li>本地方法栈用于提供虚拟机使用native方法服务.</li>
+</ul>
+<h2 id="4-方法区-Method-Area"><a href="#4-方法区-Method-Area" class="headerlink" title="4 方法区 Method Area"></a>4 方法区 Method Area</h2><p>what?</p>
+<ul>
+<li>各个线程共享的区域, 用于存储已经被JVM加载的类Class结构信息, 包括常量池, 字段描述, 方法描述等数据.</li>
+<li>分两个子区域: <strong>持久代</strong> 和代码缓存.</li>
+<li>(“永久代Permanent Generation”- JVM垃圾回收策略的划分方法, VM Spec原文描述:the method area is logically part of the heap)</li>
+<li>(“代码缓存”- 用来存储编译后的代码.编译后的代码就是本地代码(硬件相关的), 它是由JIT(Just In Time)编译器生成的, 这个编译器是 Oracle HotSpot JVM所特有的)</li>
+</ul>
+<p><img src="method_area_structure.jpg" alt="method_area_structure.jpg"></p>
+<h2 id="4-1-运行时常量池-Runtime-Constant-Pool"><a href="#4-1-运行时常量池-Runtime-Constant-Pool" class="headerlink" title="4.1 运行时常量池 Runtime Constant Pool"></a>4.1 运行时常量池 Runtime Constant Pool</h2><p>what?</p>
+<ul>
+<li>方法区的一部分.</li>
+<li>Class文件中除了有类的版本, 字段, 方法, 接口等描述等信息外, 还有一项信息是常量表(constant_pool table), 用于存放 <strong>编译期</strong> 已可知的常量, 这部分内容将在类加载后进入方法区（永久代）存放.</li>
+<li>但是Java语言的常量不一定只有编译期预置入Class的常量表的内容才能进入方法区常量池, <strong>运行期</strong> 也可将新内容放入常量池 (如, String.intern()方法)</li>
+</ul>
+<p>how?</p>
+<ul>
+<li>如果运行时常量池超过方法区内存限制时, 常量池无法申请内存时会抛出OutOfMemoryError异常.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//-XX:PermSize=5M -XX:MaxPermSize=5M -XX:+HeapDumpOnOutOfMemorError</span><br><span class="line">// java1.6及以前版本</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">		List&lt;String&gt; list = new ArrayList&lt;String&gt;();</span><br><span class="line">		int i = 0;</span><br><span class="line">		while(true)&#123;</span><br><span class="line">			list.add(String.valueOf(i++).intern());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><img src="outofmemory.png" alt="outofmemory.png"></p>
+<h2 id="5-堆区-Heap"><a href="#5-堆区-Heap" class="headerlink" title="5 堆区 Heap"></a>5 堆区 Heap</h2><p>what?</p>
+<ul>
+<li>各个线程共享的区域,  用于存储对象实例和数组数据.</li>
+<li>在虚拟机启动时被创建.</li>
+<li>(“GC堆”, 采用分代垃圾回收策略, Java堆区细分为新生代和老年代, 还可以更细分eden, from survivor, to survivor, 甚至更细粒度的本地线程分配缓冲TLAB 等)</li>
+<li>堆区可以是物理上连续的内存空间, 也可以是不连续的内存空间.</li>
+</ul>
+<p>how?</p>
+<ul>
+<li>更好的回收内存, 或更快的分配内存.(深入理解:JVM内存管理)</li>
+<li>如果在堆中无法分配内存, 并且堆无法在扩展时, 将会抛出OutOfMemoryError异常.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//-Xms10m -Xmx10m  -XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">static class OOMObject &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">        List&lt;OOMObject&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">        int i = 0;</span><br><span class="line">        while (true) &#123;</span><br><span class="line">            list.add(new OOMObject());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="./outofmemory2.png" alt="outofmemory2.png"></p>
+<h2 id="6-本机直接内存-DeirctMemory"><a href="#6-本机直接内存-DeirctMemory" class="headerlink" title="6 本机直接内存 DeirctMemory"></a>6 本机直接内存 DeirctMemory</h2><p>what?</p>
+<ul>
+<li>顾名思义</li>
+<li>默认与Java堆-Xmx一样</li>
+<li>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域.但是这部分内存也被频繁地使用，而且也可能导致OutOfMemoryError异常出现. 在JDK 1.4中新加入了 NIO类, 引入了一种基于通道（Channel）与缓冲区（Buffer）的I/O方式, 它可以使用Native函数库直接分配堆外内存, 然后通过一个存储在Java堆中DirectByteBuffer对象作为这块内存的引用进行操作.这样能在一些场景中显著提高性能，因为避免了在Java堆和Native堆中来回复制数据。</li>
+<li>直接内存的分配不会受到Java堆大小的限制，但是，既然是内存，肯定还是会受到本机总内存（包括RAM以及SWAP区或者分页文件）大小以及处理器寻址空间的限制。服务器管理员在配置虚拟机参数时，会根据实际内存设置-Xmx等参数信息，但经常容易忽略.值得注意!</li>
+</ul>
+<p>how?</p>
+<ul>
+<li>直接内存，使得各个内存区域总和大于物理内存限制（包括物理的和操作系统级的限制），从而导致动态扩展时出现 OutOfMemoryError异常.</li>
+<li>下面例子, 直接通过反射获取 Unsafe实例进行内存分配 ( Unsafe类的 getUnsafe()方法限制了只有引导类加载器才会返回实例，也就是基本上只有 rt.jar里面的类的才能使用) , 因为 DirectByteBuffer也会抛 OOM异常，但抛出异常时实际上并没有真正向操作系统申请分配内存，而是通过计算得知无法分配既会抛出，真正申请分配的方法是 unsafe.allocateMemory();<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//-Xmx20M -XX:MaxDirectMemorySize=10M</span><br><span class="line"></span><br><span class="line">private static final int _1MB = 1024 * 1024;</span><br><span class="line">public static void main(String[] args) throws Exception &#123;</span><br><span class="line">       Field unsafeField = Unsafe.class.getDeclaredFields()[0];</span><br><span class="line">       unsafeField.setAccessible(true);</span><br><span class="line">       Unsafe unsafe = (Unsafe) unsafeField.get(null);</span><br><span class="line">       while (true) &#123;</span><br><span class="line">              unsafe.allocateMemory(_1MB);</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><img src="outofmemory5.png" alt="outofmemory5.png"></p>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>JVM 数据分区结构: 计数器, 栈, 堆.</li>
+<li>思考一个类的main方法在内存中的执行过程.</li>
+</ul>
+<hr>
+<h2 id="Java-8-元空间-MetaSpace"><a href="#Java-8-元空间-MetaSpace" class="headerlink" title="Java 8 元空间 MetaSpace"></a>Java 8 元空间 MetaSpace</h2><p>what?</p>
+<ul>
+<li>它是本地堆内存中的一部分</li>
+<li>它可以通过-XX:MetaspaceSize和-XX:MaxMetaspaceSize来进行调整</li>
+<li>当到达XX:MetaspaceSize所指定的阈值后会开始进行清理该区域</li>
+<li>如果本地空间的内存用尽了会收到java.lang.OutOfMemoryError: Metadata space的错误信息。</li>
+<li>和持久代相关的JVM参数-XX:PermSize及-XX:MaxPermSize将会被忽略掉，并且在启动的时候给出警告信息。</li>
+<li>充分利用了Java语言规范中的好处：类及相关的元数据的生命周期与类加载器的一致</li>
+</ul>
+<p>内存分配模型</p>
+<ul>
+<li>绝大多数的类元数据的空间都从本地内存中分配</li>
+<li>用来描述类元数据的类也被删除了，分元数据分配了多个虚拟内存空间</li>
+<li>给每个类加载器分配一个内存块的列表，只进行线性分配。块的大小取决于类加载器的类型， sun/反射/代理对应的类加载器的块会小一些。</li>
+<li>不会单独回收某个类，如果GC发现某个类加载器不再存活了，会把相关的空间整个回收掉。这样减少了碎片，并节省GC扫描和压缩的时间。</li>
+</ul>
+<p>how?</p>
+<ul>
+<li>使用-XX:MaxMetaspaceSize参数可以设置元空间的最大值，默认是没有上限的，也就是说你的系统内存上限是多少它就是多少。</li>
+<li>使用-XX:MetaspaceSize选项指定的是元空间的初始大小，如果没有指定的话，元空间会根据应用程序运行时的需要动态地调整大小。</li>
+<li>一旦类元数据的使用量达到了“MaxMetaspaceSize”指定的值，对于无用的类和类加载器，垃圾收集此时会触发。为了控制这种垃圾收集的频率和延迟，合适的监控和调整Metaspace非常有必要。过于频繁的Metaspace垃圾收集是类和类加载器发生内存泄露的征兆，同时也说明你的应用程序内存大小不合适，需要调整。</li>
+</ul>
+<p>外文引用:</p>
+<p><a href="https://www.infoq.com/articles/Java-PERMGEN-Removed" target="_blank" rel="noopener">Java-PERMGEN-Removed</a></p>
+<p>中文引用:</p>
+<p><a href="http://blog.csdn.net/mawming/article/details/51967291" target="_blank" rel="noopener">Java 8: 从永久代（PermGen）到元空间（Metaspace）</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// http://www.java2s.com 下载如下包:</span><br><span class="line">// cglib-2.2.0.jar 和 com.springsource.org.objectweb.asm-3.2.0.jar</span><br><span class="line">// (保持版本一致, 两个包有关联)</span><br><span class="line">// CGLib直接操作字节码，生成大量的动态类</span><br><span class="line">static void OOMTest2() &#123;</span><br><span class="line">        int i = 0;</span><br><span class="line">        try &#123;</span><br><span class="line">            while (true) &#123;</span><br><span class="line">                Enhancer enhancer = new Enhancer();</span><br><span class="line">                enhancer.setSuperclass(OOMObject.class);</span><br><span class="line">                enhancer.setUseCache(false);</span><br><span class="line">                enhancer.setCallback(new MethodInterceptor() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable &#123;</span><br><span class="line">                        return proxy.invokeSuper(obj, args);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">                enhancer.create();</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            System.out.println(&quot;运行次数：&quot; + i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>jdk1.7环境下,运行结果:</p>
+<p><img src="jdk1.7_oom.png" alt="jdk1.7_oom.png"></p>
+<p>jdk1.8环境下,运行结果:(默认内存分配, 1.8下默认会忽略 1.7下 -XX:PermSize=5M -XX:MaxPermSize=5M)</p>
+<p><img src="jdk1.8_oom.png" alt="jdk1.8_oom.png"></p>
+<p>jdk1.8环境下,运行结果:(自定义内存分配)</p>
+<p><img src="jdk1.8_oom2.png" alt="jdk1.8_oom2.png"></p>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/04/18/01-java-多线程/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/26/10-java-api-XML/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

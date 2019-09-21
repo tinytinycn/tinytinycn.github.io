@@ -1,0 +1,39 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 09_数据库基础语法 · hang 's blogs</title><meta name="description" content="09_数据库基础语法 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">09_数据库基础语法</h1><div class="post-info">Aug 23, 2017</div><div class="post-content"><ul>
+<li><p>CRUD操作语法（Create/Read/Update/Delete）</p>
+</li>
+<li><p>首先：创建一个数据库：sqlite3 <database_name>.db</database_name></p>
+</li>
+<li><p>Create创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//创建 table表</span><br><span class="line">CREATE TABLE &lt;table_name&gt;(&lt;column_name1&gt; &lt;data_type&gt;, &lt;column_name2&gt; &lt;data_type&gt;, &lt;column_name3&gt; &lt;data_type&gt;, ...);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Insert添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//添加 数据到表中：</span><br><span class="line">INSERT INTO &lt;table_name&gt;(&lt;column_name1&gt;, &lt;column_name2&gt;, ...) VALUES (&lt;value1&gt;, &lt;value2&gt;, ...);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Read读取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//读取 数据从表中：</span><br><span class="line">SELECT &lt;columns&gt; FROM &lt;table_name&gt;;   //多个column以,分隔开</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>//读取 所有从表中<br>SELECT * FROM <table_name>;</table_name></p>
+<ul>
+<li><p>Update更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//更新 表中数据</span><br><span class="line">UPDATE &lt;table_name&gt; SET &lt;column_name1&gt; = &lt;value1&gt; WHERE &lt;condition&gt;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Delete删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//删除 表中数据</span><br><span class="line">DELETE FROM &lt;table_name&gt; WHERE &lt;condition&gt;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>//删除 表（所有数据）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE &lt;table_name&gt;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Keywords关键字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//PRIMARY KEY 确保该值唯一性；</span><br><span class="line">CREATE TABLE &lt;&gt;(&lt;&gt; &lt;&gt; PRIMARY KEY, &lt;&gt; &lt;&gt;, ...);</span><br><span class="line"></span><br><span class="line">//AUTOINCREMENT 当行增加时，自动计算一个整数值，通常用于IDs</span><br><span class="line">CREATE TABLE &lt;&gt;(&lt;&gt; &lt;&gt; AUTOINCREMENT, &lt;&gt; &lt;&gt;, ...);</span><br><span class="line"></span><br><span class="line">//NOT NULL 添加数据时，必须为该值赋值</span><br><span class="line">CREATE TABLE &lt;&gt;(&lt;&gt; &lt;&gt; NOT NULL, &lt;&gt; &lt;&gt;, ...);</span><br><span class="line"></span><br><span class="line">//DEFAULT 添加数据时，未给该值赋值，则自动给默认值</span><br><span class="line">CREATE TABLE &lt;&gt;(&lt;&gt; &lt;&gt; DEFAULT, &lt;&gt; &lt;&gt;, ...);</span><br><span class="line"></span><br><span class="line">//WHERE 条件语句</span><br><span class="line">SELECT * FROM &lt;table_name&gt; WHERE &lt;condition&gt;;</span><br><span class="line">UPDATE &lt;table_name&gt; SET &lt;col&gt; = &lt;val&gt; WHERE &lt;condition&gt;;</span><br><span class="line">DELETE FROM &lt;table_name&gt; WHERE &lt;conditino&gt;;</span><br><span class="line"></span><br><span class="line">//ORDER BY 排序语句</span><br><span class="line">SELECT &lt;column&gt; FROM &lt;table_name&gt; ORDER BY &lt;&gt; &lt;ASC|DESC&gt;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SQLite program dot commands（其他相关）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.help</span><br><span class="line">.head &lt;on|off&gt;</span><br><span class="line">.mode &lt;mode:ascii|column|...&gt;</span><br><span class="line">.tables</span><br><span class="line">.schema</span><br><span class="line">.open</span><br><span class="line">.quit</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2017/08/30/04-udacity-数据与数据库/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/08/19/03-udacity-访问网络/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

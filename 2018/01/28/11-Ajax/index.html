@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 11_Ajax · hang 's blogs</title><meta name="description" content="11_Ajax - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">11_Ajax</h1><div class="post-info">Jan 28, 2018</div><div class="post-content"><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>Ajax</li>
+<li>Ajax 编程实现</li>
+<li>JQ 中Ajax 应用</li>
+</ul>
+<hr>
+<ul>
+<li>Ajax</li>
+</ul>
+<ol>
+<li>Asynchronous JavaScript And Xml 是开发web应用程序的技术;</li>
+<li>在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容;</li>
+<li>解决了页面加载的性能问题和提升用户体验.</li>
+</ol>
+<ul>
+<li>Ajax 编程实现</li>
+</ul>
+<p>实现步骤:</p>
+<ol>
+<li>获取Ajax请求对象</li>
+<li>发送Ajax异步请求到服务端</li>
+<li>获取Ajax异步数据(监听状态)</li>
+<li>局部刷新(显式返回数据)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//获取Ajax请求对象</span><br><span class="line">var request = window.XMLHttpRequest;</span><br><span class="line">//初始化Ajax请求对象(设置监听函数/请求链接/发送数据)</span><br><span class="line">request.onReadyStateChange=function()&#123;</span><br><span class="line">  handleResponse(requset)</span><br><span class="line">&#125;;</span><br><span class="line">request.open(&quot;get&quot;, &quot;message-data.html&quot;, true);//true is asynchronously</span><br><span class="line">request.send(null);</span><br><span class="line">//获取Ajax异步数据, 处理数据</span><br><span class="line">function handleResponse(request)&#123;</span><br><span class="line">  if(request.readyState==4 &amp;&amp; request.status==200)&#123;</span><br><span class="line">    //局部刷新</span><br><span class="line">    refresh(resultRegion, request.responseText);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//采用post提交方式的Ajax请求方式</span><br><span class="line">request.open(&quot;post&quot;, address, true);</span><br><span class="line">request.setRequestHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);</span><br><span class="line">request.send(data);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>JQ中Ajax应用</li>
+</ul>
+<ol>
+<li><p>load函数: 一般用于异步加载url页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">load(url, [data], [callback])</span><br><span class="line"></span><br><span class="line">$(&quot;body&quot;).load(&quot;listUI.do&quot;, &#123;color:red&#125;, function()&#123;...&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ajax函数: 向服务器发起一个异步请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ajax(&#123;</span><br><span class="line">  url: &quot;address&quot;,</span><br><span class="line">  data: &#123;param1:&quot;p1&quot;, param2:&quot;p2&quot;&#125;,</span><br><span class="line">  dataType: &quot;json&quot;,</span><br><span class="line">  success: successHandlerFun,</span><br><span class="line">  error: errorHandlerFun,</span><br><span class="line">  cache: false,</span><br><span class="line">  ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>getJson函数: 向服务器发起一个Get请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getJson(url, [data], [callback])</span><br><span class="line">$.getJson(&quot;doFindPageObject.do&quot;, &#123;pageCurrent:1&#125;, function(result)&#123;...&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>post函数: 向服务器发起一个Post请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">post(url, [data], [callback])</span><br><span class="line">$.post(&quot;doFindPageObject.do&quot;, &#123;pageCurrent:1&#125;, function(result)&#123;...&#125;);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/02/01/12-单例模式/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/01/26/10-mybatis-增强/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

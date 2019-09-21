@@ -1,0 +1,88 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 08_crazyJava_泛型 · hang 's blogs</title><meta name="description" content="08_crazyJava_泛型 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">08_crazyJava_泛型</h1><div class="post-info">Jul 5, 2014</div><div class="post-content"><h2 id="第九章-泛型"><a href="#第九章-泛型" class="headerlink" title="第九章 泛型"></a>第九章 泛型</h2><ul>
+<li>Java1.5 增加泛型支持，让集合能记住其元素的数据类型；</li>
+<li>记住集合中元素的类型，并可以在编译时检查集合中元素的类型；（添加不满足类型元素，编译器报错）</li>
+<li>通过泛型来实现编译时检查集合元素的类型</li>
+</ul>
+<ol>
+<li>泛型基础</li>
+</ol>
+<ul>
+<li>Java5 引入“参数化类型（parameterized type）”的概念，允许创建集合时指定集合元素的类型；</li>
+<li>Java 的参数化类型，被称作泛型（Generic）;</li>
+<li>Java7 允许在构造器后不需要带完整的泛型信息，只需&lt;&gt;即可，Java 可以推断泛型信息；</li>
+</ul>
+<p>//自动推断 ArrayList的 &lt;&gt;里面为 String类型<br>List<string> strArray = new ArrayList&lt;&gt;();</string></p>
+<ol>
+<li>定义泛型类、接口</li>
+</ol>
+<ul>
+<li>所谓泛型，就是允许在定义类、接口、方法时使用类型形参，这个类型形参将会在声明变量、创建对象、调用方法时动态地指定。（传入实际的类型参数，则为类型实参）</li>
+<li>允许在定义类、接口时，声明类型形参，类型形参在整个类、接口体内可当成类型使用。（可以使用普通类型的地方都可以使用类型形参）</li>
+</ul>
+<p>public interface List<e><br>{<br>  void add(E a);<br>  Iterator<e> iterator();<br>}</e></e></p>
+<ul>
+<li>任何类、接口都可以泛型声明；（比如 Apple<t>）</t></li>
+<li>创建了带泛型声明的父类、接口，可以为接口创建实现类或父类派生子类。使用这些接口、父类时，不能再包含类型形参。</li>
+</ul>
+<p>public class A extends Apple<t>{ }  //错误<br>public class A extends Apple<string>{ }  //正确<br>public class A extends Apple{ }     //可以不为类型形参传入实际的类型参数</string></t></p>
+<ul>
+<li>并不存在“泛型类”，不管泛型的实际类型参数是什么，运行时总是同样的类Class；（在内存中只占用一块内存空间，因此，在静态方法、静态初始块或静态变量声明和初始化中，不允许使用类型形参）</li>
+</ul>
+<p>public class R<t>{<br>  //下面代码，错误<br>  static T info;<br>  public static void bar(T msg){}<br>  //下面代码，正确<br>  T age;<br>  public void foo(T msg){}<br>}</t></p>
+<p>//同样 instanceof 后面不能使用“泛型类”<br>if(cs instanceof List<string>)  //错误代码</string></p>
+<ol>
+<li>类型通配符</li>
+</ol>
+<ul>
+<li>在使用一个泛型类时，都应该为这个泛型类传入一个类型实参。（没有传入类型实际参数，编译器发出警告）</li>
+<li>Java 泛型的设计原则：只要代码在编译器没有出现警告，就不会遇到运行时 ClassCastException异常。</li>
+</ul>
+<ul>
+<li>为了表示所有泛型List 的父类，需要使用类型通配符（?）匹配任何类型，写作：List&lt;?&gt;；（未知类型元素的List）</li>
+<li>带通配符的List 仅表示是各种泛型 List 的父类，并不能把元素加入其中；</li>
+</ul>
+<p>List&lt;?&gt; c = enw ArrayList<string>();<br>c.add(new Object());  //编译错误</string></p>
+<ul>
+<li>Java 泛型提供被限制的泛型通配符；（通配符的上限upper bound）</li>
+</ul>
+<p>List&lt;? extends Shape&gt;</p>
+<ul>
+<li>Java 泛型也可以在定义类型形参是设定上限；</li>
+</ul>
+<p>public class Apple<t extends number>{<br>  T col;   //T 只能传入Number类 或Number类的子类<br>  …<br>}</t></p>
+<ul>
+<li>Java 允许设定通配符的下限；（&lt;? super Type&gt;，表示通配符它必须时Type本身，或是Type 的父类）</li>
+</ul>
+<p>TreeSet(Comparator&lt;? super E&gt; c)</p>
+<ol>
+<li>定义泛型方法</li>
+</ol>
+<ul>
+<li>Java5 提供对泛型方法的支持；</li>
+<li>所谓泛型方法，就是在声明方法时，定义一个或多个类型形参；</li>
+</ul>
+<p>修饰符 &lt;T , S&gt; 返回值类型 方法名(形参列表){ … }<br>static <t> void fromArrayToCollection(T[] a, Collection<t> c){<br>  for(T o : a){<br>      //将数组元素加入集合中<br>      c.add(a);<br>  }<br>}</t></t></p>
+<ul>
+<li>方法定义的类型形参，只能在方法里使用；（不同于定义类、接口时的类型形参）</li>
+<li>在使用方法定义的类型形参时，无须显式传入实际类型参数；（不同于定义类、接口的类型形参，编译器可以根据实参推断类型形参的值）</li>
+</ul>
+<ul>
+<li>大多数时候，泛型方法可以代替类型通配符；</li>
+</ul>
+<p>public interface Collection<e>{<br>  boolean containAll(Collection&lt;?&gt; c);<br>  boolean addAll(Collection&lt;? extends E&gt; c);<br>}</e></p>
+<p>//采用泛型方法的形式<br>public interface Collection<e>{<br>  <t> boolean containAll(Collection<t> c);<br>  <t extends e> boolean addAll(Collection<t> c);<br>}<br>//泛型方法允许定义类型形参来表示 方法的一个或多个参数之间的类型依赖关系，或者方法返回值与参数之间的类型依赖关系。</t></t></t></t></e></p>
+<ul>
+<li>显式指定泛型构造器中声明的类型形参的实际类型，则不可以使用“菱形”语法。</li>
+</ul>
+<p>class MyClass<e>{<br>  public <t> MyClass(T t){<br>      …<br>  }<br>}<br>//类声明的类型形参E 为Stiring<br>//编译器自动推断，构造器中的类型形参T 为Interger<br>MyClass<string> myclass1 = new MyClass&lt;&gt;(5);<br>//构造器类型形参显式指定，菱形语法不能使用<br>MyClass<string> myClass2 = new <integer> MyClass<string>(5);<br>//下面时错误代码，？原因暂时不清楚？<br>MyClass<string> myClass3 = new <integer> MyClass&lt;&gt;(5);</integer></string></string></integer></string></string></t></e></p>
+<ol>
+<li>擦除和转换</li>
+</ol>
+<ul>
+<li>如果没有为某个泛型类指定实际的类型参数，则该类型参数为raw type（原始类型），默认是，声明该参数时指定的第一个上限类型。</li>
+<li>如果把一个具有泛型信息的对象，赋值得一个没有泛型信息的对象，所有&lt;&gt;内的信息将被擦除。（List<string>类型被转换为List类型，元素的类型变成了类型变量的上限即Object）</string></li>
+</ul>
+<p>class Apple<t extends number>{</t></p>
+<p>}</p>
+<p>Apple b = new Apple<integer>(6);  //Integer类型信息将被擦除</integer></p>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2014/07/25/09-crazyJava-类加载机制和反射/" class="prev">PREV</a><a href="/tinytinycn.github.io/2014/06/27/07-crazyJava-注解Annotation/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

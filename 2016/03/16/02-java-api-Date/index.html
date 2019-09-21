@@ -1,0 +1,35 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 02_java_api_Date · hang 's blogs</title><meta name="description" content="02_java_api_Date - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">02_java_api_Date</h1><div class="post-info">Mar 16, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>Date</li>
+<li>Calendar抽象类</li>
+<li>SimpleDateFormat日期操作类</li>
+</ul>
+<hr>
+<h2 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h2><p>构造方法:</p>
+<ul>
+<li>Date()       构造方法创建一个Date对象，表示当前时间</li>
+<li>Date(long ms)构造方法创建一个ms指向的Date对象<br>方法:</li>
+<li>getTime()    得到当前时间到历元差值毫秒数(long)</li>
+<li>setTime(long ms)将date对象指向的ms表示的时间</li>
+<li>System.currentTimeMills() 当前时间到历元差值毫秒数(long)</li>
+</ul>
+<h2 id="Calendar抽象类"><a href="#Calendar抽象类" class="headerlink" title="Calendar抽象类"></a>Calendar抽象类</h2><p>获取Calender对象:</p>
+<ul>
+<li>创建GregoianCalendar子类对象</li>
+<li>调用Calendar.getInstance()静态方法<br>常用日历字段:</li>
+<li>Calender.YEAR</li>
+<li>YEAR/MONTH(0-11)/DATE/DAY_OF_WEEK(周日开始1-7)/…<br>方法:</li>
+<li>get(字段);</li>
+<li>getTime();         -Date</li>
+<li>getTimeInMillis(); -long</li>
+<li>set();</li>
+<li>setTime(Date date);</li>
+<li>setTimeInMillis(long ms);</li>
+</ul>
+<h2 id="SimpleDateFormat-日期操作类"><a href="#SimpleDateFormat-日期操作类" class="headerlink" title="SimpleDateFormat 日期操作类"></a>SimpleDateFormat 日期操作类</h2><p>格式转换: 指定格式的字符串的日期和Date对象之间进行转换<br>获取SimpleDateFormat对象:</p>
+<ul>
+<li>new SimpleDateFormat(“格式”);<br>格式:</li>
+<li>yyyy-MM-dd HH:mm:ss<br>2017-11-29 09:30:59<br>方法:</li>
+<li>parse(String s_date);   将字符串解析成日期类型</li>
+<li>format(Date date);      格式化日期类型成字符串</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/17/03-java-api-Wrapper/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/15/01-java-api-String/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

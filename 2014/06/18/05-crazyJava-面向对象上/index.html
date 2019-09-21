@@ -1,0 +1,107 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 05_crazyJava_面向对象上 · hang 's blogs</title><meta name="description" content="05_crazyJava_面向对象上 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">05_crazyJava_面向对象上</h1><div class="post-info">Jun 18, 2014</div><div class="post-content"><h2 id="第五篇-面向对象（上）"><a href="#第五篇-面向对象（上）" class="headerlink" title="第五篇 面向对象（上）"></a>第五篇 面向对象（上）</h2><ul>
+<li><p>所有类是引用数据类型。</p>
+</li>
+<li><p>引用变量里存放的仅仅是一个引用，指向实际的对象（内存中的，类似Java数组）</p>
+</li>
+<li><p>定义类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] class 类名&#123;</span><br><span class="line">  零到多个构造器...</span><br><span class="line">  零到多个Field...</span><br><span class="line">  零到多个方法...</span><br><span class="line">&#125;</span><br><span class="line">//修饰符：public/final/abstract/省略</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>定义Field</p>
+</li>
+</ul>
+<ol>
+<li>成员变量：实例变量 / 类变量</li>
+<li>成员变量无需显式初始化，一个类定义了类Field或实例Field，系统会进行默认初始化</li>
+<li>局部变量必须显式初始化（形参除外），必须给方法局部变量和代码块局部变量指定初始值</li>
+<li>局部变量和成员变量重名，局部变量会覆盖成员变量，如果要在方法中调用被覆盖的成员变量，则可使用this 或类名作为调用者来访问成员变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] Field类型 Field名 [= 默认值];</span><br><span class="line">//修饰符：省略/public/protected/private + static/final</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>定义方法</li>
+</ul>
+<ol>
+<li>同一个类的一个方法调用另一个方法时，被调用方法是普通方法，则默认用this 作为调用者；被调用方法是static静态方法，则默认用类 作为调用者。（执行方法必须使用类或对象作为调用者）</li>
+<li>方法的参数传递机制：值传递（将实际参数值的副本传入方法内，而参数本身不会改变。对于引用类型的参数传递，也是值传递方式）</li>
+<li>递归方法：一个方法体内，调用它自身。（一种隐式的循环；递归一定要向已知方向递归）</li>
+<li>方法重载：同一个类中，方法名相同，参数列表不同。（返回值类型、修饰符与方法重载无关）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] 方法返回值类型 方法名 (形参列表)&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line">//修饰符：省略/public/protected/private + abstract/final + static</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>定义构造器</li>
+</ul>
+<ol>
+<li>构造器是一个特殊的方法，用于创建实例时，执行初始化</li>
+<li>构造器重载：构造器名相同，参数列表不同</li>
+<li>一个构造器调用另一个构造器使用 this</li>
+<li>子类构造器调用父类构造器使用 super<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] 构造器名 (形参列表)&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line">//修饰符：省略/public/protected/private</span><br><span class="line">//构造名必须和类名相同</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>static 关键字</li>
+</ul>
+<ol>
+<li>static修饰成员表示它属于这个类本身，而不属于该类的单个实例。（类Field/方法和 实例Field/方法，或者静态Field/方法和 非静态Field/方法）</li>
+<li>静态成员不能访问非静态成员 *</li>
+<li>static修饰的Field、方法，既可以通过类类调用，又可以通过实例来调用（但是注意：不推荐使用对象去调用static 修饰的Field、方法，而是使用类去调用！）</li>
+<li>非static修饰的Field、方法，只能通过实例来调用</li>
+</ol>
+<ul>
+<li>this 关键字</li>
+</ul>
+<ol>
+<li>this 总是指向调用该方法的对象</li>
+<li>this 让类中的一个方法，访问该类中的另外一个Field、方法</li>
+<li>谁调用这个方法，this 就代表谁</li>
+<li>static 修饰的方法中，不能使用this 引用（静态成员不能访问非静态成员）</li>
+<li>this 在构造器中，引用的是该构造器进行初始化的对象</li>
+</ol>
+<ul>
+<li>super 关键字</li>
+</ul>
+<ol>
+<li>super 限定来调用父类被覆盖的实例方法</li>
+<li>super 限定该对象调用它从父类继承得到的Field/方法，super 不能出现在static修饰的方法中</li>
+<li>子类不会获得父类的构造器，子类构造器里可以调用父类构造器的初始化代码，使用super调用父类构造器必须出现在构造器执行体第一行（this 和 super 不会同时出现）</li>
+</ol>
+<ul>
+<li>封装</li>
+</ul>
+<ol>
+<li><p>封装，指的是将对象的状态信息隐藏在对象内部，不允许外部程序直接访问对象内部信息，而是通过该类提供的方法来实现对内部信息的操作和访问</p>
+</li>
+<li><p>访问控制符：private（当前类访问权限）/default（包访问权限）/protected（子类访问权限）/public（公共访问权限）</p>
+</li>
+<li><p>Java 允许将一组功能相关的类放在同一个package下，组成一个逻辑上的类库单元</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">package packageNanme</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Java 可以向某个Java文件中导入指定包层次下某个类或者全部类，import语句出现在package语句之后，类定义之前</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import package.subpackage...ClassName;</span><br><span class="line">import package.subpackage.*</span><br><span class="line">//*只能代表类，不能代表包</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>import static 语句，静态导入单个静态Field、方法或者全部静态Field、方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import static package.subpackage...ClassName.fieldName|methodName;</span><br><span class="line">import static package.subpackage.ClassName.*;</span><br><span class="line">//*只能代表静态Field、方法</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>继承</li>
+</ul>
+<ol>
+<li>Java的继承具有单继承的特点，每个子类只有一个直接父类</li>
+<li>Java的继承通过extends 关键字实现</li>
+<li>extends 扩展的意思，子类是对父类的扩展，子类是一种特殊的父类</li>
+<li>子类扩展了父类，可以获得父类的全部Field、方法（子类不能获得父类的构造器）</li>
+<li>子类是一种特殊的父类，子类包含和父类同名的方法，称为方法重写（方法覆盖Override）“两同两小一大”</li>
+<li>子类方法中，调用父类中被覆盖的（静态或非静态）方法，则可以使用super 或者父类名作为调用者来调用被覆盖的方法</li>
+</ol>
+<ul>
+<li>多态</li>
+</ul>
+<ol>
+<li>Java 引用类型有两个类型：一个是编译时类型，一个是运行时类型。编译时类型由声明该变量时使用的类型决定，运行时类型由实际赋给该变量的对象决定。如果编译时类型和运行时类型不一致，这可能出现多态。</li>
+<li>Java 允许把一个子类对象直接赋给一个父类引用变量，无须任何类型转换，被称为向上转型，由系统自动完成。</li>
+<li>相同类型的变量，调用同一个方法时呈现不同的行为特征，就是多态（引用变量在编译阶段只能调用其编译时类型具有的方法，但在运行时则执行运行时类型所具有方法）。</li>
+<li>与方法不同的是，对象的Field不具备多态性（引用变量访问其包含的实例Field时，总是访问它编译时类型定义的Field，而不是运行时类型所定义的Field）。</li>
+<li>引用变量只能调用它编译时类型的方法，而不能调用它运行时类型的方法。如果让引用变量调用它运行时类型的方法，则必须把它强制类型转换成运行时类型。(type)variable //引用类型之间的转换只能在具有继承关系的类型之间进行</li>
+<li>把一个父类对象赋给子类引用变量时，需要进行强制类型转换。</li>
+<li>instanceof 运算符：前一个操作数通常是一个引用类型变量，后一个操作书通常是一个类（接口）。用于判断前面的对象是否是后面的类或者子类或者实现类的实例。</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2014/06/23/06-crazyJava-面向对象下/" class="prev">PREV</a><a href="/tinytinycn.github.io/2014/06/15/04-crazyJava-数组/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

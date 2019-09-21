@@ -1,0 +1,105 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 05_java_api_List_Set_Map · hang 's blogs</title><meta name="description" content="05_java_api_List_Set_Map - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">05_java_api_List_Set_Map</h1><div class="post-info">Mar 19, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>List接口</li>
+<li>ArrayList和LinkedList</li>
+<li>List和数组之间转换</li>
+<li>List排序</li>
+<li>队列和堆栈 (Queue接口/Deque接口)</li>
+<li>Set接口</li>
+<li>Map接口</li>
+<li>HashMap</li>
+<li>HashMap链表产生原因</li>
+<li>Map的遍历</li>
+<li>LinkedHashMap</li>
+</ul>
+<hr>
+<h2 id="List接口"><a href="#List接口" class="headerlink" title="List接口"></a>List接口</h2><ul>
+<li>List 是Collection的子接口，用于定义线性表数据结构。</li>
+<li>List 接口两个实现类：ArrayList和LinkedList，分别利用动态数组和链表的方式实现了List接口。<br>List常用方法：</li>
+<li>get(int index);</li>
+<li>set(int index, E ele);</li>
+<li>add(int index, E ele);   //指定位置加入元素，后续元素顺序后移</li>
+<li>remove(int index);</li>
+</ul>
+<h2 id="ArrayList和LinkedList的区别？"><a href="#ArrayList和LinkedList的区别？" class="headerlink" title="ArrayList和LinkedList的区别？"></a>ArrayList和LinkedList的区别？</h2><p>同：数据结构相同<br>异：ArrayList查找性能高，LinkedList插入和删除操作性能高。</p>
+<h2 id="List和数组之间转换"><a href="#List和数组之间转换" class="headerlink" title="List和数组之间转换"></a>List和数组之间转换</h2><p>集合&gt;&gt;数组</p>
+<ul>
+<li>Object[] toArray();          //Collection定义的方法，所有集合都具备该方法</li>
+<li><t> T[] toArray(T[] arr);    //传入指定类型数组，集合转换后的将元素添加其中</t></li>
+</ul>
+<p>数组&gt;&gt;集合</p>
+<ul>
+<li>Arrays.asList();             //Arrays工具类静态方法<br>注意：返回集合不能对其进行增删元素，否则抛出异常。并且对集合元素进行修改会影响对应数组的元素。</li>
+</ul>
+<h2 id="List排序"><a href="#List排序" class="headerlink" title="List排序"></a>List排序</h2><p>Collections工具类，提供了操作集合的方法，比如集合排序。</p>
+<ul>
+<li>sort(List<t> list);           //给定集合进行自然排序<br>Comparable接口，自然排序时集合元素 <strong>必须</strong> 实现Comparable接口，表示该类可以比较，实现该接口抽象方法：</t></li>
+<li>int compareTo(T t);           //当前对象大于指定对象 返回值应该为&gt;0整数，反之为&lt;0整数</li>
+</ul>
+<p>Comparator接口回调方式，必须写一个类实现Comparator接口，重写方法：</p>
+<ul>
+<li>compare(T o1, T o2);          //调用Collections.sort(list集合, Comparator实现类)</li>
+</ul>
+<h2 id="队列和堆栈"><a href="#队列和堆栈" class="headerlink" title="队列和堆栈"></a>队列和堆栈</h2><p>LinkedList是实现了Deque接口，Deque接口继承Queue接口。</p>
+<p>Queue接口：</p>
+<ul>
+<li>队列，可以存储一组元素，可以看作是特殊的线性表</li>
+<li>遵循先进先出原则，一端添加offer，一端去除poll</li>
+<li>offer(E e); //将一个对象从队尾加入</li>
+<li>poll();//从队首删除并返回一个元素</li>
+<li>peek();//返回队首元素(不删除)</li>
+</ul>
+<p>Deque接口:</p>
+<ul>
+<li>Deque是Queue子接口，双端队列</li>
+<li>可以从队列两端分别入队出队</li>
+<li>offer(E e);</li>
+<li>offerFirst(E e);</li>
+<li>offerLast(E e);</li>
+<li>poll();</li>
+<li>pollFirst();</li>
+<li>pollLast();</li>
+<li>peek();</li>
+<li>peekFirst();</li>
+<li>peekLast();</li>
+</ul>
+<ul>
+<li>将Deque限制只能一端入队和出队，可以实现“栈”stack数据结构</li>
+<li>遵循先进后出原则，入栈push，出栈pop<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Deque&lt;String&gt; stack = new LinkedList&lt;&gt;();</span><br><span class="line">stack.push(&quot;a&quot;);</span><br><span class="line">stack.push(&quot;b&quot;);</span><br><span class="line">stack.push(&quot;c&quot;);</span><br><span class="line">System.out.println(stack);</span><br><span class="line">String str = stack.pop();</span><br><span class="line">System.out.println(str);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Set接口"><a href="#Set接口" class="headerlink" title="Set接口"></a>Set接口</h2><ul>
+<li>Set集合，不可重复集合</li>
+<li>HashSet</li>
+</ul>
+<h2 id="Map接口"><a href="#Map接口" class="headerlink" title="Map接口"></a>Map接口</h2><ul>
+<li>Map接口定义的集合又称为查找表，保存具有映射关系的数据</li>
+<li>Map&lt;key, value&gt; key value 都必须是引用类型，key-value 键值对，通过唯一的key来查找元素</li>
+<li>HashMap:内部为hash表</li>
+<li>TreeMap:内部为排序红黑树</li>
+<li>put(K key, V value);//存放元素，使用相同key值可以覆盖元素</li>
+<li>get(K key);//取出元素</li>
+<li>containsKey(Object key);//判断集合中是否存在该key</li>
+</ul>
+<h2 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h2><ul>
+<li>HashCode();//返回对象所在内存地址的整数形式</li>
+<li>同一个对象，在程序中多次调用hashCode()，生成的整数一定相同</li>
+<li>两个对象equals()相等，hashCode值一定相同，<strong>但是</strong>，两个对象hashCode值相同，equals不一定相同.</li>
+</ul>
+<h2 id="避免HashMap出现链表结构"><a href="#避免HashMap出现链表结构" class="headerlink" title="避免HashMap出现链表结构"></a>避免HashMap出现链表结构</h2><ul>
+<li>HashMap查找性能是最高的，出现链表会降低查询性能，为了降低链表出现的概率，需要重写equals和hashCode方法，但是只能降低出现概率，不能避免。</li>
+<li>HashMap内部有数组实现。</li>
+<li>HashMap根据key元素决定这组键值对存放在数组的位置，并且也是根据key元素得到的位置来检索，省去遍历数组的过程。</li>
+<li>HashMap链表产生原因，hashMap根据key元素的hashCode方法返回的数字经过散列算法得到该键值对存放的位置，从而根据key元素equals比较结果决定是否存放该位置，equals相同则替换该位置中的值，equals不同则会在数组当前位置产生链表。(key元素的hashCode相同，存放位置相同，而equals不同，说明两个不同的key元素产生相同hashCode，同一个位置存放了不同键值，即数组中产生了链表结构，影响性能了)</li>
+</ul>
+<h2 id="Map的遍历"><a href="#Map的遍历" class="headerlink" title="Map的遍历"></a>Map的遍历</h2><ul>
+<li>KeySet();//得到一个key值的集合</li>
+<li>entrySet();//得到一个键值对的集合，集合中元素为Entry&lt;K,V&gt;类型<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;String&gt; keySet = map.keySet();</span><br><span class="line">for(String s : keySet)&#123;</span><br><span class="line">&#125;</span><br><span class="line">Set&lt;Entry&lt;String, Integer&gt;&gt; entrySet = map.entrySet();</span><br><span class="line">for(Entry&lt;String, Integer&gt; e : entrySet)&#123;</span><br><span class="line">&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="有序的Map-–-LinkedHashMap"><a href="#有序的Map-–-LinkedHashMap" class="headerlink" title="有序的Map – LinkedHashMap"></a>有序的Map – LinkedHashMap</h2><ul>
+<li>使用Map接口的hash表和链表结构实现，具有可预知的迭代顺序。</li>
+<li>不同于HashMap，LinkedHashMap维护一个双向链表。此链表定义了迭代顺序，该迭代顺序通常就是存放元素的顺序。</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/19/06-java-api-File/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/17/04-java-api-Collection/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

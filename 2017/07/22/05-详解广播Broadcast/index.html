@@ -1,0 +1,47 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 05_详解广播Broadcast · hang 's blogs</title><meta name="description" content="05_详解广播Broadcast - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">05_详解广播Broadcast</h1><div class="post-info">Jul 22, 2017</div><div class="post-content"><h2 id="第五章-详解广播-Broadcast"><a href="#第五章-详解广播-Broadcast" class="headerlink" title="第五章 详解广播 Broadcast"></a>第五章 详解广播 Broadcast</h2><p>1.标准广播和有序广播</p>
+<p>2.接收广播：动态注册和静态注册</p>
+<p>动态注册</p>
+<ul>
+<li>新建一个XXXReceiver，继承BraodcastReceiver</li>
+<li>重写onReceive()方法</li>
+<li>创建一个IntentFilter实例，添加一个action值</li>
+<li>创建一个XXXReceiver实例对象，调用registerReceiver()方法进行动态注册（动态注册的广播接收器一定要记得取消注册!unregisterReceiver()方法）</li>
+</ul>
+<p>静态注册</p>
+<ul>
+<li>android Studio 快速创建Broadcast Receiver，命名XXXReceiver</li>
+<li>重写onReceive()方法</li>
+<li>Androidmanifest.xml中进行静态注册<receiver>，Android studio自动完成了</receiver></li>
+<li><intentfilter>标签添加 action</intentfilter></li>
+<li><user-permission>标签添加 权限</user-permission></li>
+<li>同上…</li>
+</ul>
+<p>3.发送广播</p>
+<p>发送标准广播</p>
+<ul>
+<li>新建一个XXXReceiver，继承BroadcastReceiver</li>
+<li>重写onReceive()</li>
+<li>Androidmanifest.xml 中静态注册，添加<intentfilter></intentfilter></li>
+<li>创建一个Intent实例对象，传入发送广播的值action</li>
+<li>调用Context的sendBroadcast(intent)方法，发送一条标准广播</li>
+</ul>
+<p>发送有序广播（跨进程通讯，让其他应用程序可以接收到）</p>
+<ul>
+<li>只需修改sendOrderedBroadcast(intent,null)方法，即可</li>
+<li><intentfileter android:priority="100/">属性可以设置广播接收器的优先级</intentfileter></li>
+<li>通过abortBroadcast()方法，将当前这条广播截断</li>
+</ul>
+<p>4.使用本地广播</p>
+<blockquote>
+<p>为了解决广播的安全性问题，Android一如了一套本地广播机制，是这个机制翻出的广播只能在应用内部进行传递。主要使用一个LacalBroadcastManager来对广播进行管理，并提供了发送广播和注册广播接收器的方法。</p>
+</blockquote>
+<ul>
+<li>新建一个XXXReciver类，继承BroadcastReceiver</li>
+<li>创建一个LocalBroadcastManager实例，通过它的 getInstance()方法得到</li>
+<li>创建一个Intent实例，传入发送广播的值action</li>
+<li>调用localBroadcastManager实例的sendBroadcast(intent)方法，发送广播</li>
+<li>创建一个XXXReceiver实例</li>
+<li>创建一个IntentFilter实例，添加一个action值</li>
+<li>调用localBroadcastManager实例的registerReceiver(XXXReceiver,intentFilter)方法，注册动态广播（记得取消注册！另外本地广播不能通过静态注册）</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2017/07/22/06-详解持久化技术/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/07/21/04-探究碎片Fragment/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

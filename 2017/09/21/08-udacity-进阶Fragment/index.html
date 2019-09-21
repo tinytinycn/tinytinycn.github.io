@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 08_udacity_进阶Fragment · hang 's blogs</title><meta name="description" content="08_udacity_进阶Fragment - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">08_udacity_进阶Fragment</h1><div class="post-info">Sep 21, 2017</div><div class="post-content"><ol>
+<li><p>Fragment生命周期</p>
+</li>
+<li><p>创建Fragment</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* 创建 fragment布局</span><br><span class="line">* 将布局添加到 fragment实例中</span><br><span class="line">* Activity布局中添加&lt;fragment&gt;的容器</span><br><span class="line">* 通过 FragmentManager提交事务添加Fragment</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>FragmentManager和事务</p>
+</li>
+<li><p>静态Fragment（在布局中指定<fragment>的name）</fragment></p>
+</li>
+<li><p>Fragment之间的通信</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* 在fragment中定义接口</span><br><span class="line">* 重写onAttach()，确保Activity实现回调</span><br><span class="line">* fragment控件设置监听，触发接口的回调</span><br><span class="line">* Activity实现fragment中的回调</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>双窗格布局</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* 创建Activity布局sw600dp，构建并排显示布局</span><br><span class="line">* 创建变量跟踪显示双窗格还是单窗格</span><br><span class="line">* 在双窗格中，动态添加fragment初始化相关内容</span><br><span class="line">* 在Activity实现的回调中，处理fragment内容</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2017/09/21/09-udacity-使用库/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/09/20/07-udacity-View和ViewGroup/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

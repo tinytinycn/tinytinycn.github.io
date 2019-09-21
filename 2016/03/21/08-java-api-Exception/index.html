@@ -1,0 +1,40 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 08_java_api_Exception · hang 's blogs</title><meta name="description" content="08_java_api_Exception - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">08_java_api_Exception</h1><div class="post-info">Mar 21, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>java中异常结构</li>
+<li>Exception异常分类</li>
+<li>处理异常</li>
+<li>自定义异常</li>
+</ul>
+<hr>
+<h2 id="java中异常结构"><a href="#java中异常结构" class="headerlink" title="java中异常结构"></a>java中异常结构</h2><p>java异常结构中定义有Throwable类，派生两个子类。Throwable类：Error/Exception。</p>
+<ul>
+<li>Error: java运行时环境错误，jvm内存耗尽</li>
+<li>Exception: 表示网络故障，文件损坏，设备错误，用户输入非法等情况的错误</li>
+</ul>
+<h2 id="Exception异常分类"><a href="#Exception异常分类" class="headerlink" title="Exception异常分类"></a>Exception异常分类</h2><blockquote>
+<p>非检查型异常，unchecked exceptions，指如果程序中没有编写对这类异常的处理代码，程序依然可以运行，但如果出现这类异常，JVM将自动处理，处理结果是：1. 迫使程序停止运行；2. 打印异常产生根源、异常类型、以及其他技术性信息。<br>非检查型异常反映了程序中的逻辑错误，不能从运行中合理恢复，大多数非检查型异常是可以避免的代码错误，如：被0除，数组越界，数据类型不匹配，非法参数等。<br>有些非检查型异常处理类从Error类继承而来，，这些异常大多涉及到系统内部的运行错误和硬件设备错误,如JVM出错，线程不能继续运行，IO设备错误，系统设置错误等。这些异常通常很少发生，即使产生这类异常，也不可能通过异常处理来使程序继续运行。虽然它们不是软件开发者可以避免和控制的异常，但也把其归为非检查型异常。</p>
+</blockquote>
+<blockquote>
+<p>检查型异常，checked exceptions，检查型异常代表关于一个合法指定的请求或操作的有用信息，调用者可能已经对该操作没有控制，并且调用者需要得到有关的通知 —— 例如，文件系统已满，或者远端已经关闭连接，或者访问权限不允许该动作。检查型异常是必须处理的异常，编程人员必须提供处理指定异常的处理代码。常见的检查型异常：文件输入输出操作涉及的异常，如FileNotFoundException、EOFException；线程有关操作涉及的异常，如InterruptedException；数据库有关操作涉及的异常，如SQLException。</p>
+</blockquote>
+<ul>
+<li>非检测异常： RuntimeException运行期可能出现的异常</li>
+<li>可检测异常：编译期能检测到的异常，处理方式必须在编译期给出</li>
+<li>非检测异常，不遵循处理或声明规则。RuntimeException异常时常发生，不受编译器检查与处理或声明规则限制。</li>
+<li>可检测异常，经编译期验证，对于声明抛出异常的任何方法，编译器将强制执行处理或声明规则，不捕捉异常编译不通过。</li>
+</ul>
+<h2 id="处理异常"><a href="#处理异常" class="headerlink" title="处理异常"></a>处理异常</h2><p>throws抛出异常</p>
+<ul>
+<li>throws: 在方法声明后抛出异常类型</li>
+<li>throw: 在方法体内抛出异常类型</li>
+</ul>
+<p>try…catch捕捉异常</p>
+<ul>
+<li>异常捕获机制<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;catch(XXXException e1)&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;catch(XXXException e2)&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;finally&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h2><ul>
+<li>XXXException extends Exception/RuntimeException</li>
+<li>自定义类中写出构造方法</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/23/09-java-api-Thread/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/20/07-java-api-IO/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

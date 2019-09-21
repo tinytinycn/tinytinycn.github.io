@@ -1,0 +1,27 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 04_探究碎片Fragment · hang 's blogs</title><meta name="description" content="04_探究碎片Fragment - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">04_探究碎片Fragment</h1><div class="post-info">Jul 21, 2017</div><div class="post-content"><h2 id="第四章-探究碎片Fragment"><a href="#第四章-探究碎片Fragment" class="headerlink" title="第四章 探究碎片Fragment"></a>第四章 探究碎片Fragment</h2><p>1.Fragment的使用方式</p>
+<ul>
+<li>添加Fragment布局文件xml</li>
+<li>新建一个XXXFragment类，继承Fragment</li>
+<li>重写onCreateView()方法，在方法中通过LayoutInflater的inflate()方法动态加载碎片布局。</li>
+<li>主布局文件中，添加<fragment>标签（需要通过android:name属性 显式指明fragment类名）</fragment></li>
+</ul>
+<p>2.动态添加Fragment</p>
+<ul>
+<li>主布局添加一个FrameLayout，从而解决了动态添加碎片的问题</li>
+<li>创建一个待添加的Fragment实例</li>
+<li>获取FragmentManager（getSupportFragmentManager()方法得到 ）</li>
+<li>开启一个FragmentTransaction事务 （调用beginTransaction()方法开启）</li>
+<li>添加或替换Fragment （replace()方法实现，传入容器id 和Fragment实例）</li>
+<li>提交事务 （commit()方法完成）</li>
+</ul>
+<p>3.Fragment中模拟返回栈</p>
+<ul>
+<li>事务提交前，调用addToBackStack()方法</li>
+</ul>
+<p>4.Fragment 和 Activity 进行通信</p>
+<ul>
+<li>在Activity中获取Fragment实例对象，FragmentManager的 findFragmentById()方法。</li>
+<li>在Fragment中获取Activity实例对象，调用getActivity()方法。</li>
+</ul>
+<p>5.Fragment生命周期</p>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2017/07/22/05-详解广播Broadcast/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/07/20/04-AS-自动定义字符串/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

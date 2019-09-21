@@ -1,0 +1,82 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 01_java_多线程 · hang 's blogs</title><meta name="description" content="01_java_多线程 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">01_java_多线程</h1><div class="post-info">Apr 18, 2016</div><div class="post-content"><h1 id="Java多线程"><a href="#Java多线程" class="headerlink" title="Java多线程"></a>Java多线程</h1><ul>
+<li>认识线程</li>
+<li>创建线程</li>
+<li>线程类Thread</li>
+<li>线程同步</li>
+<li>线程间的通信</li>
+<li>线程的异常捕捉</li>
+<li>线程池</li>
+<li>原子类</li>
+</ul>
+<hr>
+<p>1.认识线程</p>
+<ul>
+<li><p>线程的定义<br>线程：进程中负责程序执行的执行单元。<br>进程：执行中的程序。一个进程至少包含一个线程。<br>单线程：程序中只存在一个线程。(主方法就是一个主线程)<br>多线程：程序中运行多个任务。(更好地利用cpu资源)</p>
+</li>
+<li><p>线程的内存模型<br><img src="%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png" alt="线程内存模型"></p>
+</li>
+<li><p>线程的分类</p>
+</li>
+</ul>
+<p>用户线程： 默认初始化的线程。</p>
+<p>守护线程：作为进程的守护者，当进程内没有其他非守护线程，则守护线程会被立刻销毁。调用setDaemon(true)方法，设置当前线程为守护线程。</p>
+<p>2.线程创建</p>
+<ul>
+<li>继承Thread类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class MyThread extends Thread&#123;</span><br><span class="line">  @Override</span><br><span class="line">  public void run()&#123;</span><br><span class="line">    //do something...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyThread t = new MyThread();</span><br><span class="line">t.start();  //区别 t.run();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现Runnable接口</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class MyRunnable implements Runnable&#123;</span><br><span class="line">  @Override</span><br><span class="line">  public void run()&#123;</span><br><span class="line">    //do somthing...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyRunnable runnable = new MyRunnable();</span><br><span class="line">Thread t2 = new Thread(runnable);  //降低耦合度</span><br><span class="line">t2.start();</span><br></pre></td></tr></table></figure>
+
+<p><img src="Thread%E6%BA%90%E7%A0%81.png" alt="Thread源码"></p>
+<ul>
+<li>实现Callable接口</li>
+</ul>
+<p>可返回值的任务必须实现Callable接口，类似不返回值的任务必须实现Runnable接口。</p>
+<p>执行Callable任务后，获得一个Future对象，调用该对象get()方法可获得Callable任务返回的Object。(结合线程池ExecutorService接口则可实现有返回值的多线程。)</p>
+<p>FutureTask实现了两个接口，Runnable和Future，所以它既可以作为Runnable被线程执行，又可以作为Future得到Callable的返回值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class MyCallable implements Callable&lt;Object&gt; &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public Object call() throws Exception &#123;</span><br><span class="line">            //do somthing...</span><br><span class="line">            return 返回值对象;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">MyCallable callable = new MyCallable();</span><br><span class="line">FutureTask&lt;Object&gt; future = new FutureTask&lt;Object&gt;(callable);</span><br><span class="line">Thread t3 = new Thread(future);</span><br><span class="line">t3.start();</span><br><span class="line">...</span><br><span class="line">System.out.println(future.get());</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 创建一个线程池  </span><br><span class="line">ExecutorService pool = Executors.newFixedThreadPool(5);  </span><br><span class="line">// 创建多个有返回值的任务  </span><br><span class="line">List&lt;Future&gt; list = new ArrayList&lt;Future&gt;();  </span><br><span class="line">for (int i = 0; i &lt; 5; i++) &#123;  </span><br><span class="line">Callable c = new MyCallable(i + &quot; &quot;);  </span><br><span class="line">// 执行任务并获取Future对象  </span><br><span class="line">Future f = pool.submit(c);  </span><br><span class="line">list.add(f);  </span><br><span class="line">&#125;  </span><br><span class="line">// 关闭线程池  </span><br><span class="line">pool.shutdown();  </span><br><span class="line">// 获取所有并发任务的运行结果  </span><br><span class="line">for (Future f : list) &#123;  </span><br><span class="line">// 从Future对象上获取任务的返回值，并输出到控制台  </span><br><span class="line">System.out.println(&quot;&gt;&gt;&gt;&quot; + f.get().toString());  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.线程类</p>
+<ul>
+<li><p>对象方法<br>start();<br>isAlive();<br>getName()/setName();<br>getPriority()/setPriority();<br>setDaemon()/isDaemon();<br>join();//将当前线程加入其他线程中，同步执行(当前线程执行完后，继续其他线程)<br>interrupt();</p>
+</li>
+<li><p>静态方法<br>currentThread();<br>sleep();//睡眠，不释放对象的锁<br>yeild();//让步，考虑线程优先级(优先级特性：继承/规则/随机)</p>
+</li>
+<li><p>线程的状态</p>
+</li>
+</ul>
+<p><img src="%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%812.jpg" alt="线程状态"></p>
+<p>思考：停止线程<br>退出标志，run方法完成后停止线程/stop强行终止(不安全，不推荐)/interrupt中断线程。</p>
+<p>关于中断：它并不像stop方法那样会中断一个正在运行的线程。线程会不时地检测中断标识位，以判断线程是否应该被中断（中断标识值是否为true）。中断只会影响到wait状态、sleep状态和join状态。被打断的线程会抛出InterruptedException。<br>Thread.interrupted()检查当前线程是否发生中断，返回boolean<br>synchronized在获锁的过程中是不能被中断的。</p>
+<p>中断是一个状态！interrupt()方法只是将这个状态置为true而已。所以说正常运行的程序不去检测状态，就不会终止，而wait等阻塞方法会去检查并抛出异常。如果在正常运行的程序中添加while(!Thread.interrupted()) ，则同样可以在中断后离开代码体</p>
+<hr>
+<p>4.线程同步</p>
+<ul>
+<li>synchronized关键字</li>
+</ul>
+<p>Java每一个对象都有一个内置锁。（且只有一个）<br>当程序运行到同步方法或同步代码块时，自动获取执行代码的当前实例的锁。如果一个线程获得一个对象的锁，那么其他线程无法获得该对象的锁，直到第一个线程释放对象的锁。</p>
+<p>Java每一个对象都有一个监视器，来检测并发代码的重入。<br>synchronized, wait, notify 是任何对象都具有的同步工具。wait/notify必须要存在synchronized块中。注意：三个关键字针对的时同一个监视器(某个对象的监视器)。<br>wait()方法：在其他线程调用此对象的notify()/notifyAll()之前，当前线程一致阻塞等待。<br>notify()方法：唤醒此对象监视器上等待的单个线程。（任意性）<br>notifyAll()方法：唤醒此对象监视器上等待的所有线程。<br>wait()执行后，会自动释放锁，notify()执行后，锁没有立即释放，由syncchronized同步块结束时释放。</p>
+<p><img src="monitor.png" alt="monitor"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">static int i = 0;</span><br><span class="line">static int flag = 1;</span><br><span class="line"></span><br><span class="line">Object lock = new Object();    //对象锁lock</span><br><span class="line">new Thread(() -&gt; &#123;</span><br><span class="line">    while (i &lt; 10) &#123;</span><br><span class="line">        synchronized (lock) &#123;  //获得对象锁lock</span><br><span class="line">            if (flag == 1) &#123;</span><br><span class="line">                lock.wait();   //释放对象锁，线程进入等待池，等待通信信号(阻塞)</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(&quot;A&gt; &quot; + i); //do something...</span><br><span class="line">            i++;</span><br><span class="line">            flag = 1;          //flag，手动控制线程进入阻塞状态</span><br><span class="line">            lock.notifyAll();  //通知信号，唤醒该对象上等待的线程</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).start();</span><br><span class="line">new Thread(() -&gt; &#123;</span><br><span class="line">    while (i &lt; 10) &#123;</span><br><span class="line">        synchronized (lock) &#123;  //获得对象锁lock</span><br><span class="line">            if (flag == 0) &#123;</span><br><span class="line">                lock.wait();   //释放对象锁，线程进入等待池，等待通信信号(阻塞)</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(&quot;B&gt; &quot; + i); //do something...</span><br><span class="line">            i++;</span><br><span class="line">            flag = 0;          //flag，手动控制线程进入阻塞状态</span><br><span class="line">            lock.notifyAll();  //通知信号，唤醒该对象上等待的线程</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>volatile关键字</li>
+</ul>
+<p>多线程的内存模型：main memory（主存）、working memory（线程栈），在处理数据时，线程会把值从主存load到本地栈，完成操作后再save回去(volatile关键词的作用：每次针对该变量的操作都激发一次load and save)。</p>
+<p>针对多线程使用的变量，如果不是volatile或者final修饰的，很有可能产生不可预知的结果（另一个线程修改了这个值，但是之后在某线程看到的是修改之前的值）。理论上，同一实例的同一属性本身只有一个副本。但是多线程是会缓存值的。而volatile修饰的变量线程是不会缓存的，直接取值。在线程安全的情况下，添加volatile修饰会牺牲一些性能。</p>
+<p><img src="volatile.png" alt="volatile"></p>
+<ul>
+<li>显式锁Lock<br>在Java5中，专门提供了锁对象，利用锁可以方便的实现资源的封锁，用来控制对竞争资源并发访问的控制，这些内容主要集中在java.util.concurrent.locks包下面，里面有三个重要的接口Condition、Lock、ReadWriteLock。</li>
+</ul>
+<ul>
+<li>闭锁CountDownLatch</li>
+<li>关卡CylicBarrier</li>
+<li>信号量Semaphore</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/06/08/01-mysql-basic/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/04/16/00-java-内存分区/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

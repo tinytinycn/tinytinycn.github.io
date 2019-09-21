@@ -1,0 +1,37 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 18_HTTP · hang 's blogs</title><meta name="description" content="18_HTTP - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">18_HTTP</h1><div class="post-info">Jul 23, 2016</div><div class="post-content"><h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><ul>
+<li>http协议</li>
+<li>http请求</li>
+<li>http响应</li>
+</ul>
+<hr>
+<h2 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h2><p>规定客户端和服务器通讯的规则和方式</p>
+<blockquote>
+<p>一次完整的HTTP响应包括:<br>1.域名解析<br>2.发TCP的三次握手<br>3.建立TCP连接后, 发起http请求<br>4.服务器端响应http请求, 浏览器得到html代码<br>5.浏览器解析html代码, 并且请求html的代码资源浏览器进行渲染呈现给用户</p>
+</blockquote>
+<p>http请求</p>
+<ul>
+<li><p>请求行: 规定请求方式, 请求资源路径, 请求遵循的协议版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET /index.html HTTP/1.1</span><br><span class="line">POST / HTTP/1.1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>请求头: 定义流浪其发送请求的指定的相关信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Accept: text/html</span><br><span class="line">Accept-Language: zh-ch</span><br><span class="line">Host: www.tiny.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>请求实体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET方式, 请求实体中没有内容</span><br><span class="line">POST方式, 请求时携带相关参数信息</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>http响应</p>
+<ul>
+<li><p>状态行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK   指明服务器响应时遵循的协议和版本</span><br><span class="line">状态码:</span><br><span class="line">200 表示服务器成功处理请求</span><br><span class="line">302 表示请求重定向</span><br><span class="line">404 表示请求资源不存在</span><br><span class="line">500 表示服务器端错误</span><br><span class="line">描述信息: OK</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>响应头</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: 指明服务器响应数据的类型</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line">Content-Type: image/png</span><br><span class="line">Content-Type: image/gif</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>响应实体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">浏览器需要解析的内容和窗口显示的内容</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2017/06/22/00-udacity-开课啦/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/07/22/17-Listener-Filter/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

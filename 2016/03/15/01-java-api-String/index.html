@@ -1,0 +1,56 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 01_java_api_String · hang 's blogs</title><meta name="description" content="01_java_api_String - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">01_java_api_String</h1><div class="post-info">Mar 15, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>api</li>
+<li>jdk包结构</li>
+<li>文档注释</li>
+<li>类文档注释</li>
+<li>方法文档注释</li>
+<li>String</li>
+<li>String常量池</li>
+<li>String常用方法</li>
+<li>StringBuilder和StringBuffer</li>
+</ul>
+<hr>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>应用程序接口</p>
+<h2 id="jdk包结构"><a href="#jdk包结构" class="headerlink" title="jdk包结构"></a>jdk包结构</h2><p><img src="./jdk_package.png" alt="jdk包结构"></p>
+<h2 id="文档注释"><a href="#文档注释" class="headerlink" title="文档注释"></a>文档注释</h2><ul>
+<li>/** 开始…  */ 结束</li>
+<li>javadoc工具可将注释转换为html文档说明</li>
+<li>文档注释 和 普通注释//… 或/<em>…</em>/</li>
+</ul>
+<p>**<br>类功能说明文档注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* the code is a comments...</span><br><span class="line">* ...</span><br><span class="line">* @author tiny</span><br><span class="line">* @version 1.6.6.6</span><br><span class="line">* @see java.lang.StringBuffer</span><br><span class="line">* @since JDK1.0</span><br><span class="line">*/</span><br><span class="line">public class String&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法功能说明文档注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* the code is a comments...</span><br><span class="line">* ...</span><br><span class="line">* @param charsetName</span><br><span class="line">* the name of a supported</span><br><span class="line">* @return The resultant byte array</span><br><span class="line">* @throws UnsupportedEncodingException</span><br><span class="line">* if the named charset is not supported</span><br><span class="line">*/</span><br><span class="line">public byte[] getBytes(String charsetName)&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ul>
+<li>字符串String 是不可变对象.</li>
+<li>java.lang.String 使用final修饰,不能被继承</li>
+<li>字符串底层封装了字符数组以及对字符数组的操作算法</li>
+<li>字符串一旦创建,字符串对象不可改变,字符串引用可以重新赋值</li>
+<li>字符串一个字符对应16位的定长Unicode编码(2字节)</li>
+</ul>
+<h2 id="String-常量池"><a href="#String-常量池" class="headerlink" title="String 常量池"></a>String 常量池</h2><ul>
+<li>为了提高性能,在常量池中,创建静态字符串(字面量/常量/常量连接的结果).</li>
+<li>对于重复使用的字符串直接量,jvm首先在常量池中查找.</li>
+</ul>
+<h2 id="String-常用方法"><a href="#String-常用方法" class="headerlink" title="String 常用方法"></a>String 常用方法</h2><ul>
+<li>indexOf()         //检索某一个字符串在字符串中的位置</li>
+<li>lastIndexOf()     //最后一次出现的位置</li>
+<li>substring()       //获取子字符串</li>
+<li>trim()            //截取前后空字符</li>
+<li>charAt()          //返回指定位置的字符</li>
+<li>startsWith()/endsWith()   //是否以什么开始或结尾</li>
+<li>split(String regex)       //匹配正则</li>
+<li>matches(String regex);    //匹配分隔符, 分割字符串 </li>
+</ul>
+<h2 id="StringBuilder和StringBuffer-常用方法"><a href="#StringBuilder和StringBuffer-常用方法" class="headerlink" title="StringBuilder和StringBuffer 常用方法"></a>StringBuilder和StringBuffer 常用方法</h2><p>作用一样,都是提供一个可变字符数组.前者线程不安全, 性能更高, 后者线程安全, 性能会慢些.</p>
+<ul>
+<li>append()</li>
+<li>toString()</li>
+<li>insert()</li>
+<li>delete()</li>
+<li>replace()</li>
+<li>reverse()</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/16/02-java-api-Date/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/12/07-java-oop-interface/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

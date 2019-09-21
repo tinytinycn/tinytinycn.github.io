@@ -1,0 +1,34 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 00_hexo_QuickStart · hang 's blogs</title><meta name="description" content="00_hexo_QuickStart - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">00_hexo_QuickStart</h1><div class="post-info">Jan 1, 2018</div><div class="post-content"><h2 id="hexo博客快速搭建"><a href="#hexo博客快速搭建" class="headerlink" title="hexo博客快速搭建"></a>hexo博客快速搭建</h2><ol>
+<li><p>安装git</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linux: sudo yum install git-core</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装nodejs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install nodejs</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装hexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>建站</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br><span class="line">cd &lt;folder&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//_config.xml 网站相关配置文件</span><br><span class="line">//package.json 应用程序信息文件</span><br><span class="line">//scaffolds markdown模板文件夹, 创建新md文件根据模板生成, 模板一般包含Front-matter</span><br><span class="line">//source 资源文件夹</span><br><span class="line">//theme  主题文件夹</span><br><span class="line"></span><br><span class="line">//_config.xml</span><br><span class="line"># Site</span><br><span class="line">title: hang &apos;s blogs</span><br><span class="line">author: hang</span><br><span class="line"># URL</span><br><span class="line">url: http://yoursite.com</span><br><span class="line">root: /blog/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建草稿</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new draft test001</span><br><span class="line">//\source\_drafts\将生成草稿</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>显示文章</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo list post</span><br><span class="line">//列出发布的文章或草稿</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发布草稿(生成文章)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo publish test001</span><br><span class="line">//\source\_posts\将生成文章</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成静态文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate </span><br><span class="line">//\public\将生成相关渲染后的网页文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务器, 访问网站</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server -p 80</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/01/02/01-hexo-fix-css-bug-md/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/12/14/05-intellij-junit单元测试/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

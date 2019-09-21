@@ -1,0 +1,204 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 09_crazyJava_类加载机制和反射 · hang 's blogs</title><meta name="description" content="09_crazyJava_类加载机制和反射 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">09_crazyJava_类加载机制和反射</h1><div class="post-info">Jul 25, 2014</div><div class="post-content"><h2 id="第十八章-类加载机制和反射"><a href="#第十八章-类加载机制和反射" class="headerlink" title="第十八章 类加载机制和反射"></a>第十八章 类加载机制和反射</h2><ul>
+<li>java.lang.reflect 包下的接口和类，包括 Class、Method、Field、Constructor、Array。还包括 Type、ParameterizedType接口；（Type是所有Class类所实现的接口，ParamrterizedType代表一个带泛型参数的类型）</li>
+<li>Java 程序可以使用这些类动态地获取某个对象、某个类的运行时信息，并可以动态地创建Java对象，动态地调用Java方法，访问、修改指定对象的Field的值；</li>
+</ul>
+<ol>
+<li>JVM</li>
+</ol>
+<ul>
+<li>同一个 JVM里的所有线程、所有变量都处于同一个进程里，都使用该JVM进程的内存区。以下情况，JVM 进程将终止：</li>
+<li>程序运行结束；</li>
+<li>程序运行到System.exit() 或 Runtime.getRuntime().exit代码结束；</li>
+<li>程序执行过程中，遇到未捕获的异常或错误结束；</li>
+<li>程序被所在平台强制结束；</li>
+</ul>
+<ol>
+<li>类的加载</li>
+</ol>
+<ul>
+<li>如果程序使用某个类时，该类未被加载到内存中，则系统会通过 加载、连接、初始化 3步来对该类初始化。（整个过程称为，类加载或初始化）</li>
+<li>类加载，就是将类的 class文件读入到内存中，并创建一个 java.lang.Class对象；（事实上，系统中所有的类实际也是实例对象，都是java.lang.Class的对象）</li>
+</ul>
+<ul>
+<li>类的加载都类加载器完成，类加载器通常由系统提供，JVM提供的这些类加载器称为系统类加载器；（继承ClassLoader基类，可以自定义加载器）</li>
+<li>从本地文件系统加载class文件；</li>
+<li>从JAR包加载class文件；</li>
+<li>从网络加载class文件；</li>
+<li>把一个java源文件动态编译，并执行加载；</li>
+<li>Java虚拟机允许系统预先加载某个类</li>
+</ul>
+<ol>
+<li>类的连接</li>
+</ol>
+<ul>
+<li>当类被加载后，系统为之生成一个对应的Class对象，接着进入连接阶段，连接阶段负责把类的二进制数据合并到 JRE中：</li>
+<li>验证：检验被加载的类是否有正确的内部结构，并和其他类协调一致；</li>
+<li>准备：类的静态Field 分配内存，并设置默认的初始值；</li>
+<li>解析：将类的二进制数据中的符号引用替换成直接引用。</li>
+</ul>
+<ol>
+<li>类的初始化</li>
+</ol>
+<ul>
+<li>初始化阶段，虚拟机负责对类进行初始化，主要是对静态 Field进行初始化：</li>
+<li>如果一个类没有被加载和连接，则先加载并连接该类；</li>
+<li>如果一个类的直接父类没有被初始化，则先初始化该类的直接父类；</li>
+<li>如果一个类有初始化语句，则系统依次执行初始化语句。</li>
+</ul>
+<p>public class Test{<br>  //静态Field 指定初始值，可以在声明中指定<br>  static int a = 5;<br>  static int b;<br>  static int c = 7;<br>  static{<br>      //可以在静态初始化块中指定<br>      b = 6;<br>      c = 8;<br>  }<br>}</p>
+<ul>
+<li>JVM 按语句在程序中的排列顺序依次执行；（最后 c = 8）</li>
+</ul>
+<ul>
+<li>类初始化的时机（何时，系统会初始化一个类或接口）：</li>
+<li>创建类的实例；</li>
+<li>调用类的静态方法；</li>
+<li>访问类的静态Field，或为静态Field赋值；</li>
+<li>初始化某个子类，该子类的所有父类都会被初始化；</li>
+<li>java.exe 命令直接运行某个类；</li>
+<li>使用反射方式，强制创建类或接口对应的Class对象；（调用Class.forName(“Apple”); 会导致Apple类被初始化）</li>
+</ul>
+<ul>
+<li>如果 final型的静态 Field的值在编译时就确定下来，就相当于“宏变量”。编译器会在编译时将出现该Field的地方直接替换成它的值，因此，不会导致该类的初始化；</li>
+<li>如果 final型的静态 Field的值不能在编译时确定下来，就必须等到运行时才可以确定。当通过该类来访问该静态Field时，则会导致该类被初始化；</li>
+<li>调用 ClassLoader类的 loadClass()方法，只会加载该类，并不会执行该类的初始化；</li>
+<li>调用 Class类的 forName()方法，会强制初始化该类；</li>
+</ul>
+<ol>
+<li>类加载器</li>
+</ol>
+<ul>
+<li>类加载器，负责将.class文件加载到内存中，并生成对应的java.lang.Class对象。</li>
+<li>一个载入 JVM的类也有一个唯一的标识；（（Person、pg、k1）表示pg包下，一个名为Person的类，被类加载器ClassLoader的实例 k1负责加载）</li>
+<li>JVM 启动时，会形成 3个类加载器组成的层次结构：</li>
+<li>Bootstrap ClassLoader 根加载器；（加载核心类）</li>
+<li>Extension ClassLoader 扩展加载器；（加载JRE的扩展目录中JAR包的类）</li>
+<li>System ClassLoader 系统加载器；（加载来自java命令的-classpath选项、java.class.path系统属性、或CLASSPATH环境变量指定的JAR包和类路径）</li>
+</ul>
+<ul>
+<li>类加载器加载Class 的大致过程：</li>
+<li>检查该类是否载入过，有，则返回对应Class对象，没有，则下一步；</li>
+<li>检查父类加载器是否存在，</li>
+<li>不存在（说明本身是根类加载器或其parent是根类加载器），则请求使用根类加载器来载入该类，不成功会抛出ClassNotFoundException异常；</li>
+<li>存在，则请求父类加载器来载入该类，不成功则使用当前类加载器搜寻Class文件载入，不成功会抛出ClassNotFoundExceptioni异常；</li>
+</ul>
+<ol>
+<li>类加载机制*</li>
+</ol>
+<ul>
+<li>JVM 的类加载机制：</li>
+<li>全盘负责：当一个类加载器负责加载某个类时，该类所依赖的和引用的其他类也都将有该类加载器负责载入；</li>
+<li>父类委托：先让 paren（父）类加载器试图加载该类，只有父类加载器无法载入后才从自己的类路径中加载该类；</li>
+<li>缓存机制：保证所有加载过的类都会被缓存，当程序要使用某个类时，先从缓存区搜寻该类，若缓存区不存在，则系统才会读取该类对应的二进制数据，并转换成Class对象。</li>
+</ul>
+<ol>
+<li>通过反射查看类信息</li>
+</ol>
+<ul>
+<li>解决程序需要在运行时，发现对象和类的真实信息：</li>
+<li>一是，在编译时和运行时都完全知道类型信息，使用instanceof 运算符判断，然后强制类型转换；</li>
+<li>二是，在编译时无法预知对象的类型信息，只能依靠运行时信息来发现对象和类的真实信息，使用反射；</li>
+</ul>
+<ul>
+<li>获得Class对象</li>
+<li>每个类被加载后，系统会为该类生成一个对应的Class对象，通过该Class对象可以访问到JVM中的这个类。有三种方式：</li>
+<li>使用Class类的 forName(String clazzName)静态方法；</li>
+<li>使用某个类的class属性；比如：Apple.class</li>
+<li>使用某个对象的getClass()方法；</li>
+<li>获得Class对象后，就可以调用它的方法获得该类对象和类型信息。</li>
+</ul>
+<ul>
+<li>获取类型信息</li>
+<li>Class类提供实例方法，获取该Class对象所对应类的信息。获取包括：</li>
+<li>构造器、方法、Field；</li>
+<li>Annotation、内部类、外部类、继承的父类；</li>
+<li>修饰符、所在包、类名；</li>
+<li>判断该类是否为接口、枚举、注释类型；</li>
+<li>判断object 是否为次Class对象的实例；</li>
+<li>通过Class对象获取的以上对象，可以执行一些实际功能，比如调用方法、创建实例。</li>
+</ul>
+<ul>
+<li><p>生成并操作对象</p>
+</li>
+<li><p>通常，没有必要使用反射创建该类实例，性能稍低些。只有需要动态创建某个类的对象时，才需要使用反射。（用于开发通用性框架和基础平台）</p>
+</li>
+<li></li>
+<li><p>使用Class对象的newInstance()方法，创建该Class对象对应类的实例；（实际上是利用默认构造器创建该类实例）</p>
+</li>
+<li><p>使用Class对象获取指定的Constructor对象，调用Constructor对象的newInstance()方法，创建实例；</p>
+</li>
+<li></li>
+<li><p>使用Class对象获取指定的Method对象，调用Method对象的invoke()方法，调用方法；</p>
+</li>
+<li><p>Object invoke(Object obj, Object… args): obj是执行方法的主调，args是执行方法时传入的实参。</p>
+</li>
+<li></li>
+<li><p>使用setAccessible(boolean flag)方法，可以通过反射访问private成员（方法、构造器、field）;</p>
+</li>
+<li></li>
+<li><p>使用Class对象获取Field对象，调用Field对象的getXxx()/setXxx()方法，读取或设置属性；</p>
+</li>
+<li><p>getField()方法只能获取public访问权限的Field，getDeclaredField()方法则可以获取所有的field；</p>
+</li>
+<li></li>
+<li><p>java.lang.reflect包下，提供Array类，Array对象代表所有的数组。通过Array来动态地创建、操作数组等；</p>
+</li>
+<li><p>static Object newInstance(Class&lt;?&gt; componentType, int… length): 创建指定的元素类型、指定维度的新数组；</p>
+</li>
+<li><p>static xxx getXxx(Object array, int index): 返回array数组第index个元素；（xxx为基本数据类型，引用类型使用 get(Object array, int index)）</p>
+</li>
+<li><p>static voidsetXxx(Object array, int index， xxx val): 将array数组第index个元素设置为val；（xxx为基本数据类型，引用类型使用set(Object array, int index, Object val)）</p>
+</li>
+</ul>
+<p>// 创建一个元素类型为String，长度为10的数组<br>Object arr = Array.newInstance(String.class, 10);<br>Array.set(arr, 5, “apple”);<br>Array.set(arr, 6, “opple”);<br>Object obj1 = Array.get(arr, 5);<br>Object obj2 = Array.get(arr, 6);</p>
+<p>// 创建一个三位数组(三维数组也是一维数组，看成是元素为二维数组的一维数组)<br>Object arr = Array.newInstance(String.class, 3, 4, 10);  //看作是 new String[3][4][10]</p>
+<p>//arrTwo应该是二维数组<br>Object arrTwo = Array.get(arr, 2);<br>Array.set(arrTwo, 2, new String[]{“java”, “apple”});</p>
+<p>//arrOne应该是一维数组<br>Object arrOne = Array.get(arrTwo, 3);<br>Array.set(arrOne, 8, “android”);</p>
+<p>//强制转换为三维数组<br>String[][][] cast = (String[][][])arr;<br>System.out.println(cast[2][2][0]);  //java<br>System.out.println(cast[2][2][1]);  //apple<br>System.out.println(cast[2][3][8]);  //android</p>
+<ol>
+<li>使用反射生成JDK 动态代理</li>
+</ol>
+<ul>
+<li>java.lang.reflect包下，提供了一个Proxy类和一个InvocationHandler接口，通过它们可以生成JDK动态代理类或动态代理对象。</li>
+</ul>
+<ul>
+<li>Proxy提供了用于创建动态代理类和对象的静态方法，它是所有动态代理类的父类；</li>
+<li>static Class<?> getProxyClass(ClassLoader loader, Class<?> … interfaces): 创建一个动态代理类所对应的Class对象，该代理类将实现interfaces多个指定接口；</li>
+<li>static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h): 直接创建一个动态代理对象，该dialing对象的实现类实现interfaces多个指定接口，执行代理对象的每个方法时，将会被替换执行InvocationHandler对象的invoke 方法；</li>
+</ul>
+<p>//先生成动态代理类，然后创建代理对象<br>InvocationHandler handler = new MyInvocationHandler(…);<br>Class proxyClass = Proxy.getProxyClass(Apple.class.getClassLoader(), new Class[]{ Apple.class });<br>Constructor constructor = proxyClass.getConstructor(new Class[]{ InvocationHandler.class });<br>Apple a = (Apple)constructor.newInstance(new Object[]{ handler });</p>
+<p>//简化<br>InvocationHandler handler = new InvocationHandler(…);<br>Apple a = (Apple)Proxy.newProxyInstance(Apple.class.getClassLoader, new Class[]{ Apple.class }, handler);</p>
+<p>//实现InvocationHandler接口<br>class MyInvocationHandler implements InvocationHandler{<br>  // proxy:动态代理对象 method:正在执行的方法 args:调用目标方法时传入的实参<br>  // 定义该实现类必须重写invoke()方法，调用代理对象的所有方法时，都会被替换调用该invoke()方法<br>  public Objcet invoke(Object proxy, Method method, Object[] args){<br>      …<br>  }<br>}</p>
+<p>//调用动态代理对象的方法<br>a.walk();<br>a.sayHello(“java”);</p>
+<ul>
+<li>由于JDK动态代理只能为接口创建动态代理。</li>
+</ul>
+<ul>
+<li>AOP代理可代替目标对象，AOP代理包含了目标对象的全部方法。但AOP代理中的方法与目标对象中的方法存在差异：AOP代理中的方法在执行方法前后插入一些通用处理。（详见书中代码）</li>
+</ul>
+<ol>
+<li>反射和泛型</li>
+</ol>
+<ul>
+<li>Java5 增加Class类的泛型功能，允许使用泛型限制Class类。比如：String.class实际就是Class<string>，如果Class对应的类未知，就是Class&lt;?&gt;；</string></li>
+<li>通过反射中使用泛型Class<t>，可以避免反射生成的对象需要强制转换；</t></li>
+</ul>
+<p>//通常情况<br>public static Object getInstance(String clsName){<br>  Class cls = Class.forName(clsName);<br>  return cls.newInstance();<br>}</p>
+<p>Apple a = (Apple)getInstance(“Apple”);  //获取实例后，需要强制转换</p>
+<p>//使用泛型情况<br>public static <t> T getInstance(Class<t> cls){<br>  return cls.newInstance();<br>}</t></t></p>
+<p>Data d = getInstance(Date.class);  //无需类型转换</p>
+<ul>
+<li>通过指定类对应的Class对象后，可以获得该类包含的所有Field，而获得Field对象后，可以获得该Field的数据类型：</li>
+</ul>
+<p>//获取Field的 普通类型<br>Field f;<br>Class&lt;?&gt; cls = f.getType();<br>//获取Field的 泛型类型<br>Type genericType = f.getGenericType();</p>
+<ul>
+<li>Type也是java.lang.reflect包下的一个接口，代表所有类型的公共高级接口。Class时Type接口的实现类；</li>
+<li>Type包含原始类型，参数化类型，数组类型，类型变量和基本类型等；</li>
+<li>Type对象强制转换为 ParameterizedType对象（代表被参数化的类型）。ParameterizedType提供以下方法：</li>
+<li>getRawType(): 返回没有泛型信息的原始类型；</li>
+<li>getActualTypeArgments(): 返回泛型参数的类型；</li>
+<li>比如：Map&lt;String, Integer&gt;，原始类型&lt;泛型参数类型, 泛型参数类型&gt;</li>
+</ul>
+<p>Map&lt;String, Integer&gt; score;</p>
+<p>Field f = claszz.getDecalredField(“score”);<br>Class&lt;?&gt; a = f.getType();<br>System.out.println(“” + a);  //输出 interface java.util.map<br>Type gType = f.getGenericType;<br>if(gType instanceof ParameterizedType){<br>  ParameterizedType pType = (ParameterizedType)gType;<br>  Type rType = pType.getRawType();<br>  System.out.println(“” + rType); //输出 interface java.util.map<br>  Type[] tArgs = pType.getActualTypeArguments();<br>  for(int i = 0; i&lt; tArgs.length; i++){<br>      System.out.println(“” + tArgs[i]); //输出 class java.lang.String 和 class java.lang.Integer<br>  }<br>}</p>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/01/01-java-var-and-basic-type/" class="prev">PREV</a><a href="/tinytinycn.github.io/2014/07/05/08-crazyJava-泛型/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

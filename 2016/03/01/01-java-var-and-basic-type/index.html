@@ -1,0 +1,52 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 01_java_var_and_basic_type · hang 's blogs</title><meta name="description" content="01_java_var_and_basic_type - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">01_java_var_and_basic_type</h1><div class="post-info">Mar 1, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>变量</li>
+<li>声明</li>
+<li>初始化</li>
+<li>命名规则</li>
+<li>基本数据类型</li>
+<li>直接量</li>
+<li>float double类型精度</li>
+<li>不精确计算</li>
+<li>类型转换</li>
+<li>数据溢出</li>
+</ul>
+<hr>
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int i;</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i = 666;</span><br><span class="line">int i = 666;</span><br></pre></td></tr></table></figure>
+
+<h2 id="命名规则"><a href="#命名规则" class="headerlink" title="命名规则"></a>命名规则</h2><ul>
+<li>不能关键字</li>
+<li>不能数字开头</li>
+<li>字母/数字/下划线_/美元符$组合</li>
+<li>严格区分大小写</li>
+</ul>
+<hr>
+<h1 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h1><p>byte/short/int/long/float/double/char/boolean/</p>
+<h2 id="直接量"><a href="#直接量" class="headerlink" title="直接量"></a>直接量</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int i = 666;  //直接量666 可以是 十进制(默认)/八进制/十六进制</span><br><span class="line">long l = 1000L;</span><br><span class="line">float f = 1.0F;</span><br><span class="line">double d = 1.0D;</span><br></pre></td></tr></table></figure>
+
+<h2 id="float-double类型精度"><a href="#float-double类型精度" class="headerlink" title="float/double类型精度"></a>float/double类型精度</h2><ul>
+<li>float/double 在计算机中以科学计数法表示;</li>
+<li>float: 4字节,1bit符号位/8bit指数位/23bit有效数字位(即7位十进制有效数字,因此最高精度是7or8位有效数字)</li>
+<li>double: 8字节,1bit/11bit指数位/52bit有效数字位(最高精度15or16位有效数字)</li>
+</ul>
+<h2 id="不精确计算问题"><a href="#不精确计算问题" class="headerlink" title="不精确计算问题"></a>不精确计算问题</h2><ul>
+<li>double类型不用于精确计算(可以使用 BigDecimal类)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int i = 5/3;</span><br><span class="line">double d = 1.0/3.0;</span><br><span class="line">double dd = 3.0-2.9;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><ul>
+<li>boolean类型和其他基本数据类型不兼容</li>
+<li>自动转换:范围小&gt;范围大</li>
+<li>强制转换:范围小&lt;范围大 (注意:数据溢出)</li>
+<li>byte/short/char/int 任何类型参与运算, <strong>均提升类型为int</strong> ,再进行计算</li>
+<li>其他类型间运算,提升到(范围大)类型再进行计算</li>
+</ul>
+<p><img src="transfer.png" alt="transfer"></p>
+<h2 id="数据溢出"><a href="#数据溢出" class="headerlink" title="数据溢出"></a>数据溢出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//变量赋值直接量,编译期,越界报错</span><br><span class="line">int i = 30000000000000;      // 错误, 编译时越界</span><br><span class="line">//变量赋值直接量计算后结果,编译期,越界不报错(运行期,数据溢出)</span><br><span class="line">int i = 300000 * 10000000;   // 正确, 运行时溢出(溢出只是数据异常而已)</span><br><span class="line">//变量赋值直接量计算后结果,编译期完成类型转换,转换时越界报错</span><br><span class="line">char c = &apos;a&apos;+ 65535;         // 错误, 编译时直接量计算的结果越界,异常出错</span><br><span class="line">char c = &apos;a&apos;+ 97;            // 正确, 编译时直接量计算的结果未越界,自动转换</span><br><span class="line">//运行期类型提升,类型不相符</span><br><span class="line">char c1=97;</span><br><span class="line">char c2=97;</span><br><span class="line">char c3 = c1 + c2;           // 错误, 编译时参与计算,均会被提升类型为int,再计算</span><br></pre></td></tr></table></figure>
+
+<p><img src="overflow.png" alt="overflow"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// byte/short/char/int 任何类型参与运算,均提升类型为int,再进行计算</span><br><span class="line">// 运行期直接量计算溢出.</span><br><span class="line">int i = 30000000000000; //错误,编译时越界</span><br><span class="line">int ii = 2000000000 + 2000000000;//正确,运行时数据溢出</span><br><span class="line">int i1 = 2000000000;</span><br><span class="line">int i2 = 2000000000;</span><br><span class="line">int i3 = i1 + i2; //正确,运行时数据溢出</span><br><span class="line"></span><br><span class="line">// 编译期直接量计算自动转换</span><br><span class="line">// int &gt;&gt; char 编译期计算结果自动转换时,结果越界报错,不越界优化转换</span><br><span class="line">char c = &apos;a&apos; + 65535;</span><br><span class="line">char cc = &apos;a&apos; + 97;</span><br><span class="line">char c1 = &apos;a&apos;;</span><br><span class="line">char c2 = 65535;</span><br><span class="line">char c3 = c1 + c2;</span><br><span class="line"></span><br><span class="line">// int &gt;&gt; byte 编译期计算结果自动转换时,结果越界报错,不越界优化转换</span><br><span class="line">byte b4 = 1 + 127;</span><br><span class="line">byte b5 = 1 + 126;</span><br><span class="line">// 编译期类型检查,不能优化转换,只能强制转换</span><br><span class="line">byte b1 = 1;</span><br><span class="line">byte b2 = 126;</span><br><span class="line">byte b3 = b1 + b2;</span><br><span class="line"></span><br><span class="line">short s = 32767 + 32767;</span><br><span class="line">short ss = 32766 + 1;</span><br><span class="line">short s1 = 32767;</span><br><span class="line">short s2 = 32767;</span><br><span class="line">short s3 = s1 + s2;</span><br></pre></td></tr></table></figure>
+
+<p><img src="overflow2.png" alt="overflow2"></p>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/02/02-java-operation-and-ctrl-statment/" class="prev">PREV</a><a href="/tinytinycn.github.io/2014/07/25/09-crazyJava-类加载机制和反射/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

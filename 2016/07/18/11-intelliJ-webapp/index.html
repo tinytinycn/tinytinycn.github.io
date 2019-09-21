@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 11_intelliJ_webapp · hang 's blogs</title><meta name="description" content="11_intelliJ_webapp - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">11_intelliJ_webapp</h1><div class="post-info">Jul 18, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>intellJ-idea 普通Java工程创建webapp步骤</li>
+<li>注意事项</li>
+<li>intellJ-idea 16 创建webapp步骤(推荐)</li>
+</ul>
+<hr>
+<h2 id="intellJ-idea-普通Java工程创建webapp步骤"><a href="#intellJ-idea-普通Java工程创建webapp步骤" class="headerlink" title="intellJ-idea 普通Java工程创建webapp步骤"></a>intellJ-idea 普通Java工程创建webapp步骤</h2><ol>
+<li>create new project</li>
+<li>Java(不需要勾选template) &gt;next &gt;finsh</li>
+<li>Open Module Setting(F4) &gt;Project Settings</li>
+<li>Project(默认)</li>
+<li>Modules &gt; “+” &gt; add Web &gt; apply</li>
+<li>Facets &gt; Create Artifacts &gt; apply &gt; ok</li>
+<li>Modules &gt; 选中工程 &gt; Dependencies &gt; “+” &gt; libaray &gt; tomcat7.0 &gt;apply</li>
+<li>src &gt; new &gt; package</li>
+<li>src &gt; new &gt; Servlet &gt; 保持前缀Servlet命名(可选,勾选生成注解)</li>
+<li>web &gt; new &gt; jsp &gt; index.jsp</li>
+<li>Run &gt; Edit Configuration …</li>
+<li>“+” &gt; Tomcat Server &gt; local</li>
+<li>Tomcat Server &gt; Server(默认)</li>
+<li>Tomcat Server &gt; Deployment &gt; “+” &gt; Artifact &gt; Application context: /YOURWEBAPP &gt;apply</li>
+<li>Tomcat Server &gt; Server &gt; On update action: Redeploy//On Frame deactivation: Update classes and resource &gt; apply</li>
+<li>run..(shift+F10)</li>
+</ol>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li>第9步, 勾选生成注解annotation, web.xml不会生成相关配置信息(此时,推荐使用注解进行配置: 添加注解urlPatterns=”/ServletXXX”即可);不勾选默认web.xml生成配置相关信息.</li>
+</ul>
+<h2 id="intellJ-idea-16-创建webapp步骤-推荐"><a href="#intellJ-idea-16-创建webapp步骤-推荐" class="headerlink" title="intellJ-idea 16 创建webapp步骤(推荐)"></a>intellJ-idea 16 创建webapp步骤(推荐)</h2><ol>
+<li>create new project</li>
+<li>JavaEE &gt; Web Application</li>
+<li>Open Modules Settings &gt; Modules &gt; 选中工程 &gt; Dependencies &gt; “+” &gt; libaray &gt; tomcat7.0 &gt; apply</li>
+<li>src &gt; new &gt; Servlet &gt; 默认已勾选注解方式创建类 &gt; 配置注解同上</li>
+<li>Run &gt; Edit Configuration …&gt; Tomcat Server &gt; 配置同上</li>
+<li>run..(shift+F10)</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/07/19/12-Servlet-request/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/07/16/10-Servlet/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

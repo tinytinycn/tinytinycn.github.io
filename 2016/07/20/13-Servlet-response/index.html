@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 13_Servlet_response · hang 's blogs</title><meta name="description" content="13_Servlet_response - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">13_Servlet_response</h1><div class="post-info">Jul 20, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>Request对象</li>
+<li>Request相关方法</li>
+</ul>
+<hr>
+<h2 id="Response对象"><a href="#Response对象" class="headerlink" title="Response对象"></a>Response对象</h2><p>代表Http响应对象, 封装服务器发送给浏览器的响应信息.</p>
+<p>ServletResponse接口, 通用接口, HttpSerlvetResponse接口继承该接口, 增加Http协议相关的方法.</p>
+<h2 id="Response相关方法"><a href="#Response相关方法" class="headerlink" title="Response相关方法"></a>Response相关方法</h2><ul>
+<li><p>containsHeader();</p>
+</li>
+<li><p>addCookie();</p>
+</li>
+<li><p>addHeader();</p>
+</li>
+<li><p>flushBuffer(); //强制刷出缓冲区内容到客户端</p>
+</li>
+<li><p>resetBuffer();</p>
+</li>
+<li><p>setBufferSize();</p>
+</li>
+<li><p>setContentType();</p>
+</li>
+<li><p>getOutputStream();</p>
+</li>
+<li><p>getWriter();<br>注意事项</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//编码格式导致的乱码问题</span><br><span class="line">response.setContentType(&quot;text/html;charset=utf-8&quot;);</span><br><span class="line">//一次响应中, getWriter()/getOutputStream()不能同时使用, 方法互斥!</span><br><span class="line">//getWriter()/getOutputStream()操作完毕, 无需手动关闭, 服务器自动关闭</span><br><span class="line">//getWriter()/getOutputStream()获取的流, 指向response缓冲区, 不是直接指向浏览器</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>setStatus();</p>
+</li>
+<li><p>setHeader();</p>
+</li>
+</ul>
+<p>重定向/定时刷新:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//重定向: 两次请求, 两次响应, 地址栏变化</span><br><span class="line">response.setStatus(302);</span><br><span class="line">response.setHeader(&quot;location&quot;, &quot;/index.jsp&quot;);</span><br><span class="line">或</span><br><span class="line">response.setRedirect(&quot;/ServletXXX/index.jsp&quot;);</span><br><span class="line"></span><br><span class="line">//定时刷新: 两次请求, 两次响应, 地址栏变化</span><br><span class="line">response.setHeader(&quot;refresh&quot;, &quot;3;url=&quot; + request.getContextPath() + &quot;/index.jsp&quot;);</span><br><span class="line"></span><br><span class="line">//请求转发: 一次请求, 一次响应, 地址栏不变化</span><br><span class="line"></span><br><span class="line">//3中方式都可实现同一个WEB应用的资源跳转, 重定向/定时刷新可实现不同WEB应用的资源跳转.</span><br></pre></td></tr></table></figure>
+
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/07/20/14-Servlet-context/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/07/19/12-Servlet-request/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

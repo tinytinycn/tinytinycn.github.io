@@ -1,0 +1,63 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 03_UI开发 · hang 's blogs</title><meta name="description" content="03_UI开发 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">03_UI开发</h1><div class="post-info">Jul 20, 2017</div><div class="post-content"><h2 id="第三章-UI开发"><a href="#第三章-UI开发" class="headerlink" title="第三章 UI开发"></a>第三章 UI开发</h2><p>1.常用控件</p>
+<ul>
+<li><p>TextView、Button、EditText、ImageView、ProgressBar</p>
+</li>
+<li><p>AlertDialog :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">通过AlertDialog.Builder创建一个实例对象</span><br><span class="line">AlertDialog.Builder dialog = new AlertDialog.Builder();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ProgressDialog：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">首先创建一个实例对象</span><br><span class="line">PorgressDialog progressDialog = new ProgressDialog();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>2.基本布局</p>
+<ul>
+<li><p>线性布局Linear Layout、相对布局RelativeLayout、帧布局FrameLayout和百分比布局PercentFrameLayout</p>
+</li>
+<li><p>android:layout_gravity和android:gravity属性区别?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">一个是控件在布局中的对齐方式，一个是文字在控件里的对齐方式。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意的是：layout_gravity在水平排列的LinearLayout中，只能指定垂直方向的对齐方式。</p>
+</li>
+<li><p>注意的是：每次修改gradle文件时，Android studio提示Sync Now 进行同步。</p>
+</li>
+</ul>
+<p>3.自定义控件</p>
+<ul>
+<li>引入布局<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1）新建一个布局文件xml &gt;&gt;&gt; 通过 &lt;include /&gt;标签将布局引入即可。&gt;&gt;&gt;</span><br><span class="line">2）新建一个XXXLayout类继承Linear Layout &gt;&gt;&gt; 通过LayoutInflater.from() 方法构建一个LayoutInflater &gt;&gt;&gt;调用其inflate() 方法动态加载一个布局文件xml &gt;&gt;&gt;进一步在XXXLayout类中编写响应事件的代码</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>4.控件ListView</p>
+<ul>
+<li><p>数据提供</p>
+</li>
+<li><p>适配器对象，在构造函数中，把数据传入。</p>
+</li>
+<li><p>创建一个ListView 实例对象。</p>
+</li>
+<li><p>调用ListView.setAdapter()方法，将ListView和数据关联。</p>
+</li>
+<li><p>定制ListView</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">定义一个实体类E；</span><br><span class="line">创建一个自定义的适配器继承ArrayAdapter&lt;E&gt;；</span><br><span class="line">重写适配器父类一组构造函数，用于将上下文、listView子布局id、数据 传入。</span><br><span class="line">重写getView()方法，每个子项被滚入屏幕时，被调用。（在此方法中，实现自定义）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提升ListView效率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">新增一个内部类ViewHolder，用于对控件的实例进行缓存。从而优化效率啦。、</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ListView点击事件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用setOnItemClickListener()方法，注册一个监听器，回调onItemClick()方法。</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>5.滚动控件RecyclerView的用法</p>
+<ul>
+<li>布局文件加入<recycleview>，指定id，由于不是内置系统sdk中，需要完整的包路径。</recycleview></li>
+<li>创建一个适配器XXXAdapter继承RecycleView.Adapter&lt;XXXAdaptet.ViewHolder&gt;</li>
+<li>定义一个内部类ViewHolder，继承RecycleView.ViewHolder。通过ViewHolder的构造函数传入一个View参数（RecycleView子项最外层的布局），从而利用View获取布局中的控件。</li>
+<li>通过XXXAdapter的构造函数，接收传入的数据。</li>
+<li>重写XXXAdapter的onCreateViewHolder()，将子布局加载进来，创建ViewHolder实例，将加载出来的布局传入构造函数中。</li>
+<li>重写onBindViewHolder()，将子项数据进行赋值，子项被滚动到屏幕中时，执行。</li>
+<li>重写getItemCount()方法，返回数据源长度。</li>
+<li>初始化数据//RecycleView实例对象//setLayoutManager()方法传入一个LayoutMannger//XXXAdapter实例对象//setAdapter()方法设置一个适配器</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2017/07/20/03-AS-快速提取Style技巧/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/07/20/02-探究活动Activity/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

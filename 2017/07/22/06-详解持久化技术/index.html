@@ -1,0 +1,88 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 06_详解持久化技术 · hang 's blogs</title><meta name="description" content="06_详解持久化技术 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">06_详解持久化技术</h1><div class="post-info">Jul 22, 2017</div><div class="post-content"><h2 id="第六章-详解持久化技术"><a href="#第六章-详解持久化技术" class="headerlink" title="第六章 详解持久化技术"></a>第六章 详解持久化技术</h2><ol>
+<li><p>数据持久化就是将那些内存中的瞬时数据保存到存储设备中，持久化技术则是提供了一种机制可以让数据在瞬时状态和持久状态之间进行转换。</p>
+</li>
+<li><p>Android系统提供3种方式用于数据持久化：文件存储、SharedPreference 存储和 数据库。</p>
+</li>
+<li><p>文件存储</p>
+<blockquote>
+<p>存储一些较为简单的文本数据或二进制数据。</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li><p>Context类提供了openFileOutput()方法，用于将数据存储到指定的文件中。</p>
+</li>
+<li><p>通过openFileOutput()方法，得到一个FileOutputStream对象，再利用它创建一个OutputStreamWriter对象，再利用它创建一个BufferWriter对象</p>
+</li>
+<li><p>通过BufferWriter对象将文本内容写入文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FileOutputStream out = openFileOutput(&quot;data&quot;, Context.MODE_PRIVATE);</span><br><span class="line">BufferWriter writer = new BufferWriter(new OutputStreamWriter(out));</span><br><span class="line">writer.write(out);</span><br><span class="line">//wirter.close();写入完成后关闭数据流</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Context类提供了openFileInput()方法，用于从文件中读取数据。</p>
+</li>
+<li><p>通过openFileInput()方法，得到一个FileInputStream对象，在利用它创建一个InputStreamReader对象，再利用它创建一个BufferReader对象</p>
+</li>
+<li><p>通过BufferReader对象将内容从文件中读取出来</p>
+</li>
+<li><p>存放在 String Builder对象中，最后读取到内容 toString()方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FileInputStream in = null;</span><br><span class="line">BufferReader reader = null;</span><br><span class="line">StringBuilder content = new StringBuilder();</span><br><span class="line">...</span><br><span class="line">in = openFileInput(&quot;data&quot;);</span><br><span class="line">reader = new BufferReader(new InputStreamReader(in));</span><br><span class="line">...</span><br><span class="line">String line = &quot;&quot;；</span><br><span class="line">while(line = reader.readLine()!= null)&#123;</span><br><span class="line">   content = new StringBuilder();</span><br><span class="line">   content.append(line);</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line">return content.toString();`</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="4">
+<li>SharedPreferences存储<blockquote>
+<p>Shared Preferences是使用键值对的方式来存储数据的。支持多种不同的数据类型存储。</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>获取SharedPreferences对象，通过getSharedPreferences()方法得到</li>
+<li>调用edit()方法，获取一个SharedPreferences.Editor对象</li>
+<li>使用putBoolean()或者putString()方法，添加数据</li>
+<li>调用apply()方法，提交数据，完成数据存储操作</li>
+<li>获取SharedPreferences对象</li>
+<li>直接使用SharedPreferences对象的getString()或getBoolean()方法，读取数据</li>
+</ul>
+<ol start="5">
+<li>SQLite 数据库存储<blockquote>
+<p>轻量级关系型数据库。用于存储大量复杂的关系型数据。Android系统提供了一个抽象类SQLiteOpenHelper帮助类，对数据库进行创建和升级。</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>创建数据库</li>
+<li>升级数据库</li>
+<li>对数据进行CURD操作： 添加create、查询retrieve、更新update、删除delete</li>
+<li>使用原始SQL来操作数据仓库（db.execSQL()方法）</li>
+</ul>
+<ol start="6">
+<li>使用LitePal 操作数据库</li>
+</ol>
+<ul>
+<li><p>配置LitePal，app/build.gradle文件中声明开源库的引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;org.litepal.android:core:1.3.2&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>assets中，新建一个配置 litepal.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;litepal&gt;</span><br><span class="line">   &lt;dbname value=&quot;BookStore&quot;&gt;&lt;/dbname&gt;</span><br><span class="line">   &lt;version value=&quot;1&quot;&gt;&lt;/version&gt;</span><br><span class="line"></span><br><span class="line">   &lt;list&gt;</span><br><span class="line">        &lt;mapping class=&quot;com.example.listpaltest.book&quot;&gt;&lt;/mapping&gt;</span><br><span class="line">   &lt;/list&gt;</span><br><span class="line">&lt;/litepal&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Androidmanifest.xml中，将项目application 配置为 org.litepal.LitePalApplication（为什么暂时不知道？）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:name=&quot;org.litepal.LitePalApplication&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>定义一个Book类，定义id、author、price、pages、name字段，生成相应的setter、getter()方法</p>
+</li>
+<li><p>litepal.xml中，声明映射模型类（Book类）</p>
+</li>
+<li><p>调用Connector.getDatabase()方法，进行数据库操作</p>
+</li>
+<li><p>Book类继承DataSupport父类，调用实例方法就可以进行CRUD操作</p>
+</li>
+<li><p>创建一个Book实例对象，通过setXXX()方法，save()方法进行添加数据</p>
+</li>
+<li><p>通过setXXX()方法，updateAll()方法更新数据</p>
+</li>
+<li><p>通过delete()方法，删除数据//或者 通过 DataSupport.deleteAll(Book.class,”prive &lt; ?”,”15”)方法</p>
+</li>
+<li><p>通过findAll()方法，返回一个Book类型的List集合，通过getXXX()取值，查询数据。</p>
+</li>
+<li><p>还可以连缀组合查询DataSupport.select().where().limit()..order().find(Book.class);</p>
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2017/07/23/05-AS-动态加载布局技巧/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/07/22/05-详解广播Broadcast/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

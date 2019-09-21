@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 10_java_api_XML · hang 's blogs</title><meta name="description" content="10_java_api_XML - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">10_java_api_XML</h1><div class="post-info">Mar 26, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>xml</li>
+<li>dom4j</li>
+</ul>
+<hr>
+<h2 id="xml"><a href="#xml" class="headerlink" title="xml"></a>xml</h2><p>可扩展标记语言。</p>
+<ul>
+<li>标签名可以任意扩展</li>
+<li>标签嵌套可以任意扩展</li>
+<li>标签属性可以扩展<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>语法：</p>
+<ul>
+<li>大小写敏感</li>
+<li>标签成对使用<tag></tag></li>
+<li>空标记可以使用自结束<tag></tag></li>
+<li>标签可以嵌套使用</li>
+</ul>
+<p>注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 注释 --&gt;</span><br></pre></td></tr></table></figure>
+
+<p>CDATA</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//大量文本，利用CDATA包裹起来，不用转义某些字符</span><br><span class="line">&lt;code&gt;</span><br><span class="line">  &lt;![CDATA[</span><br><span class="line">  ....</span><br><span class="line">  ]]</span><br><span class="line">&lt;/code&gt;</span><br></pre></td></tr></table></figure>
+
+<p>常用”实体”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">小于使用&amp;lt;代替</span><br><span class="line">大于使用&amp;gt;代替</span><br><span class="line">&amp;   使用&amp;amp;代替</span><br></pre></td></tr></table></figure>
+
+<h2 id="dom4j"><a href="#dom4j" class="headerlink" title="dom4j"></a>dom4j</h2><p>简单便捷地处理xml文件。</p>
+<p>步骤：</p>
+<ul>
+<li><p>创建maven项目</p>
+</li>
+<li><p>配置pom.xml，导入dom4j配置信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">  &lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;dom4j&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;dom4j&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.6.1&lt;/version&gt;</span><br><span class="line">  &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>读取xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SAXReader reader = new SAXReader();</span><br><span class="line">Document doc = reader.read(in);</span><br><span class="line">System.out.println(doc.asXML());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解析xml</p>
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/04/16/00-java-内存分区/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/23/09-java-api-Thread/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

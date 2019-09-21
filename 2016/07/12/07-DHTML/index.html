@@ -1,0 +1,39 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 07_DHTML · hang 's blogs</title><meta name="description" content="07_DHTML - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">07_DHTML</h1><div class="post-info">Jul 12, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>DHTML</li>
+<li>DHTML原理</li>
+<li>BOM</li>
+<li>DOM</li>
+</ul>
+<hr>
+<h2 id="DHTML"><a href="#DHTML" class="headerlink" title="DHTML"></a>DHTML</h2><p>动态HTML, 利用js操作页面元素, 呈现动态效果或动态交互.</p>
+<h2 id="DHTML原理"><a href="#DHTML原理" class="headerlink" title="DHTML原理"></a>DHTML原理</h2><ul>
+<li>所有的HTML元素都可以使用JS对象进行表示</li>
+<li>使用对象表示HTML元素本身, 使用对象之间的包含关系表示HTML元素之间的层级关系</li>
+<li>HTML文档可以用一个文档结构树描述</li>
+<li>BOM 浏览器对象模型/ DOM 文档对象模型</li>
+<li>通过操作对象的属性和方法, 间接操作页面元素</li>
+</ul>
+<h2 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h2><p>window对象</p>
+<ul>
+<li>属性closed : 表示窗口是否关闭</li>
+<li>事件onload : html页面加载完成后, 立即触发</li>
+<li>方法</li>
+<li>alert : 消息对话框</li>
+<li>confirm : 确认对话框</li>
+</ul>
+<h2 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h2><ul>
+<li><p>获取节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getElementById();     //返回指定id元素</span><br><span class="line">getElementsByName();  //返回指定name元素的数组</span><br><span class="line">getElementsByTagNmae();//返回指定标签元素的数组</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取节点属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a_val = a.value;</span><br><span class="line">a.value = &quot;tiny&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取节点内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a_txt = a.innerHTML;</span><br><span class="line">a.innerHTML = &quot;&lt;a href=&quot;#&quot;&gt;link&lt;/a&gt;&quot;</span><br><span class="line">a.innerText  //部分浏览器不兼容</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>改变节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">creatElement();  //创建节点元素</span><br><span class="line">appendElement(); //添加节点子元素</span><br><span class="line">removeChild();   //操作父节点对象, 删除节点子元素</span><br><span class="line">replaceChild(newNode, childNode);  //替换节点子元素</span><br><span class="line">x.parentNode();  //操作子节点对象, 返回子节点元素的父节点元素</span><br><span class="line">cloneNode(boolean);//克隆元素, true表示复制子元素,false表示值复制元素本身</span><br><span class="line">insertBefore(newNode, childNode);  //操作父节点对象, 插入节点在某子节点之前</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/07/13/08-JQ/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/07/10/06-JS/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

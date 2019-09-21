@@ -1,0 +1,32 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 04_crazyJava_数组 · hang 's blogs</title><meta name="description" content="04_crazyJava_数组 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">04_crazyJava_数组</h1><div class="post-info">Jun 15, 2014</div><div class="post-content"><h2 id="第四篇-Java-数组"><a href="#第四篇-Java-数组" class="headerlink" title="第四篇 Java 数组"></a>第四篇 Java 数组</h2><p>1.Java 的数组 既可以存储基本类型的数据，又可以存储引用类型的数据，只要所有的数组元素具有相同的类型</p>
+<p>2.数组 也是一种数据类型，本身是一种引用类型</p>
+<p>3.定义数组：type[] arrayName;（推荐）定义声明数组时，不能指定数组的长度。</p>
+<p>4.初始化数组：必须先初始化，才可以使用。初始化，为数组的数组元素分配内存空间，并为每个数组元素赋初始值。</p>
+<ul>
+<li><p>静态初始化：显示指定每个数组元素的初始值，系统决定数组长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arrayName = new type[]&#123;element1, element2, element3, ...&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>动态初始化：只指定数组长度，系统未数组元素分配初始值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arrayName = new type[length];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不要同时使用静态初始化 和 动态初始化</p>
+</li>
+</ul>
+<p>5.foreach 循环</p>
+<ul>
+<li><p>自动循环遍历数组 和 集合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for (type variableName : array | collection)</span><br><span class="line">&#123;</span><br><span class="line">   //variableName 自动迭代访问每个元素</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用foreach 循环迭代数组元素时，并不能改变数组元素(基本数据类型)的值</p>
+</li>
+<li><p>若数据中存放的是引用数据类型, 则遍历时临时变量会通过引用地址值, 修改推内存中的数据.</p>
+</li>
+</ul>
+<p>6.内存中的数组</p>
+<ul>
+<li>实际的数组对象被存储在堆内存heap中；</li>
+<li>引用该数组对象的数组引用变量是一个局部变量，它被存储在栈内存stack中；</li>
+<li>数组引用变量，是访问内存中数组元素的根本方式</li>
+</ul>
+<p>7.操作数组的工具类Arrays</p>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2014/06/18/05-crazyJava-面向对象上/" class="prev">PREV</a><a href="/tinytinycn.github.io/2014/06/12/03-crazyJava-流程控制/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

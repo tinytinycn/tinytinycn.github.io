@@ -1,0 +1,57 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 02_spring_IOC · hang 's blogs</title><meta name="description" content="02_spring_IOC - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">02_spring_IOC</h1><div class="post-info">Jan 17, 2018</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>Bean 对象(组件)扫描</li>
+<li>Bean 对象(组件)注解</li>
+<li>扩展</li>
+</ul>
+<hr>
+<h2 id="Bean-组件扫描"><a href="#Bean-组件扫描" class="headerlink" title="Bean 组件扫描"></a>Bean 组件扫描</h2><ul>
+<li><p>spring容器中, 通过配置指定一个包路径, 由系统自动扫描该包下及子包下所有组件类. 当匹配组件类中定义的注解标记时, 将组件纳入容器中管理.</p>
+</li>
+<li><p>等价于xml配置<bean>, 代替大量xml配置操作.</bean></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//容器自动扫描cn.tinytiny.spring包及子包下所有组件类</span><br><span class="line">&lt;context:component-scan base-package=&quot;cn.tinytiny.spring&quot;/&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>或者使用AnnotationConfigApplicationContext工厂和@ComponentScan注解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@ComponentScan(&quot;cn.tinytiny.beans&quot;)</span><br><span class="line">public class App &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">AnnotationConfigApplicationContext acac = new AnnotationConfigApplicationContext(App.class);</span><br><span class="line">SysUserDao sud = acac.getBean(&quot;userDao&quot;, SysUserDao.class);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Bean-组件注解"><a href="#Bean-组件注解" class="headerlink" title="Bean 组件注解"></a>Bean 组件注解</h2><ul>
+<li>指定扫描组件的路径后, 需要在组件类定义前提添加注解标记, 才能添加到容器中</li>
+<li>@Component  通用注解</li>
+<li>@Repository 持久层注解</li>
+<li>@Service    业务层注解</li>
+<li>@Controller 控制层注解</li>
+</ul>
+<p>组件命名:</p>
+<ul>
+<li>当一个组件扫描时, 默认生成id值(以小写开头的类名).另外, 也可以自定义id值.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//默认id值: idTest</span><br><span class="line">@Component</span><br><span class="line">public class IdTest&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>组件作用域:</p>
+<ul>
+<li>@Scope 作用域注解, 默认singleton</li>
+<li>@PostConstruct 初始化回调方法注解</li>
+<li>@PreDestory    销毁回调方法注解<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Scope(&quot;prototype&quot;)</span><br><span class="line">@Component</span><br><span class="line">public class IdTest&#123;</span><br><span class="line">  public IdTest()&#123;&#125;</span><br><span class="line">  @PostConstruct</span><br><span class="line">  public void init()&#123;&#125;</span><br><span class="line">  @PreDestory</span><br><span class="line">  public void destory()&#123;&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>组件依赖注入注解:</p>
+<ul>
+<li>@Autowired/@Qualifier 和 @Resource</li>
+<li>注解定义在对象的属性或set方法上<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">//@Autowired 默认按类型进行注入, 可以结合@Qualifier限定名字 按名字进行注入</span><br><span class="line">//一般用于修饰属性/构造方法/setter方法</span><br><span class="line">//默认byType方式: 按照属性类型或参数类型进行注入 (容器中匹配到 多个类型相同的bean, 再按名字匹配, 此时需要配合@Qualifier注解, 以byName方式注入)</span><br><span class="line">//@Autowired和@Qualifier不能同时修饰构造方法(因为修饰后是以byName方式注入)</span><br><span class="line">public class SysUserService&#123;</span><br><span class="line">  @Autowired</span><br><span class="line">  @Qualifier(&quot;userService&quot;)</span><br><span class="line">  private SysUserService sysUserService;</span><br><span class="line">  public void saveUser(Object obj)&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//@Resource 默认按属性名进行注入, 可以限定name属性 按按名字注入</span><br><span class="line">//一般用于修饰属性和set方法</span><br><span class="line">//默认byName方式: 按照属性名字或set方法名进行注入 (容器中没有名字匹配的bean, 再按类型匹配)</span><br><span class="line">//@Resource不能修饰构造方法(因为修饰后是以byName方式注入)</span><br><span class="line">public class SysUserController&#123;</span><br><span class="line">  @Resource(name=&quot;userService&quot;)</span><br><span class="line">  private SysUserService sysUserService;</span><br><span class="line">  public void doSaveUser(Object obj)&#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>组件依赖注入表达式:</p>
+<ul>
+<li>@Value</li>
+<li>通过spring表达式获取对应文件中的值, 注入到对象的属性中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//config.properties文件中</span><br><span class="line">host=10.0.0.172</span><br><span class="line">port=8888</span><br><span class="line"></span><br><span class="line">//beans.xml配置文件中</span><br><span class="line">&lt;util:properties id=&quot;cfg&quot; location=&quot;classpath:config.properties&quot;/&gt;</span><br><span class="line"></span><br><span class="line">//setter方法或属性上, 定义@Value注解</span><br><span class="line">public class IdTest&#123;</span><br><span class="line">  @Value(&quot;#&#123;cfg.host&#125;&quot;)</span><br><span class="line">  private String host;</span><br><span class="line">  @Value(&quot;#&#123;cfg.port&#125;&quot;)</span><br><span class="line">  private String port;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><ul>
+<li>单例模式(6种方式)</li>
+<li>自定义spring工厂(xml/bean)</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/01/19/03-spring-AOP/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/01/15/01-spring-IOC/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 02_探究活动Activity · hang 's blogs</title><meta name="description" content="02_探究活动Activity - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">02_探究活动Activity</h1><div class="post-info">Jul 20, 2017</div><div class="post-content"><p>1.Activity 和 当前界面</p>
+<p>2.创建活动Activity / 创建和加载布局 （逻辑和视图分离 设计）</p>
+<ul>
+<li>setContentView()方法来给当前的活动加载一个布局。</li>
+<li>所有的活动都要在AndroidManifest.xml中进行注册才能生效。（Android studio自动完成注册！）</li>
+</ul>
+<p>3.活动Activity中使用Menu菜单</p>
+<ul>
+<li>res&gt;New&gt;Directory 新建main.xml 一个menu文件</li>
+<li>活动Activity类中，重写 onCreateOptionMenu()  方法</li>
+<li>在上方法中，通过getMenuInflater() 方法得到MenuInflater 对象，再通过inflate() 方法可以创建活动菜单。</li>
+<li>活动Actiivty类中，重写 onOptionItemSelected() 方法</li>
+</ul>
+<p>4.销毁活动</p>
+<ul>
+<li>finish() / Back键</li>
+</ul>
+<p>5.Internt 显示和隐式使用</p>
+<ul>
+<li>指定目标活动，意图明显，称为显示Intent。</li>
+<li>AndroidManifest.xml中通过<intent-filter>指定一系列抽象的action 和 category信息，交由系统分析找出合适的活动去启动，称为隐式Intent。</intent-filter></li>
+<li><intent-filter>中可以配置<data>标签，精确地指定响应什么类型的数据。</data></intent-filter></li>
+</ul>
+<p>6.传递数据给 下一个活动Activity</p>
+<ul>
+<li>Intent中提供一系列 putExtra()方法重载</li>
+</ul>
+<p>7.返回数据给 上一个活动Activity</p>
+<ul>
+<li>start ActivityForResult(intent,200)方法来启动下一个活动</li>
+<li>回调上一个活动的 onActivityResult(int requestCode, int resultCode, Intent dataIntent)方法</li>
+</ul>
+<p>8.Activity 的生命周期</p>
+<ul>
+<li>Android是通过任务Task来管理Activity的，一个任务就是一组存放在栈里的活动集合</li>
+<li>返回栈Back Stack（后进先出 的原则）</li>
+<li>活动状态：运行、暂停、停止、销毁 4种状态</li>
+<li>回调方法：onCreate() onStart() onResume() onPause() onStop() onDestory() 和 onRestart() 7个方法</li>
+<li>Ctrl + O （重写方法自动补全小技巧）</li>
+<li>onSaveInstanceState()回调方法，解决临时数据保存问题</li>
+<li>onCreate(Bundle savedInstanceState)中，savedInstanceState 这个Bundle对象通过相应取值方法将保存数据取出</li>
+</ul>
+<p>9.Activity 的启动模式</p>
+<ul>
+<li>一个活动的启动模式：standard、 singleTop、 singleTask、 singleInstance 4种</li>
+<li><activity>标签指定 android:launchMode属性</activity></li>
+</ul>
+<ul>
+<li>standard模式下，每当启动一个活动时，就会在返回栈中入栈，并处于栈顶。（系统不会在乎此活动是否已经在栈中存在，每次启动都会创建一个活动的新实例）</li>
+<li>singleTop模式下，启动时，系统发现返回栈的栈顶已经是该活动，则直接使用它，不再创建一个活动的实例。（当要启动的活动不处于栈顶，则会创建一个活动的新实例）</li>
+<li>singleTask模式下，启动是，系统检查返回栈中是否已经存在该活动实例，存在则直接使用它（并把这该活动之上的所有活动统统出栈）。不存在则创建一个活动的新实例。</li>
+<li>singleInstance模式下，会启动一个新的返回栈来管理要启动的这个活动。不管哪个应用程序App来访问这个活动，都公用的同一个返回栈，解决了共享活动。</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2017/07/20/03-UI开发/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/07/19/02-Android-Studio-gradle两种更新方式/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

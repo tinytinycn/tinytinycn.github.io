@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 01_Android_Studio_gradle更新问题 · hang 's blogs</title><meta name="description" content="01_Android_Studio_gradle更新问题 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">01_Android_Studio_gradle更新问题</h1><div class="post-info">Jul 19, 2017</div><div class="post-content"><h2 id="Android-studio-gradle更新问题"><a href="#Android-studio-gradle更新问题" class="headerlink" title="Android studio gradle更新问题"></a>Android studio gradle更新问题</h2><p>问题：</p>
+<blockquote>
+<p>Android studio 导入GitHub下载的新项目时，building项目过程中，由于项目要求的gradle版本和Android studio中的gradle版本不一致，会自动下载项目要求的gradle。下载过程异常慢，可能需要翻墙或者其他未知原因，导致Android studio卡住。</p>
+</blockquote>
+<p>解决：</p>
+<ol>
+<li><p>修改项目中要求的gradle版本号。<br>根目录\gradle\wrapper\gradle-wrapper.properties文件，文本工具修改其中一行：<br>distributionUrl=https://services.gradle.org/distributions/gradle-3.3-all.zip</p>
+</li>
+<li><p>查询Android studio已安装gradle版本号。<br>C:\Users\你的用户名.gradle\wrapper\dists\gradle-3.3-all\子目录下gradle-X.X-all.zip</p>
+</li>
+<li><p>修改项目中要求的gradle Android Plugin Version.<br>根目录\build.gradle文件，文本工具修改其中一行：<br>classpath ‘com.android.tools.build:gradle:2.3.3’</p>
+</li>
+<li><p>查询Android studio已安装gradle Android Plugin Version.<br>File&gt;&gt;Project Structrue&gt;&gt;Project</p>
+</li>
+</ol>
+<p><img src="gradle_version.png" alt="gradle_version.png"></p>
+<ol start="5">
+<li>import project！</li>
+</ol>
+<p>附加问题：</p>
+<blockquote>
+<p>导入项目过程中，可能会提示项目要求的sdkVersion，toolVersion等诸多问题。可以通过修改build.gradle文件解决或者Android studio联网下载要求的版本也行。</p>
+</blockquote>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2017/07/19/02-Android-Studio-gradle两种更新方式/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/07/19/01-第一行android代码/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

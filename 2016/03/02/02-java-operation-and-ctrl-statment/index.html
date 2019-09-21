@@ -1,0 +1,45 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 02_java_operation_and_ctrl_statment · hang 's blogs</title><meta name="description" content="02_java_operation_and_ctrl_statment - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">02_java_operation_and_ctrl_statment</h1><div class="post-info">Mar 2, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>运算符</li>
+<li>执行结构</li>
+</ul>
+<hr>
+<h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><ul>
+<li><p>算数运算符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+-*% ++ --</span><br><span class="line">//表达式中赋值操作</span><br><span class="line">int i = 0;</span><br><span class="line">int x = ++i; //先运算后赋值 x=1</span><br><span class="line">int j = 0;</span><br><span class="line">int y = j++; //先赋值后运算 y=0</span><br><span class="line">int x= 5;</span><br><span class="line">System.out.println(x++);  //x++是表达式, 所有先打出x=5,后自增</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关系运算符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt; &lt;= &gt;= != ==</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>逻辑运算符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;&amp; || !</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>赋值运算符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">= += -= *= /= %=</span><br><span class="line">int x+=1;</span><br><span class="line">int x=x+1;</span><br><span class="line">//注意: 赋值运算时,在编译期先将=右边自动转换成左边类型</span><br><span class="line">byte b;</span><br><span class="line">b = b + 4; //错误X, 编译期报错</span><br><span class="line">b += 4;    //编译通过 内部隐含强制转换</span><br><span class="line">short s1 =3;</span><br><span class="line">short s2 = 5;</span><br><span class="line">s1 = s1 + s2; //错误X, int类型结果,必须强制转换</span><br><span class="line">s1 += s2;  //编译通过</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符串连接运算符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+</span><br><span class="line">String s = &quot;a&quot;+&quot;bcd&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>三目运算符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">表达式 ? 表达式 : 表达式;</span><br><span class="line">同if else</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项 "></a>注意事项 </h2><p>当三目运算，两边操作数类型不一致时，涉及到操作符的自动转换，若操作数字为直接数字时，则返回值类型为范围较大者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int x = 4;</span><br><span class="line">double y = 99.9;</span><br><span class="line">int z = 9;</span><br><span class="line">System.out.println((x&gt;4) ? 99.9 : 9);  //x = 9.0;</span><br><span class="line">System.out.println((x&gt;4) ? y : z); //x = 9.0</span><br></pre></td></tr></table></figure>
+
+<h1 id="分支结构"><a href="#分支结构" class="headerlink" title="分支结构"></a>分支结构</h1><ul>
+<li>if else分支</li>
+<li>switch case分支(注意: break;的使用)</li>
+</ul>
+<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><ul>
+<li>while循环</li>
+<li>do..while循环</li>
+<li>for循环</li>
+<li><strong>循环结构体,使用局部变量必须初始化</strong></li>
+</ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul>
+<li>break 跳出当前循环</li>
+<li>continue 跳过本次循环,继续下次循环</li>
+<li>return 跳出当前方法</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/05/03-java-array-and-function/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/01/01-java-var-and-basic-type/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

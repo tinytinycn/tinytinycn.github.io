@@ -1,0 +1,152 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 07_java_api_IO · hang 's blogs</title><meta name="description" content="07_java_api_IO - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">07_java_api_IO</h1><div class="post-info">Mar 20, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>IO流</li>
+<li>字节流</li>
+<li>文件字节流</li>
+<li>字节缓冲流</li>
+<li>对象流</li>
+<li>字符流</li>
+<li>转换流</li>
+<li>字符缓冲流</li>
+</ul>
+<hr>
+<h2 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h2><p>分类：输入/输出流，字节/字符流，节点/处理流</p>
+<ul>
+<li>节点流：程序和数据源的管道，负责传输数据，读写建立在节点之上。</li>
+<li>处理流：处理其他流，功能是简化读写的复杂操作。</li>
+</ul>
+<h2 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a>字节流</h2><p>抽象基类：InputStream/OutputStream</p>
+<h2 id="文件字节流"><a href="#文件字节流" class="headerlink" title="文件字节流"></a>文件字节流</h2><ul>
+<li><p>FileOutputStream:字节输出流，用于写数据</p>
+</li>
+<li><p>FileOutputStream(File file)</p>
+</li>
+<li><p>FileOutputStream(String fileName)</p>
+</li>
+<li><p>FileOutputStream(String fileName, boolean true);//追加写入方式</p>
+</li>
+<li><p>write(byte[] bytes);</p>
+</li>
+<li><p>FileInputStream:字节输入流，用于读数据</p>
+</li>
+<li><p>FileInputStream(File file)</p>
+</li>
+<li><p>FileInputStream(String fileName)</p>
+</li>
+<li><p>read(byte[] bytes) -int</p>
+</li>
+</ul>
+<h2 id="字节缓冲流"><a href="#字节缓冲流" class="headerlink" title="字节缓冲流"></a>字节缓冲流</h2><ul>
+<li><p>BufferedOutputStream:字节缓冲流，使用缓冲流来一次性批量操作来提高效率。</p>
+</li>
+<li><p>缓冲流内部维护一个缓冲区，当向缓冲流写入数据时，缓冲区满了，缓冲流会将数据一次性全部写出。</p>
+</li>
+<li><p>BufferedOutputStream(OutputStream os)</p>
+</li>
+<li><p>write(int b)</p>
+</li>
+<li><p>write(byte[] bytes)</p>
+</li>
+<li><p>write(byte[] bytes, int offset, int len)</p>
+</li>
+<li><p>BufferedInputStream:字节缓冲流，同上。</p>
+</li>
+<li><p>BufferedInputStream(InputStream is)</p>
+</li>
+<li><p>read() -int</p>
+</li>
+<li><p>read(byte[] bytes) -int</p>
+</li>
+<li><p>close();//关闭缓冲流之前，先将缓冲区的数据一次性全部刷出</p>
+</li>
+<li><p>flush();//刷出缓冲，强制写出</p>
+</li>
+</ul>
+<h2 id="对象流"><a href="#对象流" class="headerlink" title="对象流"></a>对象流</h2><p>ObjectOutputStream/ObjectInputStream:读写对象的流</p>
+<ul>
+<li>ObjectOutputStream(OutputStream os)</li>
+<li>writerObject(Object obj)</li>
+<li>ObjectInputStream(InputStream is)</li>
+<li>readObject() -Object 将字节序列还原为对象</li>
+</ul>
+<p>对象的序列化:</p>
+<ul>
+<li>将对象转换为一个字节序列的过程叫做，对象序列化</li>
+<li>实现Serializable接口(标志接口)</li>
+<li>序列化的对象，内部的对象成员必须也能序列化</li>
+</ul>
+<p>对象的反序列化问题：</p>
+<ul>
+<li>如果对一个类添加或减少属性，对已写好的对象进行反序列化，会出现问题。</li>
+<li>一个类实现Serializable接口，编译期会提示应添加一个常量serialVersionUID，表示序列化版本号。若不指定该值，编译器在编译当前类时根据类的结构生成版本号。因此反序列化是否成功取决于版本号serialVersionUID。</li>
+<li>当对象输入流将一个对象进行反序列化时，若版本号一致，而类结构不同于之前类，依然能还原存在的属性，若版本号不一致，则报出异常。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class Person implements Serializable&#123;</span><br><span class="line">  private static final long serialVersionUID = -3209447599028837032L;//自动生成</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>transient关键字：</p>
+<ul>
+<li>当一个属性被transient修饰，该属性在进行序列化时将被忽略。</li>
+</ul>
+<h2 id="字符流"><a href="#字符流" class="headerlink" title="字符流"></a>字符流</h2><ul>
+<li>读写单位是字符，字符流只能操作文本数据，不能对其他数据操作。</li>
+<li>抽象基类：Reader/Writer</li>
+<li>字符流的底层实现依然是字节流，字符流还封装了对字符的编码解码算法。</li>
+<li>字符流读写数据时，涉及到字节数据和字符数据的转换。</li>
+</ul>
+<h2 id="转换流"><a href="#转换流" class="headerlink" title="转换流"></a>转换流</h2><ul>
+<li><p>OutputStreamWriter：可以按照指定字符集将字符转换为对应的字节后，通过该流输出</p>
+</li>
+<li><p>OutputStreamWriter(OutputStream out, String charsetName)</p>
+</li>
+<li><p>OutputStreamWriter(OutputStream out)</p>
+</li>
+<li><p>write(int c)</p>
+</li>
+<li><p>write(char[] chars)</p>
+</li>
+<li><p>write(String s)</p>
+</li>
+<li><p>write(char[] chars, int offset, int len)</p>
+</li>
+<li><p>InputStreamReader：</p>
+</li>
+<li><p>InputstreamReader(InputStream in, String charsetName)</p>
+</li>
+<li><p>InputStreamReader(InputStream in)</p>
+</li>
+<li><p>read() -int //读取单个字符</p>
+</li>
+<li><p>read(char[] chars) -int</p>
+</li>
+</ul>
+<h2 id="字符缓冲流"><a href="#字符缓冲流" class="headerlink" title="字符缓冲流"></a>字符缓冲流</h2><p>缓冲流内部有缓冲区，读写字符的效率高，并且字符流可以按行读写字符串。</p>
+<ul>
+<li><p>BufferedWriter</p>
+</li>
+<li><p>BufferedReader</p>
+</li>
+<li><p>BufferedReader(Reader reader)</p>
+</li>
+<li><p>read() -int //读取字符</p>
+</li>
+<li><p>read(char[] chars)</p>
+</li>
+<li><p>readLine() //连续读取若干字符，直到换行符</p>
+</li>
+<li><p>PrintWriter //缓冲字符输出流，内部总是连接一个BufferedWriter，提供自动行刷新功能</p>
+</li>
+<li><p>PrintWriter(File file)</p>
+</li>
+<li><p>PrintWriter(String fileName)</p>
+</li>
+<li><p>PrintWriter(File file, String csn) //指定字符集</p>
+</li>
+<li><p>PrintWriter(String fileName, String csn)</p>
+</li>
+<li><p>print()</p>
+</li>
+<li><p>println()</p>
+</li>
+<li><p>PrintWriter(InputStream in, boolean true)//行自动刷新</p>
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/21/08-java-api-Exception/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/19/06-java-api-File/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

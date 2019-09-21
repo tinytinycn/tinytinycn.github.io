@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 06_java_oop_abstract · hang 's blogs</title><meta name="description" content="06_java_oop_abstract - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">06_java_oop_abstract</h1><div class="post-info">Mar 10, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>抽象方法</li>
+<li>抽象类</li>
+<li>注意事项</li>
+<li>abstract 和 final</li>
+</ul>
+<hr>
+<h1 id="abstract-抽象"><a href="#abstract-抽象" class="headerlink" title="abstract 抽象"></a>abstract 抽象</h1><ul>
+<li>抽象的.</li>
+<li>abstract 修饰方法,类</li>
+</ul>
+<h2 id="抽象方法"><a href="#抽象方法" class="headerlink" title="抽象方法"></a>抽象方法</h2><p>声明方法,但不实现方法,叫做抽象方法.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] abstract 返回值类型 方法名(参数列表);</span><br><span class="line"></span><br><span class="line">class Apple&#123;</span><br><span class="line">  public abstract void weight();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h2><ul>
+<li>如果一个类中包含抽象方法,那么该类一定是抽象类.</li>
+<li>如果一个类是一个抽象类,那么该类 <strong>不一定</strong> 有抽象方法.</li>
+<li>将子类公用有的一些行为提取出来声明.供给子类继承实现.</li>
+<li>抽象类是一个公共的模板.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] abstract Apple&#123;</span><br><span class="line">  int weight;</span><br><span class="line">  String name;</span><br><span class="line">  public abstract void weight();</span><br><span class="line">  public String getName()&#123;</span><br><span class="line">    return name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>抽象类可以包含普通方法</li>
+<li>抽象类 <strong>不一定</strong> 有抽象方法(不推荐),此时子类继承抽象父类无意义.</li>
+<li>抽象类不可以被实例化.</li>
+<li>抽象类仍然包含构造方法.</li>
+</ol>
+<h2 id="abstract-和-final"><a href="#abstract-和-final" class="headerlink" title="abstract 和 final"></a>abstract 和 final</h2><p>不能同时修饰一个类.</p>
+<p>abstract修饰类,抽象类总是被用于继承.final修饰类,不可变类不能被继承.二则冲突,同时修饰无意义.</p>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/12/07-java-oop-interface/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/09/05-java-oop-feature/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

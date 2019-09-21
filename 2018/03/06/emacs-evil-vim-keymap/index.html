@@ -1,0 +1,99 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> emacs-evil-vim-keymap · hang 's blogs</title><meta name="description" content="emacs-evil-vim-keymap - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">emacs-evil-vim-keymap</h1><div class="post-info">Mar 6, 2018</div><div class="post-content"><p>以下type 键位, 均位于normal state.</p>
+<h2 id="1-光标移动"><a href="#1-光标移动" class="headerlink" title="1 光标移动 "></a>1 光标移动 </h2><ol>
+<li>光标移动 hjkl </li>
+<li>移动到buffer开头 gg</li>
+<li>移动到buffer结尾 G</li>
+<li>移动到下n个word [number] w</li>
+<li>移动到下n个word的结尾 [number] e</li>
+<li>移动到下n个word的开头 [number] b</li>
+</ol>
+<h2 id="2-插入文本-增"><a href="#2-插入文本-增" class="headerlink" title="2 插入文本 (增)"></a>2 插入文本 (增)</h2><ol>
+<li>光标前插入 i </li>
+<li>光标后插入 a </li>
+<li>光标上一行插入 O</li>
+<li>光标下一行插入 o </li>
+<li>光标行首插入 I</li>
+<li>光标行尾插入 A </li>
+</ol>
+<h2 id="3-删除文本-删"><a href="#3-删除文本-删" class="headerlink" title="3 删除文本 (删)"></a>3 删除文本 (删)</h2><ol>
+<li>光标下删除一个字符 x </li>
+<li>光标往后删除一个单词 dw</li>
+<li>光标往后删除一行 d$ 或 D </li>
+<li>光标下一整行 dd</li>
+<li>delete command格式:<br>[number] command object 或 command [number] object<br>2dw 或 d2w<br>2dd 或 d2d</li>
+</ol>
+<h2 id="4-修改文本-删改"><a href="#4-修改文本-删改" class="headerlink" title="4 修改文本 (删改)"></a>4 修改文本 (删改)</h2><p>注意的是: 修改时, normal state &gt;&gt; insert state </p>
+<ol>
+<li>光标下修改一个字符 r (自动esc退出insert state)</li>
+<li>光标下连续修改 R (直到esc退出)</li>
+<li>光标往后修改一个单词 cw (直到esc退出) </li>
+<li>光标往后修改一个行 c$ (直到esc退出)</li>
+<li>change command格式:<br>[number] command object 或 command [number] object </li>
+</ol>
+<h2 id="5-替换文本-换改"><a href="#5-替换文本-换改" class="headerlink" title="5 替换文本 (换改)"></a>5 替换文本 (换改)</h2><ol>
+<li>当前行替换一次 :s/old/new</li>
+<li>当前行替换n次  :s/old/new/g </li>
+<li>某几行替换一次 :s#,#/old/new/g </li>
+<li>全部替换      :%s/old/new/g </li>
+<li>全部替换(每次改变有提示) :%s/old/new/gc </li>
+</ol>
+<h2 id="6-搜索文本-查"><a href="#6-搜索文本-查" class="headerlink" title="6 搜索文本 (查)"></a>6 搜索文本 (查)</h2><ol>
+<li>正向搜索 / (n 下一个匹配项 N 上一个匹配项)</li>
+<li>反向搜索 ? (n 下一个匹配项 N 上一个匹配项)</li>
+<li>定位配对符号 % (定位(),[],{})</li>
+</ol>
+<h2 id="7-命令行"><a href="#7-命令行" class="headerlink" title="7 命令行"></a>7 命令行</h2><ol>
+<li>外部命令行格式 :!command<br>:!ls or :!dir          列出目录<br>:!rm or :!del FILENAME 删除文件<br>:w FILENAME            当前buffer全部内容写出到文件FILENAME<br>:#,#w FILENAME         当前buffer某行内容写出到文件FILENAME<br>:r FILENAME            从文件FILENAME恢复内容到当前buffer</li>
+</ol>
+<h2 id="8-复制-粘贴"><a href="#8-复制-粘贴" class="headerlink" title="8 复制 粘贴"></a>8 复制 粘贴</h2><p>normal模式下:</p>
+<ol>
+<li>yw</li>
+<li>yy</li>
+<li>y$</li>
+<li>y^</li>
+<li>:reg 粘贴板</li>
+<li>“ayw 复制到a粘贴板栈中, “ap 粘贴从a粘贴板栈中. </li>
+</ol>
+<p>按字符选择模式:</p>
+<ol>
+<li>v (visual state)</li>
+<li>hjkl</li>
+<li>y (yank)</li>
+<li>hjkl</li>
+<li>p (put)</li>
+</ol>
+<p>按行选择模式:</p>
+<ol>
+<li>V (visual state)</li>
+<li>hjkl</li>
+<li>y</li>
+<li>hjkl</li>
+<li>p</li>
+</ol>
+<p>按块选择模式:</p>
+<ol>
+<li>CTRL-v (visual state)</li>
+<li>hjkl</li>
+<li>y</li>
+<li>hjkl</li>
+<li>p</li>
+</ol>
+<h2 id="9-剪切-粘贴"><a href="#9-剪切-粘贴" class="headerlink" title="9 剪切 粘贴"></a>9 剪切 粘贴</h2><p>同上 复制粘贴</p>
+<ol>
+<li>v (visual state)</li>
+<li>hjkl </li>
+<li>d (delete)</li>
+<li>hjkl</li>
+<li>p (put)</li>
+</ol>
+<h2 id="10-退出-保存"><a href="#10-退出-保存" class="headerlink" title="10 退出 保存"></a>10 退出 保存</h2><ol>
+<li>退出 :q</li>
+<li>退出不保存 :q!</li>
+<li>保存 :w</li>
+<li>保存 另存为 :w filename.md </li>
+<li>退出保存 :wq 或 :x 或 ZZ</li>
+</ol>
+<h2 id="11-切换模式"><a href="#11-切换模式" class="headerlink" title="11 切换模式"></a>11 切换模式</h2><ol>
+<li>退回正常模式 ESC 或 CTRL-[</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/03/09/emacs-fix-startup-slow/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/03/05/emacs-evil-vim-tutor/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 06_crazyJava_面向对象下 · hang 's blogs</title><meta name="description" content="06_crazyJava_面向对象下 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">06_crazyJava_面向对象下</h1><div class="post-info">Jun 23, 2014</div><div class="post-content"><h2 id="第六章-面向对象（下）"><a href="#第六章-面向对象（下）" class="headerlink" title="第六章 面向对象（下）"></a>第六章 面向对象（下）</h2><ol>
+<li>Java 7 增强的包装类</li>
+</ol>
+<ul>
+<li><p>为了解决8种基本数据类型不能当成Object类型变量使用，Java 提供了包装类，8种基本数据类型分别定义了相应的引用类型，称为基本数据类型包装类。</p>
+</li>
+<li><p>基本类型变量包装成对应包装类对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">boolean a = true;</span><br><span class="line">Boolean b = new Boolean(a);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>包装类提供xxxValue()实例方法，获得包装类对象种包装的基本类型变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">boolean aa = b.booleanValue(); //取出Boolean对象里的boolean变量</span><br><span class="line">int cc = c.intValue();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Java 1.5提供自动装箱、自动拆箱（简化基本类型变量和包装类对象之间的转换）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//直接把一个基本类型变量直接赋给对应包装类变量或Object变量（Object类是Boolean的父类，也是所有类的父类）</span><br><span class="line">Integer intObj = 5;</span><br><span class="line">Object boolObj = true;</span><br><span class="line">//直接把包装类对象赋给对应的基本类型变量</span><br><span class="line">int i = intObj;</span><br><span class="line">if(boolObj instanceof Boolean)&#123;</span><br><span class="line">  //把Objcet对象强制类型转换为Boolean类型，在赋给boolean变量</span><br><span class="line">  boolean b = (Boolean)boolObj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>包装类实现基本类型变量和字符串之间的转换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//包装类提供parseXxx(String s)静态方法和 Xxx(String s)构造器，将字符串转换成基本数据类型变量</span><br><span class="line">int it1 = Integer.parseInt(&quot;123&quot;);</span><br><span class="line">int it2 = new Integer(&quot;123&quot;);</span><br><span class="line">//String类提供多个重载valueOf()方法，将基本数据类型变量转换成字符串</span><br><span class="line">String string = String.valueOf(123);</span><br><span class="line">String string2 = String.valueOf(3.14f);</span><br><span class="line">//基本类型变量和&quot;&quot;进行连接运算</span><br><span class="line">String s = 123 + &quot;&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="2">
+<li>处理对象</li>
+</ol>
+<ul>
+<li><p>toString() 方法是Object类里的一个实例方法，返回该对象的实现类的“类名+@+hashCode”值</p>
+</li>
+<li><p>重写toString()方法，自定义类能实现的“自我描述”</p>
+</li>
+<li><p>== 用来判断两个变量是否相等</p>
+</li>
+<li><p>如果两个变量是基本数据类型变量，数值类型相同，只要值相等，返回true</p>
+</li>
+<li><p>如果两个变量是引用类型变量，必须指向同一个对象时，才会返回true（不可用于两个没有父子关系的对象比较，否则编译出错）</p>
+</li>
+<li><p>常量池：专门用于管理在编译期确定下来并保存在已编译的.class文件种的一些数据（比如，字符串常量）</p>
+</li>
+<li><p>equals() 方法时Object类提供的一个实例方法，所有引用变量可调用该方法判断与其他引用变量是否相等。（同样是，两个引用变量指向同一个对象才返回true），但是可以重写该方法，自定义相等标准</p>
+</li>
+<li><p>String类重写了equals()方法，只要两个字符串所包含的字符序列相同，将会返回true</p>
+</li>
+<li><p>重写equals()方法，应该满足：自反性、对称性、传递性、一致性、x.equals(null)返回false</p>
+</li>
+</ul>
+<ol start="3">
+<li>final 关键字</li>
+</ol>
+<ul>
+<li><p>final 可以修饰变量、方法、类，表示它修饰的变量、方法、类不可变。</p>
+</li>
+<li><p>final 修饰成员变量</p>
+</li>
+<li><p>成员变量的初始值，可以在定义该变量时指定默认值，又可以在初始化块、构造器中指定。</p>
+</li>
+<li><p>final 修饰成员变量必须由程序员显式指定初始值！</p>
+</li>
+<li><p>final 修饰 类Field：必须在静态初始化块中 或声明变量时 指定初始值</p>
+</li>
+<li><p>final 修饰 实例Field：必须在非静态初始化块中 或声明变量时 或构造器中 指定初始值</p>
+</li>
+<li><p>final 修饰变量，一旦获得了初始值，就不可被改变</p>
+</li>
+<li><p>final 修饰局部变量</p>
+</li>
+<li><p>系统不会对局部变量进行初始化，必须由程序员显式初始化</p>
+</li>
+<li><p>final 修饰局部变量时，可以在定义变量时指定默认值（不可以再次赋值），也可以不指定默认值（可以在后面代码中赋值）。</p>
+</li>
+<li><p>final 修饰形参时，不能对其进行显式初始化（调用该方法时，传入参数进行初始化）</p>
+</li>
+<li><p>final 修饰基本数据类型变量时，不能重新赋值</p>
+</li>
+<li><p>final 修饰引用类型变量时，引用的地址不变，但这个对象完全可以发生改变</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">final int[] array = &#123;1, 2, 3, 4&#125;;</span><br><span class="line">//对数组元素进行赋值，合法</span><br><span class="line">array[2] = 5;</span><br><span class="line">//对数组变量进行赋值，非法</span><br><span class="line">//array = null;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用final 修饰符，定义变量时指定默认值，该初始值可以在编译期被确定，final 修饰的变量 相当于一个直接量。</p>
+</li>
+<li><p>本质上就是一个“宏变量”，编译器会把程序中用到该变量的地方直接替换成该变量的值。</p>
+</li>
+<li><p>被赋的表达式只是基本算术表达式或字符串连接运算，没有访问普通变量，调用方法，Java编译器同样会将final 变量当成“宏变量”。</p>
+</li>
+<li><p>final 修饰方法</p>
+</li>
+<li><p>final 修饰的方法，不可被重写（子类不能重写父类的某个方法，使用final 修饰该方法）</p>
+</li>
+<li><p>final 修饰的方法，仅仅是不能重写，但是可以被重载。</p>
+</li>
+<li><p>final 修饰类</p>
+</li>
+<li><p>final 修饰类，不可以有子类</p>
+</li>
+<li><p>不可变类（immutable），创建该类实例后，该实例Field不可改变。包装类和String类都是不可变类。</p>
+</li>
+<li><p>private final 修饰 该类Field</p>
+</li>
+<li><p>提供带参构造器，传参进行初始化 该类Field</p>
+</li>
+<li><p>仅提供getter方法</p>
+</li>
+</ul>
+<ol start="4">
+<li>抽象类</li>
+</ol>
+<ul>
+<li><p>抽象类、抽象方法必须使用 abstract 修饰符来定义</p>
+</li>
+<li><p>有抽象方法的类必须定义为抽象类，抽象类可以没有抽象方法。</p>
+</li>
+<li><p>抽象类不能创建实例，只能当作父类被其他子类继承；虽然有构造器，但只能用于被子类调用；</p>
+</li>
+<li><p>抽象方法不能有方法体，要有；分号结尾；</p>
+</li>
+<li><p>抽象类只能被继承，抽象方法必须子类重写。final 修饰的类不能被继承，final 修饰的方法不能被重写。所以 abstract 和 final 不能同时使用；</p>
+</li>
+<li><p>static 修饰方法时，该方法属于类本身，即通过类就可以调用，如果该方法是抽象方法，缺少方法体引起错误。所以 abstract 和 static 不能同时使用；</p>
+</li>
+<li><p>抽象方法必须被其子类重写才有意义，抽象方法不能定义为 private 访问权限。所以 abstract 和 private 不能同时使用；</p>
+</li>
+<li><p>抽象类体现了一种模板模式的设计，抽象类作为多个子类的通用模板，子类在抽象类的基础上，进行扩展、改造，总体上保留抽象类的行为方式。</p>
+</li>
+</ul>
+<ol start="5">
+<li>接口</li>
+</ol>
+<ul>
+<li><p>接口，更加特殊的一种“抽象类”</p>
+</li>
+<li><p>接口里面 不能包含普通方法，全部方法都是抽象方法</p>
+</li>
+<li><p>接口里面 不能包含构造器、初始化块定义</p>
+</li>
+<li><p>接口里面 包含Field只能是常量，方法只能是抽象方法，内部类（内部接口、枚举）定义。</p>
+</li>
+<li><p>接口不提供实现，接口体现的是 规范 和 实现 的分离设计哲学。</p>
+</li>
+<li><p>接口定义 必须使用 interface 关键字，而不是 class 关键字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] interface 接口名 extends 父接口1, 父接口2...&#123;</span><br><span class="line">  ...</span><br><span class="line">  //定义常量时，只能public 修饰，系统自动添加public static final 修饰，下面两行代码等价</span><br><span class="line">  int MAX_SIZE = 50;</span><br><span class="line">  public static final int MAX_SIZE = 50;</span><br><span class="line"></span><br><span class="line">  //定义方法时，只能public 修饰，省略系统自动添加 public abstract 修饰</span><br><span class="line">  public abstract void test();</span><br><span class="line">&#125;</span><br><span class="line">//修饰符：public/省略</span><br><span class="line">//接口可以继承多个接口（可以有多个直接父接口），不能继承类</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接口使用，接口不能创建实例，但接口可以用于声明引用类型变量。当接口来声明引用类型变量时，这个引用类型变量必须引用到其实现类的对象。（接口主要用途是被实现类实现）</p>
+</li>
+<li><p>一个类实现一个或多个接口，使用 implements 关键字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] class 类名 extends 父类 implements 接口1, 接口2...&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一个类实现接口后，必须完全实现接口里的定义的全部抽象方法。否则，该类保留父接口中的抽象方法，该类必须定义成抽象类。</p>
+</li>
+</ul>
+<ol start="6">
+<li>内部类</li>
+</ol>
+<ul>
+<li><p>定义在其他类的内部，称为内部类（或者 嵌套类）</p>
+</li>
+<li><p>内部类提供更好的封装</p>
+</li>
+<li><p>内部类成员可以直接访问外部类的私有数据，外部类不能直接访问内部类的实现细节*（例如访问内部类成员变量，需要创建一个内部类对象，间接访问实例Field）</p>
+</li>
+<li><p>匿名内部类适合用于创建一次使用的类</p>
+</li>
+<li><p>非静态内部类</p>
+</li>
+<li><p>定义内部类，可以类中的任何位置，甚至方法中（方法中定义的内部类称为 局部内部类）</p>
+</li>
+<li><p>static 修饰的内部类，称为静态内部类</p>
+</li>
+<li><p>内部类成员可以使用 private/protected/public/省略 4种访问控制符（内部类上一级单元是外部类，所以作用域有4个）</p>
+</li>
+<li><p>内部类成员变量、内部类方法种的局部变量 与 外部类成员变量重名，可通过 this、外部类类名.this 作为限定区分</p>
+</li>
+<li><p>不允许外部类静态成员直接访问非静态内部类</p>
+</li>
+<li><p>不允许在非静态内部类种定义静态成员（非静态内部类中 不能有静态方法、静态Field、静态初始化块）</p>
+</li>
+<li><p>静态内部类（类内部类）</p>
+</li>
+<li><p>static 修饰内部类，这个内部类属于外部类本身，不属于外部类的某个对象</p>
+</li>
+<li><p>静态内部类不能访问外部类的实例成员，只能访问外部类的类成员*</p>
+</li>
+<li><p>静态内部类是外部类的一个静态成员，外部类的静态方法、静态初始化块可以使用静态内部类来定义变量、创建对象</p>
+</li>
+<li><p>外部类不能直接访问静态内部类的成员（类成员、实例成员），下面例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class testClass&#123;</span><br><span class="line">  //静态内部类</span><br><span class="line">  static class StaticInnerClass&#123;</span><br><span class="line">      private static int prop1 = 5;</span><br><span class="line">      private int prop2 = 6;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //外部类方法</span><br><span class="line">  public void test()&#123;</span><br><span class="line">      //通过静态内部类类名，访问类成员</span><br><span class="line">      System.out.println(StaticInnerClass.prop1);</span><br><span class="line">      //通过静态内部类实例对象，访问实例成员</span><br><span class="line">      System.out.println(new StaticInnerClass().prop2);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>内部类的使用</p>
+</li>
+<li><p>在外部类内部使用内部类，直接通过内部类类名定义，通过new 调用内部类构造器创建实例（注意：外部类静态成员不能访问非静态内部类）</p>
+</li>
+<li><p>在外部类以外使用非静态内部类，使用完整的类名OuterClass.InnerClass varName; 定义内部类（如有包名，加上包名前缀），使用OuterInstance.new InnerConstructor(); 创建非静态内部类实例（非静态内部类寄存在外部类对象里，创建非静态内部类对象之前，必须先创建外部类对象）。非静态内部类的构造器必须通过 外部类对象来调用。</p>
+</li>
+<li><p>在外部类以外使用静态内部类，静态内部类是外部类类相关的，创建内部类对象无须 创建外部类对象。使用new OuterClass.InnerConstructor(); 创建静态内部类实例。</p>
+</li>
+<li><p>局部内部类</p>
+</li>
+<li><p>一个内部类放在方法里定义，这个内部类就是一个局部内部类。</p>
+</li>
+<li><p>局部内部类不能在外部类的方法以外使用，局部内部类不能使用访问控制符 和 static（没有意义）</p>
+</li>
+<li><p>匿名内部类</p>
+</li>
+<li><p>匿名内部类必须继承一个父类，或者实现一个接口，但最多只能继承一个或实现一个接口</p>
+</li>
+<li><p>匿名内部类不能是抽象类（系统创建匿名内部类时，会自动创建匿名内部类的对象）</p>
+</li>
+<li><p>匿名内部类不能定义构造器</p>
+</li>
+<li><p>匿名内部类需要访问外部类的局部变量，必须使用final 修饰符来修饰外部类的局部变量，否则系统报错（为什么？）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new 父类构造器(实参列表)|实现接口()&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>闭包（Closure）和 回调</p>
+</li>
+<li><p>闭包，是一种能被调用的对象，它保存了创建它的作用域信息。</p>
+</li>
+<li><p>静态内部类，不仅记录了外部类的详细信息，还保留了一个创建非静态内部类的对象的引用，可以直接调用外部类的private成员（可以把非静态内部类当成面向对象领域的闭包）</p>
+</li>
+<li><p>回调，是某个方法一旦获得了内部类对象的引用后，就可以在核实的时候反过来调用外部类实例的方法。</p>
+</li>
+<li><p>回调，允许客户类通过内部类引用来调用其外部类的方法。</p>
+</li>
+</ul>
+<ol start="7">
+<li>枚举类</li>
+</ol>
+<ul>
+<li>一个类的对象是有限而且固定的，比如季节。这种实例有限而且固定的类，称为枚举类</li>
+<li>enum 关键字 定义枚举类（等同class interface）</li>
+<li>枚举类是一个特殊的类，可以实现一个或多个接口，默认继承java.lang.Enum类</li>
+<li>非抽象枚举类默认final 修饰，不能派生子类</li>
+<li>枚举类构造器只能private 修饰，省略则默认使用private</li>
+<li>枚举类的所有实例，必须第一行显式列出，否则这个枚举类永远不能产生实例。系统自动添加public static final修饰，无须显式添加。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public enum SeasonEnum&#123;</span><br><span class="line">  SPRING,SUMMER,FALL,WINTER;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>使用枚举类的实例，使用EnumClass.variable的形式（SeasonEnum.SUMMER）</p>
+</li>
+<li><p>枚举类是实例只能是枚举值（通过Enum.valueOf()方法获得）</p>
+</li>
+<li><p>枚举类一旦显式定义了带参构造器，列出枚举值式也必须传入相应参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public enum Gennder&#123;</span><br><span class="line">  //列出枚举值时，必须传入参数</span><br><span class="line">  MALE(&quot;男&quot;),FEMALE(&quot;女&quot;);</span><br><span class="line">  private final String name;</span><br><span class="line"></span><br><span class="line">  //显式定义带参构造器</span><br><span class="line">  private Gennder(String name)&#123;</span><br><span class="line">      this.name = name;</span><br><span class="line">  &#125;</span><br><span class="line">  public String getName()&#123;</span><br><span class="line">      return this.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>枚举类实现接口</p>
+</li>
+<li><p>实现接口里的抽象方法，和普通类实现接口一样</p>
+</li>
+<li><p>枚举值后面紧跟一对{ }，相当于类体，可以在里面分别实现不同功能的抽象方法</p>
+</li>
+</ul>
+<ul>
+<li>枚举类包含抽象方法</li>
+<li>枚举类里面定义抽象方法时，不能使用abstract 定义枚举类（系统自动添加abstract 关键字）</li>
+<li>枚举类里面枚举值必须为抽象方法提供实现，否则编译出错。</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2014/06/27/07-crazyJava-注解Annotation/" class="prev">PREV</a><a href="/tinytinycn.github.io/2014/06/18/05-crazyJava-面向对象上/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

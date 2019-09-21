@@ -1,0 +1,39 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 17_Listener_Filter · hang 's blogs</title><meta name="description" content="17_Listener_Filter - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">17_Listener_Filter</h1><div class="post-info">Jul 22, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>Filter过滤器</li>
+<li>实现 Filter过滤器</li>
+<li>注意事项</li>
+<li>Listener监听</li>
+<li>实现 Listener监听器</li>
+</ul>
+<hr>
+<h2 id="Filter-过滤器"><a href="#Filter-过滤器" class="headerlink" title="Filter 过滤器"></a>Filter 过滤器</h2><p>Java Web开发的三大组件: Servlet/Filter/Listener.</p>
+<p>Filter过滤器可以动态地拦截请求和响应, 以改变请求或响应中的信息.</p>
+<h2 id="实现-Filter过滤器"><a href="#实现-Filter过滤器" class="headerlink" title="实现 Filter过滤器"></a>实现 Filter过滤器</h2><p>创建过滤器类, 实现javax.servlet.Filter接口, 实现以下方法:</p>
+<ul>
+<li>init(FilterConfig config);</li>
+<li>doFilter(ServletRequest req, ServletResponse resp, FilterChain chain);</li>
+<li>destory();</li>
+</ul>
+<p>当web应用启动时, 服务器将创建Filter实例并调用init()方法, 读取web.xml配置完成初始化. 当客户端发送请求方法与过滤器设置匹配url时, 调用doFilter()方法进行处理, FilterChain可以访问后续过滤器. 当服务器关闭或Servlet容器被销毁时, 调用destory()方法, 释放资源.</p>
+<p>配置web.xml文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;</span><br><span class="line">  &lt;filter-name&gt;FilterDemo&lt;/filter-name&gt;</span><br><span class="line">  &lt;filter-class&gt;cn.tinytiny.filter.FilterDemo&lt;/filter-class&gt;</span><br><span class="line">&lt;/filter&gt;</span><br><span class="line">&lt;filter-mapping&gt;</span><br><span class="line">  &lt;filter-name&gt;FilterDemo&lt;/filter-name&gt;</span><br><span class="line">  &lt;url-pattern&gt;/Servlet01&lt;/url-pattern&gt;</span><br><span class="line">  &lt;url-pattern&gt;/Servlet02&lt;/url-pattern&gt;</span><br><span class="line">&lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p>或者使用注解@WebFilter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@WebFilter(filterName = &quot;Filter01&quot;, urlPatterns = &#123;&quot;/Servlet01&quot;, &quot;/Servlet02&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li>过滤器的应用顺序, 取决于配置文件中声明的顺序</li>
+<li>过滤器可以配置拦截多个资源</li>
+<li>一个资源可以配置多个过滤器</li>
+</ul>
+<h2 id="Listener监听器"><a href="#Listener监听器" class="headerlink" title="Listener监听器"></a>Listener监听器</h2><p>监听Java Web应用中的事件, 创建/修改/删除Session,Request,Context等触发的响应事件.Listener对应观察者模式, 事件自动触发该事件对应的监听器. Servlet2.5规范中共有8种Listener.</p>
+<h2 id="实现-Listener监听器"><a href="#实现-Listener监听器" class="headerlink" title="实现 Listener监听器"></a>实现 Listener监听器</h2><p>创建 Listener监听器类, 实现不同的接口, 实现相关方法.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//HttpSessionListener/ServletContextListener/ServletRequestListener</span><br><span class="line">//分别监听Session/ServletContext/Request对象</span><br><span class="line"></span><br><span class="line">//HttpSessionAttributeListener/ServletContextAttributeLisnter/ServletRequestAttributeListener</span><br><span class="line">//分别监听属性变化</span><br><span class="line"></span><br><span class="line">//HttpSessionBindingListener/HttpSEssionActivationListener</span><br><span class="line">//监听Session内部的对象并非Session本身, 不需要web.xml配置</span><br></pre></td></tr></table></figure>
+
+<p>配置web.xml文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//一般配置再&lt;servlet&gt;之前</span><br><span class="line">&lt;listener&gt;MyListener&lt;/listener&gt;</span><br><span class="line">&lt;listener&gt;  </span><br><span class="line">    &lt;listener-class&gt;cn.tinytiny.listener.MyListener&lt;/listener-class&gt;  </span><br><span class="line">&lt;/listener&gt;</span><br></pre></td></tr></table></figure>
+
+<p>或使用@WebListener()注解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//无需任何配置, 即可</span><br><span class="line">@WebListener()</span><br></pre></td></tr></table></figure>
+
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/07/23/18-HTTP/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/07/21/16-JSP/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

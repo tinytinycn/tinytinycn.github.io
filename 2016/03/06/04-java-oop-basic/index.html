@@ -1,0 +1,58 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 04_java_oop_basic · hang 's blogs</title><meta name="description" content="04_java_oop_basic - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">04_java_oop_basic</h1><div class="post-info">Mar 6, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>面向对象</li>
+<li>对象的创建</li>
+<li>对象的使用</li>
+<li>方法</li>
+<li>构造方法</li>
+<li>this(有待深究)</li>
+<li>成员变量初始化过程</li>
+<li>Java内存管理</li>
+<li>内存泄露和内存溢出</li>
+</ul>
+<hr>
+<h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><ul>
+<li>类(型): 模板,模型</li>
+<li>对象: 创建出的实例(存在于内存中)</li>
+<li>“一切皆是对象”</li>
+</ul>
+<h2 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h2><p>实例化: 创建对象的过程,创建出来的对象叫做实例.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new 类型();</span><br></pre></td></tr></table></figure>
+
+<h2 id="对象的使用"><a href="#对象的使用" class="headerlink" title="对象的使用"></a>对象的使用</h2><p>引用对象: 声明一个引用变量来引用对象,通过引用变量访问对象的属性(数据,方法)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int a = 666;              //变量a保存的值 666</span><br><span class="line">int[] arr = new int[6];   //变量a保存的值 数组的内存地址值</span><br></pre></td></tr></table></figure>
+
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>方法签名: 方法名+参数列表 (作为方法的唯一标识)<br>方法重载: overload (两同一不同: 同类同名不同参)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] 返回值类型 方法名(参数列表)&#123;</span><br><span class="line">  方法体</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><p>类的成员,可以看做特殊的方法.(构造函数/构造器)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] 类名(参数列表)&#123;</span><br><span class="line">  构造方法体</span><br><span class="line">&#125;</span><br><span class="line">Person p = new Person();</span><br></pre></td></tr></table></figure>
+
+<p>注意:</p>
+<ul>
+<li>构造方法没有返回值.</li>
+<li>任何一个类都有构造方法, 默认生成无参构造方法.</li>
+<li>一个类中,只有一个无参构造方法.</li>
+<li>一个类中,可以有多个有参构造方法.</li>
+<li>继承中,构造方法的调用: 创建子类对象,可以通过super调用父类构造方法(super()必须位于构造器第一行)</li>
+<li>继承中,子类(无参/有参)构造方法默认都会调用父类无参构造方法.</li>
+<li>继承中,子类有参构造方法会覆盖默认无参构造方法,除非显式写出无参构造方法.</li>
+<li>继承中,子类有参构造方法默认调用父类无参构造方法,若父类没有无参构造方法则报错.(可以显式super调用父类有参构造方法)</li>
+</ul>
+<h2 id="this"><a href="#this" class="headerlink" title="this"></a>this</h2><ul>
+<li>表示当前类的对象,一般省略.</li>
+<li>有参构造器中不可以省略.</li>
+<li>方法中使用, 指向调用该方法的对象.</li>
+</ul>
+<h2 id="成员变量的初始化"><a href="#成员变量的初始化" class="headerlink" title="成员变量的初始化"></a>成员变量的初始化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public class Super &#123;</span><br><span class="line">  int a = 666;</span><br><span class="line">  public Super()&#123;</span><br><span class="line">    test();</span><br><span class="line">  &#125;</span><br><span class="line">  void test()&#123;</span><br><span class="line">    System.out.println(&quot;父类中执行&quot;);</span><br><span class="line">    System.out.println(a);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Sub extends Super&#123;</span><br><span class="line">  int a = 888;</span><br><span class="line">  public Sub()&#123;</span><br><span class="line">    super();</span><br><span class="line">    test();</span><br><span class="line">  &#125;</span><br><span class="line">  @override</span><br><span class="line">  void test()&#123;</span><br><span class="line">    System.out.println(&quot;子类中执行&quot;);</span><br><span class="line">    System.out.println(a);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//main方法中调用</span><br><span class="line">new Sub();  //观察执行过程</span><br><span class="line">//输出   0 和 888</span><br><span class="line">//执行完构造器中的super()后,才开始初始化成员变量.</span><br><span class="line"></span><br><span class="line">//执行顺序: (重要知识点)</span><br><span class="line">//1 父类静态代码(静态代码块,静态成员变量初始化 依据出现顺序执行)</span><br><span class="line">//2 子类静态代码</span><br><span class="line">//3 父类构造方法(非静态成员变量初始化 在构造器super()执行之后立即执行, 建议在构造方法中初始化非静态成员变量,虽然可以在在声明成员变量时初始化它,但必须注意成员变量的初始化时机)</span><br><span class="line">//4 子类构造方法</span><br></pre></td></tr></table></figure>
+
+<h2 id="JVM-内存管理"><a href="#JVM-内存管理" class="headerlink" title="JVM 内存管理"></a>JVM 内存管理</h2><p>Java数据都需要存储在内存中.JVM内存分为 方法区,堆,栈,各自存储不同的数据.</p>
+<ul>
+<li>栈: 当执行一个方法时,Java内存会在(虚拟机)栈中开辟一块区域(栈帧),存放这个方法相关的局部变量表,操作数,动态链接等等.</li>
+<li>堆: 保存new 出来的实例对象.(成员变量保存在堆中)</li>
+<li>方法区: 保存类Class的结构信息包括静态成员和方法.(类加载器载入类文件字节码信息,解析后放入方法区.) Java8 方法区存储位置发生细微变化*</li>
+</ul>
+<h2 id="内存泄露和内存溢出"><a href="#内存泄露和内存溢出" class="headerlink" title="内存泄露和内存溢出"></a>内存泄露和内存溢出</h2><ul>
+<li>内存泄露: 分配出去的内存回收不回来.</li>
+<li>内存溢出: 内存泄露到一定程度,导致溢出.OutOfMemoryException.</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/09/05-java-oop-feature/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/05/03-java-array-and-function/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

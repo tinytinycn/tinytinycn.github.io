@@ -1,0 +1,56 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 02_crazyJava_数据类型 · hang 's blogs</title><meta name="description" content="02_crazyJava_数据类型 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">02_crazyJava_数据类型</h1><div class="post-info">Jun 9, 2014</div><div class="post-content"><h2 id="第二篇-Java-数据类型"><a href="#第二篇-Java-数据类型" class="headerlink" title="第二篇 Java 数据类型"></a>第二篇 Java 数据类型</h2><p>1.注释</p>
+<ul>
+<li>单行注释“//”放在内容之前</li>
+<li>多行注释“/<em>”开始，“</em>/”结束</li>
+<li>文档注释“/<em>*”开始，“</em>/”结束，中间部分全都是文档注释，会被提取到API文档中（javadoc 命令的使用）</li>
+</ul>
+<p>2.分隔符、标识符、关键字</p>
+<ul>
+<li>； { } [ ] ( ) . 空格 都具有特殊分割作用，通称为分隔符</li>
+<li>标识符用于给程序中变量、类、方法命名的符号。必须字母、下划线、美元符开头，后面跟任意数目字母、数字、下划线、美元符。 （Java语言区分大小写 ）</li>
+<li>Java语言中具有特殊用途的单词称为关键字keyword（定义标识符时，不能与关键字相同，否则编译出错）</li>
+</ul>
+<p>3.数据类型</p>
+<ul>
+<li>Java语言是强类型语言，每个变量和表达式都有一个在编译时就确定的类型，所以所有变量必须显式声明类型</li>
+<li>所有变量必须先声明，后使用</li>
+<li>声明变量，只要指定变量的类型和变量名即可（type varName;）</li>
+</ul>
+<ul>
+<li>Java语言支持的类型：基本类型 和 引用类型</li>
+<li>基本类型：数值类型 和 布尔Boolean类型，数值类型有 整数类型和浮点类型，整数类型有 byte/short/int/long/char，浮点类型有 float/double</li>
+<li>引用类型：类、接口、数组类型、null类型（null类型，没有名称，不可能声明一个null类型的变量。空引用null是null类型变量唯一的值）。引用类型就是对一个对象的引用（引用类型变量实际上就是一个指针）</li>
+</ul>
+<ul>
+<li>字符串不是基本数据类型，字符串类型是一个类，是一个引用数据类型</li>
+</ul>
+<ul>
+<li>整型 byte（1字节）/short（2字节）/int（4字节，默认）/long（8字节）</li>
+<li>整数常量 表示形式：十进制、二进制0b/0B开头、八进制0开头、十六进制0x/0X</li>
+<li>补码计算规则：正数的补码和原码相同，负数的补码是其反码＋1，反码是对原码按位取反，最高位符号位不变</li>
+<li>字符型 char（2字节）</li>
+<li>字符常量 表示形式：单个字符 ‘A’、特殊字符 ‘\n’、Unicode值 ‘\uXXXX’</li>
+<li>浮点型 float（4字节）/double（8字节，默认）</li>
+<li>浮点数 表示形式：十进制 3.14、科学计数法 3.14e2/3.14E2</li>
+<li>只有浮点类型的数值才可以使用科学计数法形式表示</li>
+<li>布尔型 boolean（1字节）</li>
+<li>布尔数值只能是 true false</li>
+</ul>
+<ul>
+<li>Java 7种数值类型之间可以相互转换，类型转换方式：自动类型转换、强制类型转换</li>
+<li>当把一个表数范围小的数值或变量直接赋给另一个表数范围大的变量时，系统可以自动类型转换</li>
+<li>强制类型转换，(targetType)value</li>
+</ul>
+<ul>
+<li>表达式类型的自动提升：当一个算术表达式种包含多个数据类型时，表达式的数据类型将发生自动提升</li>
+</ul>
+<p>4.运算符</p>
+<ul>
+<li>算数运算符 +-*/%</li>
+<li>赋值运算符 =</li>
+<li>位运算符</li>
+<li>比较运算符 &gt;&lt;=!</li>
+<li>逻辑运算符 &amp;&amp; || ！</li>
+<li>三目运算符 (expression)？if-true-statement：if-false-statement</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2014/06/12/03-crazyJava-流程控制/" class="prev">PREV</a><a href="/tinytinycn.github.io/2014/06/06/01-crazyJava-基础知识/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

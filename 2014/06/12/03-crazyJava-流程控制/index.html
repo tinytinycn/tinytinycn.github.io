@@ -1,0 +1,47 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 03_crazyJava_流程控制 · hang 's blogs</title><meta name="description" content="03_crazyJava_流程控制 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">03_crazyJava_流程控制</h1><div class="post-info">Jun 12, 2014</div><div class="post-content"><h2 id="第三篇-Java-流程控制"><a href="#第三篇-Java-流程控制" class="headerlink" title="第三篇 Java 流程控制"></a>第三篇 Java 流程控制</h2><p>1.顺序结构</p>
+<ul>
+<li>程序总是从上向下一次执行</li>
+</ul>
+<p>2.分支结构</p>
+<ul>
+<li><p>if 语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if(logic expression)</span><br><span class="line">&#123;</span><br><span class="line">   statement...</span><br><span class="line">&#125;else&#123;</span><br><span class="line">   statement...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>switch 语句</p>
+</li>
+<li><p>控制表达式expression的数据类型只能是 byte/short/int/char四个整数类型和 枚举类型。（Java 7 允许控制表达式为String类型）</p>
+</li>
+<li><p>case 后代码块，break省略会引入一个陷阱</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">switch (expression)</span><br><span class="line">&#123;</span><br><span class="line">   case condition1:</span><br><span class="line">   &#123;</span><br><span class="line">         statement...</span><br><span class="line">         break;</span><br><span class="line">   &#125;</span><br><span class="line">   case condition2:</span><br><span class="line">   &#123;</span><br><span class="line">         statement...</span><br><span class="line">         break;</span><br><span class="line">   &#125;</span><br><span class="line">   default:</span><br><span class="line">   &#123;</span><br><span class="line">        statement...</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>3.循环结构</p>
+<ul>
+<li>循环语句包含四个部分：初始化语句、循环条件、循环体、迭代语句</li>
+</ul>
+<ul>
+<li><p>while 循环语句（先判断，后执行）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[init_statement]</span><br><span class="line">while (expression) &#123;</span><br><span class="line">   statement...</span><br><span class="line">   [iteration_statement]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>do while 循环语句（先执行，后判断）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[init_statement]</span><br><span class="line">do &#123;</span><br><span class="line">   statement...</span><br><span class="line">   [iteration_statement]</span><br><span class="line">&#125; while (expression); //注意分号结尾，表示循环结束</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>for 循环语句</p>
+</li>
+<li><p>for循环条件总比循环体多执行一次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for ([init_statement]; [expression]; [iteration_statement])</span><br><span class="line">&#123;</span><br><span class="line">   statement...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>4.控制循环结构</p>
+<ul>
+<li>Java提供continue break 来控制循环结构</li>
+<li>break 用于完全结束一个循环，跳出循环体</li>
+<li>break 紧跟一个标签，这个标签用于外层循环，则可以跳出外层循环</li>
+<li>continue 用于结束本次循环，接着开始下一次循环</li>
+</ul>
+<ul>
+<li>return 直接结束一个方法</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2014/06/15/04-crazyJava-数组/" class="prev">PREV</a><a href="/tinytinycn.github.io/2014/06/09/02-crazyJava-数据类型/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

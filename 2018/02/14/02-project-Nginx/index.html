@@ -1,0 +1,75 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 02_project_Nginx · hang 's blogs</title><meta name="description" content="02_project_Nginx - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">02_project_Nginx</h1><div class="post-info">Feb 14, 2018</div><div class="post-content"><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>nginx</li>
+<li>nginx部署</li>
+<li>nginx实现页面跳转</li>
+<li>nginx实现集群</li>
+<li>nginx实现项目部署的步骤</li>
+</ul>
+<hr>
+<ul>
+<li>nginx</li>
+</ul>
+<ol>
+<li><p>反向代理: 用户根据虚拟路径请求静态资源, 经过nginx处理, 将请求转发到真实的磁盘路径下, 获取静态资源, 再由nginx将结果返回客户端.</p>
+</li>
+<li><p>nginx: 高性能反向代理服务器.</p>
+</li>
+</ol>
+<ul>
+<li>nginx部署</li>
+</ul>
+<ol>
+<li><p>下载安装包, 导入本地安装路径(路径避免空格和中文)</p>
+</li>
+<li><p>启动服务器, 管理员身份运行或命令行运行</p>
+</li>
+<li><p>命令行运行: start nginx </p>
+</li>
+<li><p>其他命令: nginx -s stop停止 (nginx -s reload重启)</p>
+</li>
+<li><p>nginx配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#定义图片服务器  root表示转向文件夹</span><br><span class="line">server &#123;</span><br><span class="line">	listen       80;</span><br><span class="line">    server_name  image.jt.com;</span><br><span class="line"></span><br><span class="line">	location / &#123;</span><br><span class="line">           root   E:\jt-upload;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改host文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 image.jt.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>流程分析:<br>访问image.jt.com 经过hosts文件, 别转向到本地localhost, 请求被本地nginx服务器反向代理到真实路径E:\jt-upload下, 获取静态资源后, 经由nginx返回结果给客户端. </p>
+</li>
+</ol>
+<ul>
+<li>nginx实现页面跳转</li>
+</ul>
+<ol>
+<li><p>nginx配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123; </span><br><span class="line">	listen		80;</span><br><span class="line">	server_name	manage.jt.com;</span><br><span class="line"></span><br><span class="line">	#页面转向 转向的是一个具体的url </span><br><span class="line">	location / &#123;</span><br><span class="line">	proxy_pass http://localhost:8091;	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>hosts文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 manage.jt.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>nginx -s reload重启即可</p>
+</li>
+</ol>
+<ul>
+<li>nginx实现集群<br>通过配置集群的方式, 解决高并发问题.</li>
+</ul>
+<ol>
+<li><p>nginx配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#实现Nginx的负载均衡</span><br><span class="line">upstream jt&#123;</span><br><span class="line">	server 127.0.0.1:8091;</span><br><span class="line">	server 127.0.0.1:8092;</span><br><span class="line">	server 127.0.0.1:8093;</span><br><span class="line">&#125;</span><br><span class="line">#后台管理系统  nginx负责监听浏览器.拦截具体的url实现页面转向</span><br><span class="line">server &#123; </span><br><span class="line">	listen		80;</span><br><span class="line">	server_name	manage.jt.com;</span><br><span class="line"></span><br><span class="line">	#页面转向 转向的是一个具体的url  表示upstream名称</span><br><span class="line">	location / &#123;</span><br><span class="line">		proxy_pass http://jt;	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>nginx轮询策略<br>每台服务根据顺序依次访问.并且它是nginx中默认的负载均衡的方式.</p>
+</li>
+<li><p>nginx权重方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#实现Nginx的负载均衡</span><br><span class="line">upstream jt&#123;</span><br><span class="line">	server 127.0.0.1:8091 weight=6;</span><br><span class="line">	server 127.0.0.1:8092 weight=3;</span><br><span class="line">	server 127.0.0.1:8093 weight=1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>nginx配置IP_HASH<br>需求:如何实现Session共享????<br>问题描述:当用户登陆一台服务器时,在服务器内部保存了用户的Session信息.如果用户再次发出请求后,将不能保证用户访问的依然是登陆过的服务器.这时需要用户再次登录.这种问题如何解决????<br>总结问题:由于用户访问的服务器不固定,导致Session不能共享.<br>解决办法:通过IP_Hash<br>说明:通过用户的IP地址,在nginx中内部进行哈希值运行.最终绑定唯一的一台服务器.<br>总结:<br>通过IP_hash的计算,将服务器与用户的IP地址进行了绑定.实现了Session的共享.———Session黏着!<br>通过IP_hash能够解决简单的Session共享问题.大型公司不会使用该方式(新SSO)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#实现Nginx的负载均衡</span><br><span class="line">upstream jt&#123;</span><br><span class="line">    #配置ip_hash, 权重和轮询将失效</span><br><span class="line">    ip_hash;</span><br><span class="line">	server 127.0.0.1:8091 weight=6;</span><br><span class="line">	server 127.0.0.1:8092 weight=3;</span><br><span class="line">	server 127.0.0.1:8093 weight=1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>nginx备用机制<br>如果nginx中的服务器都处于满负荷状态.无暇顾及新的连接.这时备用机才会生效.<br>如果主服务器.处理完请求后处于正常状态.这时备用机处于等待状态.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#实现Nginx的负载均衡</span><br><span class="line">upstream jt&#123;</span><br><span class="line">	server 127.0.0.1:8091 weight=6;</span><br><span class="line">	server 127.0.0.1:8092 weight=3;</span><br><span class="line">	server 127.0.0.1:8093 backup;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>nginx实现项目部署的步骤:<br>通过nginx下线服务器. 打包成功后, 再次部署服务器即可.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#实现Nginx的负载均衡</span><br><span class="line">upstream jt&#123;</span><br><span class="line">	server 127.0.0.1:8091 weight=6 down;</span><br><span class="line">	server 127.0.0.1:8092 weight=3;</span><br><span class="line">	server 127.0.0.1:8093 weight=1;</span><br><span class="line">&#125;</span><br><span class="line">#配置需要下线的服务器down, 重启nginx, 请求将不会发往改服务器, 部署新的项目后, 重新配置(去除down)重启nginx, 部署成功:)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/02/15/03-project-Nginx配置文件/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/02/10/01-project-通用Mapper/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

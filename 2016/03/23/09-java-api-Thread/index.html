@@ -1,0 +1,84 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 09_java_api_Thread · hang 's blogs</title><meta name="description" content="09_java_api_Thread - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">09_java_api_Thread</h1><div class="post-info">Mar 23, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>进程和线程</li>
+<li>线程的并发和并行</li>
+<li>线程的状态</li>
+<li>创建线程</li>
+<li>操作线程的API</li>
+<li>守护线程</li>
+<li>线程同步</li>
+<li>线程池</li>
+</ul>
+<hr>
+<h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><ul>
+<li>进程：一个程序运行起来，就是一个进程。</li>
+<li>线程：一个线程是进程的一个顺序执行流。</li>
+<li>系统为每个进程分配独立的内存空间，在同一个进程中的多个线程会共享此进程中的资源。</li>
+</ul>
+<h2 id="线程的并发和并行"><a href="#线程的并发和并行" class="headerlink" title="线程的并发和并行"></a>线程的并发和并行</h2><p>线程并发执行，并不是同一时间同时执行，而是多个线程之间切换执行，达到宏观的同步执行效果。<br>并行执行，依靠的是多个cpu的并行执行任务实现的。</p>
+<h2 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h2><p>新建状态：创建一个线程<br>就绪状态：此线程具备除了时间片外的所有资源<br>运行状态：抢占时间片后进入运行期<br>阻塞状态：由运行状态被阻塞<br>死亡状态：线程结束死亡</p>
+<h2 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h2><ul>
+<li>继承Thread类，重写run方法</li>
+<li>实现Runnable接口，实现run方法</li>
+<li>匿名内部类方式创建线程</li>
+</ul>
+<h2 id="操作线程的API"><a href="#操作线程的API" class="headerlink" title="操作线程的API"></a>操作线程的API</h2><ul>
+<li><p>Thread.currentThread()</p>
+</li>
+<li><p>sleep(long ms)</p>
+</li>
+<li><p>yield();//当前线程主动让出时间片回到就绪状态</p>
+</li>
+<li><p>join();//执行另一个线程，等其执行结束后继续该线程任务，协调多个线程之间同步执行</p>
+</li>
+<li><p>setName() //线程给定名字</p>
+</li>
+<li><p>new Thread(Runnable r, String name)//同上</p>
+</li>
+<li><p>getId(); -long</p>
+</li>
+<li><p>getName();</p>
+</li>
+<li><p>isAlive();</p>
+</li>
+<li><p>isInterrupted();</p>
+</li>
+<li><p>getPriority();</p>
+</li>
+<li><p>isDaemon();//是否为守护线程</p>
+</li>
+<li><p>setPriority(int priority);//设置优先级1-10，设置优先级在启动前设置</p>
+</li>
+</ul>
+<h2 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h2><p>后台线程，通过setDaemon(boolean b)设置,守护线程本质上和普通线程没有区别。当一个进程中的所有前台线程全部结束后，守护线程都必须强制结束。GC就是一个守护线程。</p>
+<h2 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h2><ul>
+<li>多个线程并发访问统一资源时，可能引起安全问题。为了解决多线程带来的安全问题，将异步操作变为同步操作。</li>
+<li>synchronized：同步锁，Java提供了内置的锁机制来支持原子性。</li>
+<li>synchronized修饰方法：给调用该方法的对象加锁。</li>
+<li>synchronized修饰代码块：同步代码块精确的控制需要同步的代码片段，有效缩小同步范围。</li>
+<li>对一个对象加锁，需要注意，多个线程访问同步代码块时，应该是同一个所对象的引用，才能达到同步作用。</li>
+<li>synchronized修饰静态方法，加锁的对象时当前类的Class对象。</li>
+<li>synchronized的互斥性：同一个对象中的多个方法是同步的，那么锁对象访问这些代码时，代码间是互斥的，调用这些代码时多线程不能同时执行，必须等待执行结束。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//同步方法</span><br><span class="line">public synchronized void run()&#123;...&#125;</span><br><span class="line">//同步代码块</span><br><span class="line">synchronized(同步监视器-锁对象的引用)&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><ul>
+<li><p>线程池，即线程的集合对象</p>
+</li>
+<li><p>线程池控制线程数量，避免消耗大量系统资源</p>
+</li>
+<li><p>重用线程，避免频繁创建和销毁线程</p>
+</li>
+<li><p>一个线程只能执行一个任务，可以同时向线程池提交多个任务。</p>
+</li>
+<li><p>实现ExecutorServices接口，创建线程池对象</p>
+</li>
+<li><p>提交任务到线程池中</p>
+</li>
+<li><p>shutdown();//关闭线程池，执行已接收任务，完成后关闭，不再接收新任务</p>
+</li>
+<li><p>shutDownNow();//中断正在执行任务，同时返回正在等待的任务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExecutorServices pool = Executors.newFixedThreadPool(100);</span><br><span class="line">pool.execute(Runnable r);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/03/26/10-java-api-XML/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/03/21/08-java-api-Exception/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

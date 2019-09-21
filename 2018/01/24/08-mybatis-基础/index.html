@@ -1,0 +1,68 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 08_mybatis_基础 · hang 's blogs</title><meta name="description" content="08_mybatis_基础 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">08_mybatis_基础</h1><div class="post-info">Jan 24, 2018</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>Mybatis</li>
+<li>Mybatis 应用场景</li>
+<li>Mybatis 核心API</li>
+<li>Mybatis 基本实现</li>
+</ul>
+<hr>
+<h2 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h2><ul>
+<li>一个支持普通SQL查询，存储过程和高级映射的优秀持久层框架, 用于解决数据持久化问题，底层实现了对JDBC操作的封装.</li>
+<li>使用XML或注解方式, 用于核心配置和原始映射，将接口和Java的POJO（Plain Old Java Objects，普通的Java对象）映射成数据库中的记录.</li>
+</ul>
+<h2 id="Mybatis-应用场景"><a href="#Mybatis-应用场景" class="headerlink" title="Mybatis 应用场景"></a>Mybatis 应用场景</h2><ul>
+<li>简化JDBC编程复杂度</li>
+<li>更好地实现ORM(对象关系映射)</li>
+</ul>
+<h2 id="Mybatis-核心API"><a href="#Mybatis-核心API" class="headerlink" title="Mybatis 核心API"></a>Mybatis 核心API</h2><ul>
+<li>config.xml配置文件</li>
+<li>mapper映射文件</li>
+<li>SqlSessionFactoryBuilder（加载配置文件,创建SQLSessionFactory对象）</li>
+<li>SqlSessionFactory（负责创建session对象）</li>
+<li>SqlSession（负责执行SQL操作）<blockquote>
+<p>Mybaits执行流程: SqlSessionFactoryBuilder构建SqlSessionFactory工厂对象, 工厂对象创建SqlSession对象, sqlSession对象通过mapper接口对象(底层实现接口类对象)执行相关数据库操作方法.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="Mybatis-基本实现"><a href="#Mybatis-基本实现" class="headerlink" title="Mybatis 基本实现"></a>Mybatis 基本实现</h2><p>基于xml方式:</p>
+<ol>
+<li><p>添加 mybatis依赖(pom.xml), 和mysql驱动mysql-connector-java依赖</p>
+</li>
+<li><p>添加 映射配置(resources/mapper/xxxMapper.xml)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//id属性: 命名空间中是唯一的标识符, 用于引用对应的sql语句</span><br><span class="line">//resultType属性: 从这条语句中返回的期望类型的类的完全限定名或别名。</span><br><span class="line">//注意: 如果是集合类型，resultType应该是是集合内可以包含的数据类型，而不是集合本身类型</span><br><span class="line"></span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span><br><span class="line">  &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line"> &lt;mapper namespace=&quot;cn.tinytiny.xxx.dao.XxxDao&quot;&gt;</span><br><span class="line">    &lt;select id=&quot;findUsers&quot;</span><br><span class="line">            resultType=&quot;map&quot;&gt;</span><br><span class="line">         select * from ...</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line"> &lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加 mybatis核心配置(resources/mybaits-config.xml)</p>
+</li>
+</ol>
+<ul>
+<li>配置数据库连接信息</li>
+<li>注册mapper映射文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span><br><span class="line">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">	  &lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">	    &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">	      &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">        &lt;!-- 配置数据库连接信息 --&gt;</span><br><span class="line">	      &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">	        &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;</span><br><span class="line">	        &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql:///test&quot;/&gt;</span><br><span class="line">	        &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">	        &lt;property name=&quot;password&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">	      &lt;/dataSource&gt;</span><br><span class="line">	    &lt;/environment&gt;</span><br><span class="line">	  &lt;/environments&gt;</span><br><span class="line">     &lt;!-- 注册xxxMapper.xml文件 --&gt;</span><br><span class="line">	  &lt;mappers&gt;</span><br><span class="line">	    &lt;mapper resource=&quot;mapper/xxxMapper.xml&quot;/&gt;</span><br><span class="line">	  &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="4">
+<li><p>创建SqlSessionFactory, 通过 SqlSessionFactoryBuilder 基于xml的配置创建.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SqlSessionFactory sessionFactory =	new SqlSessionFactoryBuilder()</span><br><span class="line">.build(Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建SqlSession, 执行操作.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//SqlSession 对象代表了一次 SQL会话, 包含了面向数据库执行 SQL 命令所需的所有方法.</span><br><span class="line">//SqlSession 对象可以直接执行已映射的 SQL语句.</span><br><span class="line"></span><br><span class="line">SqlSession sqlSession = sessionFactory.openSession();</span><br><span class="line">List&lt;Map&lt;String,Object&gt;&gt; list = sqlSession.selectList(&quot;cn.tinytiny.xxx.dao.XxxDao.findUsers&quot;);</span><br><span class="line">System.out.println(list);</span><br><span class="line">sqlSession.close();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>基于接口方式:</p>
+<ol>
+<li><p>添加 mybatis依赖(同上), 和mysql驱动mysql-connector-java依赖</p>
+</li>
+<li><p>添加 映射配置(resources/mapper/xxx.xml)(同上)</p>
+</li>
+<li><p>添加 mybatis核心配置(resources/mybaits-config.xml)(同上)</p>
+</li>
+<li><p>创建一个dao接口, 通过接口类型对象执行相关操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//注意:</span><br><span class="line">//映射文件中mapper的namespace 必须为该接口的全类名</span><br><span class="line">//映射文件中元素的id值 必须与 接口中方法名 保持一致</span><br><span class="line">//映射文件中元素的resultType值 必须与 接口方法返回值 保持一致</span><br><span class="line">//sqlSession.getMapper(XxxDao.class)调用时, 底层会创建dao接口实现类对象</span><br><span class="line"></span><br><span class="line">&lt;mapper namespace=&quot;cn.tinytiny.xxx.dao.XxxDao&quot;&gt;</span><br><span class="line">    &lt;select id=&quot;findUsers&quot; resultType=&quot;map&quot;&gt;</span><br><span class="line">         select * from sys_users</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建SqlSessionFactory, 通过 SqlSessionFactoryBuilder 基于xml的配置创建.(同上)</p>
+</li>
+<li><p>创建dao接口实例对象, 执行操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SqlSession sqlSession = sessionFactory.openSession();</span><br><span class="line">SysUserDao dao = sqlSession.getMapper(XxxDao.class);</span><br><span class="line">List&lt;Map&lt;String,Object&gt;&gt; list = dao.findUsers();</span><br><span class="line">System.out.println(list);</span><br><span class="line">sqlSession.close();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/01/25/09-mybatis-整合/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/01/23/07-spring-MVC-uploadFile/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

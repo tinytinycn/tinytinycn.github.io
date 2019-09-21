@@ -1,0 +1,41 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 10_Servlet · hang 's blogs</title><meta name="description" content="10_Servlet - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">10_Servlet</h1><div class="post-info">Jul 16, 2016</div><div class="post-content"><h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>Servlet</li>
+<li>Servlet程序开发</li>
+<li>详解Servlet</li>
+<li>注意事项</li>
+<li>四大域对象</li>
+</ul>
+<hr>
+<h2 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h2><p>sun公司提供的动态web资源开发技术, 本质是运行在Servlet容器(tomcat服务器)的java程序.</p>
+<h2 id="Servlet程序开发"><a href="#Servlet程序开发" class="headerlink" title="Servlet程序开发"></a>Servlet程序开发</h2><ul>
+<li>创建一个类, 实现Servlet接口, 实现方法</li>
+<li>编译新建类, class文件放入web应用中(WEB-INF/classes/下)</li>
+<li>配置web.xml, 设置servlet对外访问的虚拟路径</li>
+<li>部署web应用到虚拟主机<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">//编写FirstServlet类, 实现Servlet接口, 实现方法</span><br><span class="line">public class FirstServlet implements HttpServlet&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line">//添加包, imort javax.servlet.*;</span><br><span class="line">//设置包路径, package cn.tinytiny.servlet;</span><br><span class="line">//cmd</span><br><span class="line">//设置servlet.jar包路径</span><br><span class="line">set classpath=E:\XXX\tomcat7.0\lib\servlet-api.jar</span><br><span class="line">//编译</span><br><span class="line">javac -d . FirstServlet.java</span><br><span class="line">//class文件添加到WEB-INF/classes中</span><br><span class="line">//配置web.xml</span><br><span class="line">&lt;web-app&gt;</span><br><span class="line">&lt;servlet&gt;</span><br><span class="line">  &lt;servlet-name&gt;FirstServlet&lt;/servlet-name&gt;</span><br><span class="line">  &lt;servlet-class&gt;cn.tinytiny.servlet&lt;/servlet-class&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;&lt;/servlet-name&gt;</span><br><span class="line">  &lt;url-pattern&gt;/FristSerlvet&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br><span class="line">//浏览器访问虚拟路径/MyWebApp/FirstServlet</span><br><span class="line">http://localhost:8080/MyWebApp/FirstServlet</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="详解Servlet"><a href="#详解Servlet" class="headerlink" title="详解Servlet"></a>详解Servlet</h2><ul>
+<li>Servlet继承结构</li>
+</ul>
+<p><img src="./serlvet.png" alt="servlet继承结构"></p>
+<ul>
+<li>Servlet 生命周期</li>
+</ul>
+<p>调用过程:</p>
+<p>Servlet第一次被访问时, 服务器创建一个Servlet实例, 之后立即调用init()方法进行初始化, 之后该实例一致驻留在服务器内存中, 等待后续请求. 服务器接收浏览器请求时, 服务器调用service方法处理请求, 直至服务器关闭或web应用被移除. Servlet实例销毁之前, 服务器调用destory方法进行后续处理.</p>
+<p><img src="Servlet%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B.jpg" alt="servlet调用过程"></p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>虚拟路径配置:</p>
+<ul>
+<li>可以使用直接路径</li>
+<li>可以使用匹配符配置路径<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/开头, /*结尾</span><br><span class="line">/*</span><br><span class="line">/path/*</span><br><span class="line"></span><br><span class="line">*.后缀</span><br><span class="line">*.html</span><br><span class="line">*.php</span><br><span class="line">*.jsp</span><br><span class="line">*.do</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="四大域对象"><a href="#四大域对象" class="headerlink" title="四大域对象"></a>四大域对象</h2><ul>
+<li>pageContext 属性范围仅当前jsp页面, servlet中无法获取该对象</li>
+<li>request 属性范围仅同一个请求, 主要用于请求转发</li>
+<li>session 属性范围仅一次会话, servlet中通过request对象获取</li>
+<li>application 属性范围仅当前web应用, jsp或servlet中都可以获得, 对应ServletContext对象.</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2016/07/18/11-intelliJ-webapp/" class="prev">PREV</a><a href="/tinytinycn.github.io/2016/07/15/09-tomcat/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

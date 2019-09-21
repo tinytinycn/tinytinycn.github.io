@@ -1,0 +1,28 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 07_udacity_View和ViewGroup · hang 's blogs</title><meta name="description" content="07_udacity_View和ViewGroup - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">07_udacity_View和ViewGroup</h1><div class="post-info">Sep 20, 2017</div><div class="post-content"><h2 id="View和View-Group"><a href="#View和View-Group" class="headerlink" title="View和View Group"></a>View和View Group</h2><pre><code>1. warp_content/match_parent;
+2. gravity（控件中内容的重力）/layout_gravity（在布局中控件的重力）;
+3. padding/margin;
+4. visible/invisible/gone;
+5. Constraint Layout：添加库（com.android.support.constraint-layout:1.0.0-beta4）;
+6. 添加文字/图片/矢量图；
+7. 层级观察器；
+8. DataBinding 库；
+
+
+* 在gradle中，启用dataBinding;（dataBinding.enabled=true;）
+* 添加&lt;layout&gt;，作为根标签;
+* 创建一个类型ActivityMainBinding的数据绑定实例;
+* 加载一个具有数据的对象;
+* 借助ActivityMainBinding 实例对象，将数据绑定到UI中（不用findViewById寻找控件，直接mBinding.XXX调用即可）
+
+
+1. 无障碍功能; contentDescription属性描述任何视图实际上代表的含义，这些描述性文本并不会显示在屏幕上的任何位置，但是如果用户启用了提供语音提示功能的无障碍服务，那么当用户转到该控件时，系统就会读出相应的文本。
+2. 国际化；翻译res/values-xx/strings.xml
+3. 自适应设计（不同配置情况下）；横屏布局res/layout-land/xxx.xml ;&lt;include&gt;</code></pre><p>df</p>
+<h2 id="美化UI"><a href="#美化UI" class="headerlink" title="美化UI"></a>美化UI</h2><pre><code>1. android设计原则；
+2. 颜色；PrimaryColor/AccentColor；res/values/colors.xml
+3. 字体；Font-Family/sp:Scale-Independent-Pixels；res/values/dimens.xml
+4. 样式和主题；res/values/styles.xml中使用&lt;style&gt;和样式继承使用&lt;style name=&quot;&quot; parent=&quot;&quot; &gt;
+5. 多屏幕设计（不同设备情况下）；
+* 屏幕密度
+* 资源文件夹限定符；最小宽度限定符-swXXXdp:用于不同设备
+6. 触摸选择器Selector；res/drawable/xxx_selector.xml</code></pre></div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2017/09/21/08-udacity-进阶Fragment/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/09/10/06-udacity-Service/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
