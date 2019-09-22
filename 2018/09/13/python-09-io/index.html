@@ -1,0 +1,64 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> python-09-io · hang 's blogs</title><meta name="description" content="python-09-io - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">python-09-io</h1><div class="post-info">Sep 13, 2018</div><div class="post-content"><h3 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h3><ul>
+<li>读文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f=open(&apos;/home/tinytinycn/test.log&apos;, &apos;r&apos;) //读文件模式r</span><br><span class="line">f.read() //&apos;hello,world&apos;, 若文件不存在, 则抛出IOError</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">with open(&apos;/home/tinytinycn/test.log&apos;, &apos;r&apos;) as f:</span><br><span class="line">    print(f.read()) //with自动调用close()方法</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>合理读取文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f.read() //一次行读取全部内容</span><br><span class="line">f.read(size) //每次按size个字节读取</span><br><span class="line">f.readlines()一次读取全部内容并返回list 适合配置文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>file-like Object, 包含有read()方法的对象, 无需集成特定类</p>
+</li>
+<li><p>读取二级制文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f=open(&apos;/home/tinytinycn/test.jpg&apos;, &apos;rb&apos;)</span><br><span class="line">f.read() //十六进制表示字节</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>读取编码文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f=open(&apos;/home/tinytinycn/gbk.txt&apos;, &apos;r&apos;, encoding=&apos;gbk&apos;)</span><br><span class="line">f.read()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>写文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f=open(&apos;/home/tinytinycn/test.log&apos;, &apos;w&apos;)</span><br><span class="line">f.write(&apos;hello world&apos;) //不会立即写入磁盘, 放入内存缓存, 空闲时写入</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>或</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">with f=open(&apos;/home/tinytinycn/test.log&apos;, &apos;w&apos;) as f:</span><br><span class="line">    f.wirte(&apos;hello world&apos;) //覆盖文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="StringIO-amp-BytesIO"><a href="#StringIO-amp-BytesIO" class="headerlink" title="StringIO &amp; BytesIO"></a>StringIO &amp; BytesIO</h3><ul>
+<li><p>StringIO读写, 操作str</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from io import StringIO</span><br><span class="line"></span><br><span class="line">f=StringIO()</span><br><span class="line">f.write(&apos;hello world&apos;)</span><br><span class="line"></span><br><span class="line">f2=StringIO(&apos;hello\nhi\npython&apos;)</span><br><span class="line">while True:</span><br><span class="line">    s=f2.readline()</span><br><span class="line">    if s==&apos;&apos;:</span><br><span class="line">        break</span><br><span class="line">    print(s.strip())</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>BytesIO读写, 操作二进制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from io import BytesIO</span><br><span class="line"></span><br><span class="line">f=Bytes()</span><br><span class="line">f.write(&apos;中文&apos;.encode(&apos;utf-8&apos;)) //写入经过utf-8编码的bytes</span><br><span class="line">print(f.getvalue()) //b&apos;\xe4\xb8\xad...&apos;</span><br><span class="line"></span><br><span class="line">f2=Bytes(b&apos;\xe4\xb8\xad...&apos;)</span><br><span class="line">f.read()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="操作文件-amp-目录"><a href="#操作文件-amp-目录" class="headerlink" title="操作文件 &amp; 目录"></a>操作文件 &amp; 目录</h3><ul>
+<li><p>操作目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">os.path.abspath(&apos;.&apos;)</span><br><span class="line">os.path.join(&apos;/home/tinytinycn&apos;, &apos;testdir&apos;) //某个目录下创建新目录</span><br><span class="line">os.mkdir(&apos;/home/tinytinycn/testdir&apos;) //创建目录</span><br><span class="line">os.rmdir(&apos;/home/tinytinycn/testdir&apos;) //删除目录</span><br><span class="line">os.path.split(&apos;/home/tinytinycn/testdir/file.log&apos;) //(&apos;/home/tinytinycn/testdir&apos;, &apos;file.log&apos;)</span><br><span class="line">os.path.splittest(&apos;/path/to/file.log&apos;) //(&apos;/path/to/file&apos;, &apos;.txt&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>操作文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">os.rename(&apos;test.txt&apos;, &apos;test.py&apos;) //修改当前目录文件名</span><br><span class="line">os.remove(&apos;test.py&apos;) //删除文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>os模块不提供复制文件函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import shutil</span><br><span class="line"></span><br><span class="line">[x for x in os.listdir(&apos;.&apos;) if os.path.isdir(x)]</span><br><span class="line">[x for x in os.listdir(&apos;.&apos;) if os.path.isfile(x) and os.path.splitext(x)[1]==&apos;.py&apos;]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><ul>
+<li><p>序列化, 将内存中的数据写入磁盘或通过网络传输到其他机器上</p>
+</li>
+<li><p>python提供pickle模块实现序列化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import pickle</span><br><span class="line"></span><br><span class="line">D=dict(name=&apos;tiny&apos;, age=25, score=100)</span><br><span class="line">pickle.dumps(D) //序列化为一个bytes, 可将bytes写入文件</span><br><span class="line"></span><br><span class="line">或</span><br><span class="line">f=open(&apos;dump.txt&apos;, &apos;wb&apos;)</span><br><span class="line">pickle.dump(D, f) //直接将对象序列化后写入file-like Object</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">`#` 反序列化, 把对象从磁盘读到内存中bytes, 然后通过pickle.loads()反序列化出对象</span><br><span class="line">或</span><br><span class="line">f=open(&apos;dump.txt&apos;, &apos;rb&apos;)</span><br><span class="line">D2=pickle.load(f)</span><br><span class="line">f.close()</span><br><span class="line">print(D) //反序列化后的dict对象</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>JSON, 将对象徐丽华成标准格式, 方便在不同编程语言之间传递对象</p>
+</li>
+<li><p>python提供json模块实现python对象到JSON格式的转换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line"></span><br><span class="line">D=dict(name=&apos;tiny&apos;, age=25, score=100)</span><br><span class="line">json.dumps(D) //返回一个str &#123;&quot;name&quot;:&quot;tiny&quot;, &quot;age&quot;:25, &quot;score&quot;:100&#125;</span><br><span class="line">或</span><br><span class="line">f=open(&apos;dump.json&apos;, &apos;w&apos;)</span><br><span class="line">json.dump(D, f) //写入一个file-like Object</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">`#` 把JSON反序列化为Python对象，用loads()或者对应的load()方法，前者把JSON的字符串反序列化，后者从file-like Object中读取字符串并反序列化.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>JSON编码UTF-8</p>
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/09/14/python-10-进程线程/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/09/13/python-08-错误调试测试/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

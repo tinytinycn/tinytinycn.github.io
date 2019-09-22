@@ -1,0 +1,47 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> python-11-正则 · hang 's blogs</title><meta name="description" content="python-11-正则 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">python-11-正则</h1><div class="post-info">Sep 14, 2018</div><div class="post-content"><ul>
+<li><p>\d 1个数字</p>
+</li>
+<li><p>\w 1个字母</p>
+</li>
+<li><p>\s 1个空格</p>
+</li>
+<li><p>.  1个字符</p>
+</li>
+<li><ul>
+<li>0到多个</li>
+</ul>
+</li>
+<li><ul>
+<li>1到多个</li>
+</ul>
+</li>
+<li><p>? 0或1个</p>
+</li>
+<li><p>{n} n个</p>
+</li>
+<li><p>{n,m} n到m个</p>
+</li>
+<li><p>[] 范围内的一个</p>
+</li>
+<li><p>(|) 其中的一个</p>
+</li>
+<li><p>^开头 结尾$</p>
+</li>
+<li><p>\转义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s=&apos;abc\\-007&apos; # python字符串 python中 \为转义字符</span><br><span class="line">&apos;abc\-007&apos;    # 正则字符串 正则中 \为转义字符</span><br><span class="line"></span><br><span class="line">s2=r&apos;abc\-007&apos; # 使用r前缀, 不用考虑python中的转义问题</span><br><span class="line">&apos;abc\-007&apos;    # 正则字符串</span><br><span class="line"></span><br><span class="line">import re</span><br><span class="line">re.match(r&apos;^\w&#123;3&#125;\-\d&#123;1,3&#125;$&apos;, &apos;abc-007&apos;)  # 匹配成功, 返回Match对象. 否则None</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>split切分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.split(r&apos;[\s+\,\;]+&apos;, &apos;a b,c; ;d , e&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>()分组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">m=re.match(r&apos;^(\w&#123;3&#125;)\-(\d&#123;1,5&#125;)$&apos;, &apos;abc-1234&apos;)</span><br><span class="line">m.group(0) //abc-1234 # 永远是原始字符串</span><br><span class="line">m.group(1) //abc      # 匹配的子串</span><br><span class="line">m.group(2) //1234     # 匹配的子串</span><br><span class="line">m.groups() //(&apos;abc&apos;, &apos;1234&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>贪婪匹配(默认), 匹配尽可能多的字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">re.match(r&apos;^(\d+)(0*)$&apos;, &apos;123000&apos;).groups() // (&apos;123000&apos;, &apos;&apos;) 贪婪模式\d+匹配到最后一个0, 0*只能匹配到空串</span><br><span class="line">re.match(r&apos;^(\d+?)(0*)$&apos;, &apos;123000&apos;).groups() //(&apos;123&apos;, &apos;000&apos;) 使用? 非贪婪模式\d+?匹配尽可能少的字符, 0*匹配到尽可能多的0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>预编译正则表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">re_tel=re.compile(r&apos;^(\d&#123;3&#125;)\-(\d&#123;3,8&#125;)$&apos;)</span><br><span class="line">re_tel.match(&apos;010-12345&apos;).groups()</span><br><span class="line">re_tal.match(&apos;010-8086&apos;).groups()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/09/20/python-12-常用内建模块/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/09/14/python-10-进程线程/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
