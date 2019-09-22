@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://github.com/2019/03/26/django-02-mysql/</loc>
+    
+    <lastmod>2019-09-22T09:32:47.749Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://github.com/2019/03/27/django-03-%E5%9F%BA%E7%A1%80/</loc>
+    
+    <lastmod>2019-09-22T09:32:28.235Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://github.com/2018/03/25/django-01-%E5%9F%BA%E7%A1%80/</loc>
+    
+    <lastmod>2019-09-22T09:32:11.114Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://github.com/2019/03/25/python-13-virtualenv/</loc>
     
     <lastmod>2019-09-22T09:27:11.093Z</lastmod>
