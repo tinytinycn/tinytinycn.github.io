@@ -1,0 +1,48 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> spring实战-02 · hang 's blogs</title><meta name="description" content="spring实战-02 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">spring实战-02</h1><div class="post-info">Oct 25, 2018</div><div class="post-content"><p>###spring 实战 第二章 装配bean</p>
+<ol>
+<li>装配: 创建应用对象之间协作关系的行为, 也是依赖注入的本质. 容器负责把需要相互协作的对象引用赋予各个对象.</li>
+<li>spring配置的可选方案: </li>
+</ol>
+<ul>
+<li>xml显式配置/</li>
+<li>java显示配置(推荐)/(JavaConfig)</li>
+<li>隐式bean发现机制和自动装配/</li>
+</ul>
+<ol start="3">
+<li>自动装配bean<br>组件扫描: spring自动发现应用上下文中创建的bean (默认不开启)<br>自动装配: spring自动满足bean之间的依赖</li>
+<li>1 创建bean<br>@Component注解修饰接口实现类<br>@ComponentScan注解修饰XXXConfig类, 开启组件扫描<br>@Autowired注解修饰属性, spring上下文自动创建bean并注入其中</li>
+<li>2 为组件扫描的bean命名<br>@Component(“xxxClassName”)注解修饰实现类, spring默认为其给定一个ID值(小写开头的类名)</li>
+<li>3 设置组件扫描的基础包<br>@ComponentScan注解修饰XXXConfig类, 默认将XXXConfig配置类所在包作为基础包来扫描组件<br>@ComponentScan(“cn.tinytiny.xxx”)<br>@ComponentScan(basePackages=”cn.tinytiny.xxx”)<br>@ComponentScan(basePackages={“cn.tinytiny.aaa”,”cn.tinytiny.bbb”})<br>@ComponentScan(basePackageClasses={AAA.class,BBB.class}) 指定包中包含的类或接口, 这些类所在的包将会作为组件扫描的基础包</li>
+<li>4 通过为bean添加注解实现自动装配<br>@Autowired注解: 自动装配是让spring自动满足bean依赖的一种方法.<br>@Autowired注解可以修饰类的任何方法上.<br>@Autowired(required=true) spring尝试自动装配, 如果没有匹配的bean注入, 此处设置false则处于未装配状态. 注意: 这个处于未装配状态的属性可能导致空指针异常. 默认required=true.</li>
+<li>Java代码装配bean</li>
+<li><ol>
+<li>将第三方库中的组件装配到应用中, 无法为其添加@Component @Autowired注解, 因此无法使用自动装配.</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>显式装配: java/xml, JavaConfig是更好的选择. JavaConfig和Java代码有所区别, JavaConfig属于配置代码, 意味着不应该包含任何业务逻辑, 也不应该侵入到业务逻辑中. 一般将JavaConfig放置单独一个包中, 与业务逻辑分离.</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>创建JavaConfig配置类, 添加@Configuration注解, 该类应该包含spring应用上下文中如何创建bean的细节.</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>JavaConfig配置类中声明简单的bean, 添加一个方法创建所需类型的实例.</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>@Bean注解修饰该方法. spring将该方法返回对象注册为应用上下文中的bean.</li>
+<li>默认bean的ID与@Bean修饰方法名一样.</li>
+<li>@Bean(name=”xxxClassInstance”) 可以指定bean的ID</li>
+</ul>
+<p>4.5. 借助JavaConfig实现注入, (JavaConfig中装配bean)</p>
+<ul>
+<li>引用创建bean的方法注入该bean, 注意: spring会拦截所有@Bean修饰的方法调用, 并确保该方法返回的是spring所创建的bean而不是实际调用返回的实例. (spring默认创建bean为单利模式)</li>
+<li>将bean以方法参数的方式注入该bean, spring创建另一个被注入bean对象的时候, 会自动装配一个方法入参的bean对象到@Bean修饰的方法中. (最佳的选择, 既可以注入到构造方法也可以注入到setter方法中)</li>
+</ul>
+<ol start="5">
+<li>Xml配置装配bean</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/10/25/spring实战-03/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/10/24/springboot-02-web/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

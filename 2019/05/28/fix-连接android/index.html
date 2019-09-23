@@ -1,0 +1,18 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> fix-ubuntu连接android手机 · hang 's blogs</title><meta name="description" content="fix-ubuntu连接android手机 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">fix-ubuntu连接android手机</h1><div class="post-info">May 28, 2019</div><div class="post-content"><h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><p>sudo apt install android-tools-adb<br>lsusb<br>cd ~/.android<br>touch usb_adb.ini<br>sudo vi usb_adb.ini</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#添加usb设备id</span><br><span class="line">0x2a70</span><br></pre></td></tr></table></figure>
+
+<p>sudo adb kill-server<br>sudo adb start-server<br>sudo adb devices</p>
+<h3 id="fix-issue"><a href="#fix-issue" class="headerlink" title="fix issue"></a>fix issue</h3><ul>
+<li><p><code>sudo vi /etc/udev/rules.d/51-android.rules</code></p>
+</li>
+<li><p>add this content</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUBSYSTEM==&quot;usb&quot;, ATTR&#123;idVendor&#125;==&quot;18d1&quot;, ATTR&#123;idProduct&#125;==&quot;4ee7&quot;, MODE=&quot;0666&quot;, OWNER=&quot;tinytinycn&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>sudo udevadm control --reload-rules</code></p>
+</li>
+<li><p>重新拔插usb</p>
+</li>
+<li><p><code>adb devices</code></p>
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2019/06/17/fix-ubuntu-tz/" class="prev">PREV</a><a href="/tinytinycn.github.io/2019/03/27/django-03-基础/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

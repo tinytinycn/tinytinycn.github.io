@@ -1,0 +1,99 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> spring实战-03 · hang 's blogs</title><meta name="description" content="spring实战-03 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">spring实战-03</h1><div class="post-info">Oct 25, 2018</div><div class="post-content"><p>###spring 实战 第三章 高级装配</p>
+<ol>
+<li>环境和profile, spring为环境相关的bean提供解决方案, 更具环境决定创建哪个bean不创建哪个bean. 创建bean的时机是在运行时确定下来. </li>
+<li>1 配置profile bean (JavaConfig方式, xml方式跳过)</li>
+</ol>
+<ul>
+<li>@Profile注解修饰在类上, 表示配置类中的bean只有在dev profile激活时才会创建. dev profile未激活时, 自动忽略.</li>
+<li>spring3.2以后, @Profile注解可以修饰在方法上, 表示不同环境下的两个bean可以配置在同一个配置类中.</li>
+<li>@Profile(“dev”) 或 @Profile(“product”)</li>
+<li>注意: 没有指定profile的bean始终都会被创建</li>
+</ul>
+<p>1.2 激活profile</p>
+<ul>
+<li>spring根据两个独立的属性决定激活哪个profile: spring.profiles.active/spring.profiles.defautl. 若设置了spring.profiles.active属性, 则根据那个profile激活. 若未设置, 则根据spring.profiles.default的值, 决定那个profile激活. 若均未设置, 则只会创建那些没有定义profile的bean.</li>
+<li>设置属性: 1)DispatcherServlet初始化参数 2)web应用上下文参数 3)JNDI条目 4)环境变量 5)JVM系统属性 6)集成测试类上, 使用@ActiveProfiles注解设置</li>
+</ul>
+<ol start="2">
+<li>条件bean</li>
+<li>1 spring4.0以后, 引入@Conditional注解, 可以用到带有@Bean注解的方法上. 当给定条件计算结果true才创建bean, 否则忽略.</li>
+<li>2 创建条件bean</li>
+</ol>
+<ul>
+<li><p>@Conditional注解修饰返回bean的方法上</p>
+</li>
+<li><p>@Conditional设置的值为Condition接口的实现类, 提供matches()方法实现, 根据环境中的配置ConditionContext/AnnotatedTypeMetadata决定是否创建bean.</p>
+</li>
+<li><p>ConditionContext接口提供一些方法获得环境中的一些变量.</p>
+</li>
+<li><p>AnnotatedTypeMetadata接口提供一些方法获得带有@Bean注解方法上的其他注解信息.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Bean</span><br><span class="line">@Conditional(MagicExistsCondition.class)</span><br><span class="line">public MagicBean magicBean()&#123; return new MagiceBean();&#125;</span><br><span class="line"></span><br><span class="line">public class MagicExistsConditional implements Condiction&#123;</span><br><span class="line">    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata)</span><br><span class="line">    &#123;return true;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@Profile注解在spring4.0以后重构, 基于@Conditional注解和Condition实现类.</p>
+</li>
+</ul>
+<ol start="3">
+<li>处理自动装配的歧义<br>当有多个bean匹配装配的结果, 歧义阻碍spring自动装配属性/构造参数/方法参数.</li>
+<li>1 标示首选bean </li>
+</ol>
+<ul>
+<li>@Primary注解和@Component注解组合修饰在组件扫描的bean上</li>
+<li>@Primary注解和@Bean注解组合修饰在JavaConfig配置类的bean声明方法上<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">@Primary</span><br><span class="line">public class IceCream implements Dessert&#123;...&#125;</span><br><span class="line">或</span><br><span class="line">@Bean</span><br><span class="line">@Primary</span><br><span class="line">public Dessert iceCream()&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>3.2 限定自动装配bean<br>当首选bean数量超过一个时, spring的限定符能够在所有可选bean中进一步缩小范围.</p>
+<ul>
+<li><p>@Qualifier注解, 可以与@Autowired/@Inject注解协同使用. 指定需要注入的bean.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">@Qualifier(&quot;iceCream&quot;)</span><br><span class="line">public void setDessert(Dessert dessert)&#123;...&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意, 当重构了IceCream类后, 其默认bean ID 发生改变, 此时强制限定可能会自动装配失败.</p>
+</li>
+</ul>
+<p>3.3 创建自定义限定符<br>可以自定义bean的限定符, 而不是依赖于bean ID作为限定符.</p>
+<ul>
+<li>在bean上添加@Qualifier注解, 可以与@Component注解组合, 这样自动装配时可以和@Autowired/@Bean组合修饰, 不因为和类名耦合导致破坏自动装配了.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">@Qualifier(&quot;cold&quot;)</span><br><span class="line">public class IceCream implements Dessert&#123;...&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="4">
+<li>bean的作用域<br>默认情况下, spring应用上下文所有bean都是单例.<br>spring定义了多种作用域:</li>
+</ol>
+<ul>
+<li>单例Singleton: 整个应用中, 只创建一个bean实例</li>
+<li>原型Prototype: 每次注入或者通过spring应用上下文获取时, 都会创建新实例</li>
+<li>会话Session: 整个web应用中, 每个会话创建一个bean实例</li>
+<li>请求Request: 整个web应用中, 每个请求创建一个bean实例<br>@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) 或@Scope(“prototype”)注解修饰bean组件.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)</span><br><span class="line">public class Notepad&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>4.1 使用会话Session/请求Request作用域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">@Scope(value=WebApplicationContext.SCOPE_SESSION, proxyMode=ScopeProxyMode.INTERFACES)</span><br><span class="line">public ShoppingCart cart()&#123;...&#125;</span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">public class StoreService&#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    public void setShoppingCart(ShoppingCart shoppingCart)&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>spring不会实际讲ShoppingCart bean注入StoreService, 而是spring注入一个ShoppingCart bean的代理, 这个代理暴露与ShoppingCart一样的方法, 使得StoreService认为它就是一个Cart购物车. 当StoreService调用购车的方法时, 代理对其进行懒解析并将调用委托给会话作用域内的真正的bean. </li>
+<li>若bean 是一个接口, 则可以使用上述代理方式</li>
+<li>若bean 是一个类, 则必须使用CGLib生成基于类的代理. proxyMode=ScopedProxyMode.TARGET_CLASS</li>
+</ul>
+<ol start="5">
+<li>运行时”值”注入<br>依赖注入, 通常指的是将一个bean引用注入到另一个bean的属性或构造参数中, 将两个对象进行关联. 但是, bean装配的另一个方面, 将一个值注入到另一个bean的属性或构造参数中.<br>spring提供运行时求值的方式: 属性占位符/spring表达式语言SpEL</li>
+<li>1 注入外部的值</li>
+</ol>
+<ul>
+<li><p>@PropertiesSource注解声明属性源, 并通过spring的Environment来检索属性.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@PropertiesSource(&quot;classpath:/cn/tinytiny/config/xxx.properties&quot;)</span><br><span class="line">public class ExxpressiveConfig&#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    Environment env;</span><br><span class="line">    @Bean</span><br><span class="line">    public BlankDisc disc()&#123;</span><br><span class="line">        return new BlankDisc(env.getPropery(&quot;disc.title&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//xxx.properties配置文件</span><br><span class="line">disc.title=Sgt. Peppers Lonely Heart Club Band</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解析属性占位符, spring支持将属性定义到外部的属性文件中, 使用占位符值将其插入到bean中. 形式如: ${…} 使用@Value注解注入值. 为了使用占位符, “必须”配置一个PropertySourcesPlaceholderConfigurer配置类.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public BlankDisc(@Value(&quot;$&#123;disc.title&#125;&quot; String title))&#123;</span><br><span class="line">    this.title = title;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Bean</span><br><span class="line">public static PropertySourcesPlaceholderConfigurer placeholderConfigurer()&#123; return new PropertySourcesPlacesholderConfigurer;&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>5.2 spring表达式语言进行装配</p>
+<ul>
+<li>spring表达式语言能够以简洁的方式将值装配到bean的属性或构造参数中.</li>
+<li>SpEL特性: 使用bean ID 引用bean; 调用方法和访问对象属性; 对值进行运算; 正则匹配; 集合操作; </li>
+<li>spring表达式语言除了依赖注入, 还应用在spring security/thymeleaf模版</li>
+<li>形式 #{…}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#&#123;systemProperties&#123;&apos;disc.title&apos;&#125;&#125; //引入系统属性</span><br><span class="line">#&#123;iceCream.name&#125; //引入bean的属性</span><br><span class="line">#&#123;artistSelector.selectArtist()?.toUpperCase()&#125; //引入bean的方法, &quot;?.&quot;运算符避免返回null引发的空指针异常</span><br><span class="line">#&#123;T(java.lang.Math).PI&#125; //T()运算符获得Class对象, 能够调用返回对象的静态方法和常量</span><br><span class="line">#&#123;T(java.lang.Math).random()&#125;</span><br><span class="line">#&#123;admin.email matches &apos;[a-zA-z0-9]+@[a-zA-Z0-9]+\\.com&apos;&#125; //计算正则</span><br><span class="line">#&#123;jukebox.songs[4].title&#125; //计算集合</span><br><span class="line">#&#123;&apos;this is a test&apos;[3]&#125; //[]运算符从集合或数组索引元素</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/10/29/springboot-03-https服务/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/10/25/spring实战-02/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

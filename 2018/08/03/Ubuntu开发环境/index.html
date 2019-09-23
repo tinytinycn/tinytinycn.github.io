@@ -1,0 +1,215 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 搭建Ubuntu开发环境 · hang 's blogs</title><meta name="description" content="搭建Ubuntu开发环境 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">搭建Ubuntu开发环境</h1><div class="post-info">Aug 3, 2018</div><div class="post-content"><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>===</p>
+<ol>
+<li>安装ubuntu系统镜像</li>
+<li>安装软件清单</li>
+<li>更换ctrl键映射</li>
+<li>ubuntu上安装JDK8</li>
+<li>ubuntu上安装OpenVPN</li>
+<li>ubuntu上安装Git</li>
+<li>ubuntu上安装Chrome</li>
+<li>ubuntu上安装Maven</li>
+<li>ubuntu上安装Postman</li>
+<li>ubuntu上安装Robo 3T</li>
+<li>ubuntu上安装QQ</li>
+<li>ubuntu上安装Aria2</li>
+<li>ubuntu上安装Shadowsocks-qt5</li>
+<li>ubuntu上安装idea</li>
+</ol>
+<p>===</p>
+<h3 id="1-安装ubuntu系统镜像"><a href="#1-安装ubuntu系统镜像" class="headerlink" title="1. 安装ubuntu系统镜像"></a>1. 安装ubuntu系统镜像</h3><ul>
+<li>下载官方镜像, <a href="http://releases.ubuntu.com/16.04" target="_blank" rel="noopener">http://releases.ubuntu.com/16.04</a> </li>
+<li>确认磁盘分区格式, <code>[mbr]</code>or<code>[gpt]</code></li>
+<li>下载rufus, 刻录u盘启动盘</li>
+<li>设置bios, <code>[legacy]</code>传统启动模式</li>
+<li>安装ubuntu, 即可</li>
+</ul>
+<h3 id="2-安装软件清单"><a href="#2-安装软件清单" class="headerlink" title="2. 安装软件清单"></a>2. 安装软件清单</h3><ul>
+<li>jdk1.8</li>
+<li>python3.7</li>
+<li>maven3.3.9</li>
+<li>git</li>
+<li>open-ssh</li>
+<li>intelliJ idea</li>
+<li>openvpn</li>
+<li>shadowsocks-qt5/switchy-omega</li>
+<li>robo3T</li>
+<li>navicat/mysql-workbench/sqlyog</li>
+<li>postman</li>
+<li>chrome</li>
+<li>wps</li>
+<li>vim</li>
+<li>typora</li>
+<li>vysor</li>
+<li>crossover</li>
+<li>tim/wechat</li>
+<li>teamview</li>
+<li>easystroke</li>
+<li>slientcast</li>
+<li>shutter</li>
+</ul>
+<h3 id="3-更换ctrl键映射"><a href="#3-更换ctrl键映射" class="headerlink" title="3. 更换ctrl键映射"></a>3. 更换ctrl键映射</h3><p>linux change capslock 2 ctrl</p>
+<ul>
+<li><p>touch .Xmodmap</p>
+</li>
+<li><p>add this to ~/.Xmodmap file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">!</span><br><span class="line">! Swap Caps_Lock and Control_R</span><br><span class="line">!</span><br><span class="line">remove Lock = Caps_Lock</span><br><span class="line">remove Control = Control_R</span><br><span class="line">keysym Control_R = Caps_Lock</span><br><span class="line">keysym Caps_Lock = Control_R</span><br><span class="line">add Lock = Caps_Lock</span><br><span class="line">add Control = Control_R</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>add this to ~/.xinitrc file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xmodmap ~/.Xmodmap</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="4-ubuntu上安装JDK8"><a href="#4-ubuntu上安装JDK8" class="headerlink" title="4. ubuntu上安装JDK8"></a>4. ubuntu上安装JDK8</h3><ul>
+<li><p>下载 <a href="http://jdk.java.net/8/" target="_blank" rel="noopener">http://jdk.java.net/8/</a></p>
+</li>
+<li><p>解压jdk到/usr/local/java/目录下</p>
+</li>
+<li><p><code>sudo tar -zxvf jdk1.8***</code></p>
+</li>
+<li><p><code>add this to /etc/profile file</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># jdk settings</span><br><span class="line">export JAVA_HOME=/usr/local/java/jdk1.8.0_202</span><br><span class="line">export  CLASSPATH=$:CLASSPATH:$JAVA_HOME/lib/</span><br><span class="line">export  PATH=$PATH:$JAVA_HOME/bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>source /etc/profile</code></p>
+</li>
+<li><p><code>java -version</code></p>
+</li>
+</ul>
+<p>注意：将配置内容(其实是命令脚本)写到<code>/etc/profile</code>中目的就是让任意用户登录后，都会自动执行该脚本，这样这些登录的用户就可以直接使用jdk了。如果因为某个原因该脚本没有自动执行，自己手动执行以下就可以了（也就是执行命令<code>source /etc/profile</code>）</p>
+<h3 id="5-ubuntu上安装OpenVPN"><a href="#5-ubuntu上安装OpenVPN" class="headerlink" title="5. ubuntu上安装OpenVPN"></a>5. ubuntu上安装OpenVPN</h3><ul>
+<li>sudo apt-get install openvpn</li>
+<li>unrar -x openvpnXXX.rar</li>
+<li>按照说明配置openvpn</li>
+<li>sudo ./openvpn_turn -r</li>
+</ul>
+<h3 id="6-ubuntu上安装Git-git"><a href="#6-ubuntu上安装Git-git" class="headerlink" title="6. ubuntu上安装Git### git"></a>6. ubuntu上安装Git### git</h3><ul>
+<li>sudo apt-get install git</li>
+<li>git config –global user.name “tinytinycn”</li>
+<li>git config –global user.email “<a href="mailto:tinytiny.cn@gmail.com" target="_blank" rel="noopener">tinytiny.cn@gmail.com</a>“</li>
+<li>ssh-keygen -t rsa -C “<a href="mailto:tinytiny.cn@gmail.com" target="_blank" rel="noopener">tinytiny.cn@gmail.com</a>“</li>
+<li>gitlab add ssh-key</li>
+</ul>
+<h3 id="7-ubuntu上安装Chrome"><a href="#7-ubuntu上安装Chrome" class="headerlink" title="7. ubuntu上安装Chrome"></a>7. ubuntu上安装Chrome</h3><ul>
+<li>wget <a href="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" target="_blank" rel="noopener">https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb</a></li>
+<li>sudo dpkg -i google-chrome-stable_current_amd64.deb</li>
+</ul>
+<h3 id="8-ubuntu上安装Maven"><a href="#8-ubuntu上安装Maven" class="headerlink" title="8. ubuntu上安装Maven"></a>8. ubuntu上安装Maven</h3><ol>
+<li><p>maven </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install maven</span><br><span class="line">mvn -version</span><br><span class="line">ls -ls /usr/share/maven</span><br><span class="line">ls -ls /etc/maven</span><br><span class="line">cp settings.xml ~/.m2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>maven 手动安装(推荐)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">下载apache-maven-3.*.tar.gz</span><br><span class="line">sudo tar -xzf apache-maven_3.*.tar.gz -C /usr/local/</span><br><span class="line">sudo vi /etc/profile</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>具体配置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># mvn settings</span><br><span class="line">export M2_HOME=/usr/local/apache-maven-3.5.4</span><br><span class="line">export PATH=$PATH:$M2_HOME/bin</span><br></pre></td></tr></table></figure>
+
+<p>生效:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br><span class="line">mvn -v</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>配置settings.xml文件<br><code>cp settings.xml ~/.m2/</code></li>
+</ol>
+<h3 id="9-ubuntu上安装Postman"><a href="#9-ubuntu上安装Postman" class="headerlink" title="9. ubuntu上安装Postman"></a>9. ubuntu上安装Postman</h3><ul>
+<li><code>sudo cp Postman-XXX.tar.gz /usr/local</code></li>
+<li><code>sudo tar -zxvf Postman-XXX.tar.gz</code></li>
+<li><code>ls -ls Postman</code></li>
+<li><code>sudo ln -s /usr/local/Postman/Postman /usr/bin/postman</code></li>
+<li><code>sudo gedit /usr/share/applications/postman.desktop</code></li>
+<li>add this to file<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Encoding=UTF-8</span><br><span class="line">Name=Postman</span><br><span class="line">Exec=postman</span><br><span class="line">Icon=/usr/local/Postman/app/resources/app/assets/icon.png</span><br><span class="line">Terminal=false</span><br><span class="line">Type=Application</span><br><span class="line">Categories=Development</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="10-ubuntu上安装Robo-3T"><a href="#10-ubuntu上安装Robo-3T" class="headerlink" title="10. ubuntu上安装Robo 3T"></a>10. ubuntu上安装Robo 3T</h3><ul>
+<li><code>sudo cp robo3t-XXX.tar.gz /usr/local</code></li>
+<li><code>sudo tar -zxvf robo3t-XXX.tar.gz</code></li>
+<li><code>mv robo3t-XXX robo3T</code></li>
+<li><code>ls -ls robo3T</code></li>
+<li><code>cd robo3T/bin</code></li>
+<li><code>sudo ln -s /usr/local/robo3T/bin/robo3t /usr/bin</code></li>
+<li><code>sudo gedit /usr/share/applications/robo3t.desktop</code></li>
+<li>add this to file <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Encoding=UTF-8</span><br><span class="line">Name=robo3T</span><br><span class="line">Exec=robo3t</span><br><span class="line">Icon=/usr/local/robo3T-1.2.1/robo3t.png</span><br><span class="line">Terminal=false</span><br><span class="line">Type=Application</span><br><span class="line">Categories=Development</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="11-ubuntu上安装QQ"><a href="#11-ubuntu上安装QQ" class="headerlink" title="11. ubuntu上安装QQ"></a>11. ubuntu上安装QQ</h3><p>wineQQ更新地址：<a href="http://phpcj.org/wineqq" target="_blank" rel="noopener">http://phpcj.org/wineqq</a><br>感谢yuking（winelibs20171218）、小俊(9.0.3/23729绿色版）</p>
+<p>使用步骤（只需两步，不分先后）：</p>
+<p>步骤一、安装wine（详见：<a href="https://www.winehq.org/download）" target="_blank" rel="noopener">https://www.winehq.org/download）</a><br>// ubuntu/ubuntukylin/mint（需要加ppa源，再安装）<br>sudo add-apt-repository ppa:wine/wine-builds;sudo apt-get update;sudo apt-get install winehq-devel<br>// openSUSE_42.3（需要加源，再安装）<br>sudo zypper ar <a href="http://download.opensuse.org/repositories/Emulators:/Wine/openSUSE_42.3/" target="_blank" rel="noopener">http://download.opensuse.org/repositories/Emulators:/Wine/openSUSE_42.3/</a> Wine;sudo zypper in wine<br>// arch（直接安装）<br>sudo pacman -S wine<br>// gentoo（直接安装）<br>sudo emerge wine<br>// Fedora（直接安装）<br>sudo dnf install wine</p>
+<p>步骤二、将压缩包解压到用户主目录（解压出来的是2个隐藏目录和本说明文件）<br>~ $tar xvf wineQQ9.0.3_23729.tar.xz -C ~/</p>
+<p>完成上面两步，点击系统菜单，应该就有了Wine QQ的菜单项。</p>
+<p>问题：<br>1、无法记住密码；<br>2、无法打开群文件。</p>
+<h3 id="12-ubuntu上安装Aria2"><a href="#12-ubuntu上安装Aria2" class="headerlink" title="12. ubuntu上安装Aria2"></a>12. ubuntu上安装Aria2</h3><h4 id="1-安装aria2"><a href="#1-安装aria2" class="headerlink" title="1. 安装aria2"></a>1. 安装aria2</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install aria2</span><br><span class="line"><span class="comment"># 添加具体配置 https://aria2.github.io/manual/en/html/index.html</span></span><br><span class="line">mkdir ~/.aria2/aria2.conf</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-安装privoxy"><a href="#2-安装privoxy" class="headerlink" title="2. 安装privoxy"></a>2. 安装privoxy</h4><ol>
+<li><p><code>sudo apt install privoxy</code></p>
+</li>
+<li><p><code>touch /usr/local/etc/privoxy/config</code></p>
+</li>
+<li><p><code>vi /usr/loacal/etc/privoxy/config</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">listen-address 0.0.0.0:8118</span><br><span class="line">forward-socks5 / localhost:1080 .</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动<code>privoxy /usr/local/etc/privoxy/config</code></p>
+</li>
+<li><p>查看<code>netstat -an|grep 8118</code></p>
+</li>
+<li><p>本地8118端口进行的http代理</p>
+</li>
+</ol>
+<h4 id="3-aria2使用privoxy的http代理"><a href="#3-aria2使用privoxy的http代理" class="headerlink" title="3. aria2使用privoxy的http代理"></a>3. aria2使用privoxy的http代理</h4><ol>
+<li>aria2不支持socks代理</li>
+<li>启动<code>aria2c --all-proxy=&#39;http://127.0.0.1:8118&#39; -D</code></li>
+</ol>
+<h3 id="13-ubuntu上安装Shadowsocks-qt5"><a href="#13-ubuntu上安装Shadowsocks-qt5" class="headerlink" title="13. ubuntu上安装Shadowsocks-qt5"></a>13. ubuntu上安装Shadowsocks-qt5</h3><h4 id="1-shadowsocks-qt5"><a href="#1-shadowsocks-qt5" class="headerlink" title="1. shadowsocks-qt5"></a>1. shadowsocks-qt5</h4><ul>
+<li>sudo add-apt-repository ppa:hzwhuang/ss-qt5</li>
+<li>sudo gedit /etc/apt/source.list.d/hzwhuang-ubuntu-ss-qt5-bionic.list (若为ubuntu1804, 则将bionic改成xenial即可, 若为ubuntu1604则忽略该步骤.)</li>
+<li>sudo apt-get update</li>
+<li>sudo apt-get install shadowsocks-qt5</li>
+</ul>
+<h4 id="2-配置pac系统全局代理"><a href="#2-配置pac系统全局代理" class="headerlink" title="2. 配置pac系统全局代理"></a>2. 配置pac系统全局代理</h4><p>genpac是一个基于gfwlist的代理自动配置文件生成工具. (gfwlist&gt;pac等各种代理自动配置文件格式)</p>
+<ul>
+<li><p><code>sudo apt install python-pip</code></p>
+</li>
+<li><p><code>sudo pip install genpac</code></p>
+</li>
+<li><p><code>sudo pip install --upgrade genpac</code></p>
+</li>
+<li><p><code>cd /usr/local/etc</code></p>
+</li>
+<li><p><code>sudo mkdir ss-pac</code></p>
+</li>
+<li><p><code>sudo touch user-rules.txt</code></p>
+</li>
+<li><p><code>sudo genpac --pac-proxy=&quot;SOCKS5 127.0.0.1:1080&quot; --output=&quot;/usr/local/etc/ss-pac/autoproxy.pac&quot; --gfwlist-url=&quot;https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt&quot; --user-rule-from=&quot;/usr/local/etc/ss-pac/user-rules.txt&quot;</code></p>
+</li>
+<li><p>进入设置&gt;网络&gt;网络代理&gt;选择自动&gt;填入pac文件位置: file:///usr/local/etc/ss-pac/autoproxy.pac</p>
+</li>
+<li><p>chrome插件switchyOmega选择系统代理方式.</p>
+</li>
+</ul>
+<h4 id="3-配置switchOmega插件的情景模式-可选-在不使用上述系统全局代理方式情况下-可是用该情景模式"><a href="#3-配置switchOmega插件的情景模式-可选-在不使用上述系统全局代理方式情况下-可是用该情景模式" class="headerlink" title="3. 配置switchOmega插件的情景模式(可选, 在不使用上述系统全局代理方式情况下, 可是用该情景模式)"></a>3. 配置switchOmega插件的情景模式(可选, 在不使用上述系统全局代理方式情况下, 可是用该情景模式)</h4><ul>
+<li>添加一个情景模式test-ss, 配置代理服务器(代理协议socks5,代理服务器127.0.0.1,端口1080)</li>
+<li>在切换规则中, 将规则列表规则选择情景模式test-ss, 规则列表选择autoproxy, 填写gfwlist-url:<a href="https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt" target="_blank" rel="noopener">https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt</a>, 立即更新!</li>
+<li>chrome插件switchyOmega选择切换规则方式.</li>
+</ul>
+<h3 id="14-ubuntu上安装idea"><a href="#14-ubuntu上安装idea" class="headerlink" title="14. ubuntu上安装idea"></a>14. ubuntu上安装idea</h3><ul>
+<li><p>修改hosts sudo vim /etc/hosts</p>
+</li>
+<li><p>add this to file </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.0.0.0 account.jetbrains.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>sudo /etc/init.d/networking restart</code></p>
+</li>
+<li><p>下载</p>
+</li>
+<li><p>安装 <code>/usr/local/idea-XXX-XXX</code></p>
+</li>
+<li><p>创建快捷方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim idea.desktop</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>add this to file </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Name=IntelliJ IDEA</span><br><span class="line">Comment=IntelliJ IDEA</span><br><span class="line">Exec=/home/longsky/Application/idea-IU-163.7743.44/bin/idea.sh</span><br><span class="line">Icon=/home/longsky/Application/idea-IU-163.7743.44/bin/idea.png</span><br><span class="line">Terminal=false</span><br><span class="line">Type=Application</span><br><span class="line">Categories=Developer;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>sudo chmod +x idea.desktop</code></p>
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/08/04/fix-ubuntu-清华源/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/03/25/django-01-基础/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
