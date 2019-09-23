@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> onlyoffice服务搭建 · hang 's blogs</title><meta name="description" content="onlyoffice服务搭建 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">onlyoffice服务搭建</h1><div class="post-info">Jun 2, 2018</div><div class="post-content"><h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ol>
+<li><p>onlyoffice服务器地址</p>
+</li>
+<li><p>168.103.100</p>
+</li>
+<li><p>xshell连接到服务器 (hksb_pro_0)<br>ssh <a href="mailto:qidian@192.168.103.100" target="_blank" rel="noopener">qidian@192.168.103.100</a><br>账户名: qidian<br>密码: 123qdcz$%^</p>
+</li>
+</ol>
+<h1 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h1><p>详细参见: <a href="https://yeasy.gitbooks.io/docker_practice/content/install/centos.html" target="_blank" rel="noopener">https://yeasy.gitbooks.io/docker_practice/content/install/centos.html</a></p>
+<ol>
+<li><p>检查当前环境<br>ubuntu 14.04</p>
+</li>
+<li><p>检查当前内核版本<br>uname -r</p>
+</li>
+<li><p>检查是否已安装旧版本docker, 卸载旧版本(没有, 跳过)<br>sudo apt-get remove docker \</p>
+<pre><code>docker-engine \
+docker.io</code></pre></li>
+<li><p>安装Ubuntu 14.04 可选内核模块<br>sudo apt-get update<br>sudo apt-get install <br> linux-image-extra-$(uname -r) <br> linux-image-extra-virtual</p>
+</li>
+<li><p>使用脚本自动安装<br>在测试或开发环境中 Docker 官方为了简化安装流程，提供了一套便捷的安装脚本，Ubuntu 系统上可以使用这套脚本安装：<br>curl -fsSL get.docker.com -o get-docker.sh<br>sudo sh get-docker.sh –mirror Aliyun<br>执行这个命令后，脚本就会自动的将一切准备工作做好，并且把 Docker CE 的 Edge 版本安装在系统中</p>
+</li>
+<li><p>启动docker<br>Ubuntu 14.04 请使用以下命令启动：<br>$ sudo service docker start</p>
+</li>
+<li><p>建立 docker 用户组<br>默认情况下，docker 命令会使用 Unix socket 与 Docker 引擎通讯。而只有 root 用户和 docker 组的用户才可以访问 Docker 引擎的 Unix socket。出于安全考虑，一般 Linux 系统上不会直接使用 root 用户。因此，更好地做法是将需要使用 docker 的用户加入 docker 用户组。<br>建立 docker 组：<br>$ sudo groupadd docker<br>将当前用户加入 docker 组：<br>$ sudo usermod -aG docker $USER<br>退出当前终端并重新登录，进行如下测试</p>
+</li>
+<li><p>docker run hello-world 成功测试:)</p>
+</li>
+</ol>
+<h1 id="安装onlyoffice-documentServer服务"><a href="#安装onlyoffice-documentServer服务" class="headerlink" title="安装onlyoffice-documentServer服务"></a>安装onlyoffice-documentServer服务</h1><ol>
+<li><p>拉取镜像<br>sudo docker pull registry.docker-cn.com/onlyoffice/documentserver</p>
+</li>
+<li><p>启动容器<br>sudo docker run -i -t -d -p 9980:80 registry.docker-cn.com/onlyoffice/documentserver</p>
+</li>
+</ol>
+<h1 id="测试服务"><a href="#测试服务" class="headerlink" title="测试服务"></a>测试服务</h1><p>访问: <a href="http://192.168.103.100:9980" target="_blank" rel="noopener">http://192.168.103.100:9980</a> </p>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/08/03/Ubuntu开发环境/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/03/09/emacs-fix-startup-slow/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

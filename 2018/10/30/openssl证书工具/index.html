@@ -1,0 +1,47 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> openssl证书工具 · hang 's blogs</title><meta name="description" content="openssl证书工具 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">openssl证书工具</h1><div class="post-info">Oct 30, 2018</div><div class="post-content"><h3 id="openssl-工具"><a href="#openssl-工具" class="headerlink" title="openssl 工具"></a>openssl 工具</h3><p>科普:</p>
+<ul>
+<li><p>公钥/私钥/签名/验证签名/加密/解密/非对称加密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">一般加密方式: 一个密码加密, 同一个密码解密, 成为对称加密.</span><br><span class="line">非对称加密: 一个密码加密, 用另外一个密码解密. 另外公钥/私钥都可以用来加密数据. 一般而言, 公钥加密数据, 私钥解密数据, 称为加密解密; 私钥加密数据, 公钥解密, 称为签名和验证签名. 实际应用中, 双方交换公钥, 使用对方的公钥加密数据, 最大程度上保证安全性.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>RSA/DSA/SHA/MD5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">非对称加密算法: RSA/DSA, RSA可用于加密解密,签名验签; DSA只能用来签名.</span><br><span class="line">SHA: 摘要算法, 不用于加密解密或签名. 通过一种算法, 依据数据内容生成一种固定长度的摘要. 若数据被篡改后, 则计算的摘要会不同. 实际应用中, 加密大数据可能费时费力, 一般会把原数据的摘要进行加密, 将原数据和加密摘要一同传给用户, 用户再解密摘要与传输后数据的计算摘要值比对.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CA/PEM/DER/X509/PKCS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">公钥文件一般不进行明文的传输发放用户. CA就是一个公证方, 将自己的公钥发布给所有人. 当某一个人想要将自己的公钥发布, 可以先将自己的公钥与信息发给CA, CA用私钥机密(私钥加密, 这里成为签名.). 这个包含公钥和信息的文件成为证书文件. 最后, 所有人可以通过CA公钥解密证书文件得到需要发布的公钥. 实际应用中, 一般不会找CA签名, 因为收费. 可以使用自签名的证书, 使用自己生成的一对密钥(公钥-私钥对, 专门用来签名), 使用&quot;这一对密钥&quot;对另外一对需要发布的密钥对进行签名. 这个只用于真正需要签名证书的人. 一般而言, 我们直接使用公钥-私钥来进行加密解密就可以了.</span><br><span class="line">密钥文件的格式: openssl可以生成PEM/DER格式, PEM是base64编码, DER是二进制编码. X509是通用的证书文件格式, PKCS是一些系列指定存放密钥的文件标准. 以上四种格式可以相互转化. 就这样啦.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>cer/crt/key/csr/pem/der</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">常用文件名命名后缀</span><br><span class="line">证书(Certificate) .cer .crt </span><br><span class="line">私钥(Private Key).key </span><br><span class="line">证书签名请求(Certificate sign request) .csr (CSR 是指您为申请服务器证书而发送至证书颁发机构 (CA) 的文件, 您的 CSR 包含识别您身份的信息。如要申请服务器证书，请将您的 CSR 发送至证书颁发机构 (CA)。CA 可能要求提供其他证书或身份证明。如果针对证书的请求成功，则 CA 将返回一个公有（标识）证书，并可能返回一个经过数字签名的链证书。)</span><br><span class="line">至于pem和der，是编码方式，以上三类均可以使用这两种编码方式.</span><br><span class="line">注意: 不必太在意文件的后缀格式, 但是推荐使用cer/crt/key/csr后缀来区分.</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="生成CA证书-自签名-自己充当CA角色"><a href="#生成CA证书-自签名-自己充当CA角色" class="headerlink" title="生成CA证书, 自签名, 自己充当CA角色"></a>生成CA证书, 自签名, 自己充当CA角色</h4><ol>
+<li><p>创建私钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out ca/ca-key.pem 1024</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建证书请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -new -out ca/ca-req.csr -key ca/ca-key.pem</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自签证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -req -in ca/ca-req.csr -out ca/ca-cert.pem -signkey ca/ca-key.pem -days 3650</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导出证书p12格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 -export -clcerts -in ca/ca-cert.pem -inkey ca/ca-key.pem -out ca/ca.p12</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="生成server证书"><a href="#生成server证书" class="headerlink" title="生成server证书"></a>生成server证书</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out server/server-key.pem 1024</span><br><span class="line">//commmon name 记得填写服务器所在ip地址</span><br><span class="line">openssl req -new -out server/server-req.csr -key server/server-key.pem</span><br><span class="line">openssl x509 -req -in server/server-req.csr -out server/server-cert.pem -signkey server/server-key.pem -CA ca/ca-cert.pem -CAkey ca/ca-key.pem -CAcreateserial -day 3650</span><br><span class="line">openssl pkcs12 -export -clcerts -in server/server-cert.pem -inkey server/server-key.pem -out server/server.p12</span><br></pre></td></tr></table></figure>
+
+<h4 id="生成client证书"><a href="#生成client证书" class="headerlink" title="生成client证书"></a>生成client证书</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out client/client-key.pem 1024</span><br><span class="line">openssl req -new -out client/client-req.csr -key client/client-key.pem</span><br><span class="line">openssl x509 -req -in client/client-req.csr -out client/client-cert.pem -signkey client/client-key -CA ca/ca-cert.pem -CAkey ca/ca-key.pem -CAcreateserial -days 3650</span><br><span class="line">openssl pkcs12 -export -clcerts -in client/client-cert.pem -inkey client/client-key.pem -out client/client.p12</span><br></pre></td></tr></table></figure>
+
+<h4 id="RSA密钥操作"><a href="#RSA密钥操作" class="headerlink" title="RSA密钥操作"></a>RSA密钥操作</h4><p>openssl默认输出格式PKCS#1-PEM</p>
+<ol>
+<li>生成RSA私钥(无加密)<br>openssl genrsa -out rsa-private.key 2048</li>
+<li>生成RSA公钥<br>openssl rsa -in rsa-private.key -pubout -out rsa-public.key</li>
+<li>生成RSA私钥(aes256加密) 可选<br>openssl genrsa -aes256 -passout pass:666666 -out rsa-aes-private.key 2048</li>
+<li>生成RSA公钥, 需要提供密码, 可选<br>openssl rsa -in rsa-aes-private.key -passin pass:666666 -pubout -out rsa-public.key</li>
+<li>私钥转非加密<br>openssl rsa -in rsa-aes-private.key -passin pass:666666 -out rsa-private.key</li>
+<li>私钥转加密<br>openssl rsa -in rsa-private.key -aes256 -passout pass:666666 -out rsa-aes-private.key</li>
+<li>私钥PEM转DER<br>openssl rsa -in rsa-private.key -outform der-out rsa-aes-private.der</li>
+<li>查看私钥信息(-pubin查看公钥信息)<br>openssl rsa -in rsa-private.key -noout -text</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/11/01/spring实战-08-websocket-stomp/" class="prev">PREV</a><a href="/tinytinycn.github.io/2018/10/29/nginx-https代理/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

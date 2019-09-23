@@ -1,0 +1,71 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> keytool证书工具 · hang 's blogs</title><meta name="description" content="keytool证书工具 - hang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/tinytinycn.github.io/favicon.png"><link rel="stylesheet" href="/tinytinycn.github.io/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://github.com/atom.xml" title="hang 's blogs"></head><body><div class="wrap"><header><a href="/tinytinycn.github.io/" class="logo-link"><img src="/tinytinycn.github.io/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/tinytinycn.github.io/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/sunchongsheng" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/pinggod" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/tinytinycn.github.io/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">keytool证书工具</h1><div class="post-info">Dec 29, 2017</div><div class="post-content"><h3 id="keytool-证书工具"><a href="#keytool-证书工具" class="headerlink" title="keytool 证书工具"></a>keytool 证书工具</h3><ul>
+<li>keytool: 一个密钥和证书的管理工具. keytool能够管理自己的公钥/私钥对以及证书, 主要用于自我认证,数据完整性以及认证服务.</li>
+<li>keystore: 密钥仓库包含两种不同类型项. 一种密钥项, 存放敏感的加密密钥信息. 另一种可信任证书项, 存放公钥证书, 它之所以叫做”可信任的证书”, 是因为密钥仓库的拥有者相信证书中的公钥确实属于证书”主体”(拥有者)识别的身份. 证书签发人通过对证书签名来保证这点.</li>
+<li>证书(公钥证书): 来自某个实体(签发人)的, 经数字签名的声明. 它声明另一个实体(主体)的公钥具有某一特定的值.<br>解释:</li>
+</ul>
+<ol>
+<li>公钥: 与特定实体相关联的数字. 所有需要与该实体进行信任交互的人都应该知道该数字. 公钥用于校验签名.</li>
+<li>数字签名: 如果某些数字经数字签名, 说明他们已经于某一实体的”身份”存储在一起, 而且证明该实体的签名知道这些数据. 通过该实体的私钥进行绘制, 这些数字就是不可伪造的.</li>
+<li>身份: 用于声明实体的一种手段. 在一些系统中, 可以是Uninx UID,邮件地址,X.509特证名等.</li>
+<li>签名: 用实体的私钥对某些数据进行计算. 该实体就是签名人或签发人.</li>
+<li>实体: 某种程度上对其加以信任的个人,组织,程序,计算机,企业,银行等.</li>
+</ol>
+<h4 id="key别名"><a href="#key别名" class="headerlink" title="key别名"></a>key别名</h4><ul>
+<li>参数-alias: 对所有的keystore的访问都必须通过唯一的别名来进行. 不区分大小写.</li>
+<li>参数-keypass: 必须使用该口令才能访问与别名相关的私钥. 可更换口令<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">keytool -genkey -alias tinykey -keypass tiny123456</span><br><span class="line">keytool -keypasswd -alias tinykeystore -keypass new123456</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="keystore位置"><a href="#keystore位置" class="headerlink" title="keystore位置"></a>keystore位置</h4><ul>
+<li>参数-keystore: 永久密钥仓库的文件名以及位置. 缺省时自动存放至user.home目录下.keystore文件中.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -genkey -alias tinykeystore -keypass tiny123456 -keystore tinyServer.keystore</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="keystore类型"><a href="#keystore类型" class="headerlink" title="keystore类型"></a>keystore类型</h4><ul>
+<li>参数-storetype: 密钥仓库类型. 不区分大小写.<h4 id="算法和密钥大小"><a href="#算法和密钥大小" class="headerlink" title="算法和密钥大小"></a>算法和密钥大小</h4>允许用户指定任何注册了加密服务提供者所提供的密钥对的生成与签名算法. 涉及-keyalg和-sigalg参数. 签名算法是根据设计私钥的的keyalg算法推导来的.</li>
+</ul>
+<p>####详细解释:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">密钥和证书管理工具keytool</span><br><span class="line">命令:</span><br><span class="line"> -certreq            生成证书请求</span><br><span class="line"> -changealias        更改条目的别名</span><br><span class="line"> -delete             删除条目</span><br><span class="line"> -exportcert         导出证书</span><br><span class="line"> -genkeypair         生成密钥对</span><br><span class="line"> -genseckey          生成密钥</span><br><span class="line"> -gencert            根据证书请求生成证书</span><br><span class="line"> -importcert         导入证书或证书链</span><br><span class="line"> -importpass         导入口令</span><br><span class="line"> -importkeystore     从其他密钥库导入一个或所有条目</span><br><span class="line"> -keypasswd          更改条目的密钥口令, 注意:仓库中会包含多个条目(密钥)</span><br><span class="line"> -list               列出密钥库中的条目</span><br><span class="line"> -printcert          打印证书内容</span><br><span class="line"> -printcertreq       打印证书请求的内容</span><br><span class="line"> -printcrl           打印 CRL 文件的内容</span><br><span class="line"> -storepasswd        更改密钥库的存储口令, 注意: 仓库的存储口令, 区别与keypasswd</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>创建证书(tinykey别名), 提示输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -genkey -alias tinykey -keyalg RSA -keystore tinyserver.keystore -validity 3650 -keysize 2048</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看所有证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -list -v -keystore tinyserver.keystore -storepass tiny123456</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导出证书, -rfc表示base64输出文件,否则二进制输出文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -export -alias tinykey -keystore tinyserver.keystore -file tinyserver.cer -rfc -storepass tiny123456</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看到处的证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -printcert -file tinyserver.cer</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pkcs12与jks格式转换, -srcalias</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -v -importkeystore -srckeystore tinyserver.keystore -srcalias tinykey -destkeystore tinykey.p12 -deststoretype PKCS12</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -delete -alias tinykey -keystore tinyserver.keystore -storepass tiny123456</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改证书口令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -keypasswd -alias tinykey -keypass tiny123456 -new new123456 -keystore tinyserver.keystore -storepass store123456</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -import -alias tinykey -keystore tinyserver.keystore -file tinyserver.cer -storepass store123456</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>其中: 密钥库keystore的类型storetype: </p>
+<ol>
+<li>jks (.jks或.ks扩展名)</li>
+<li>jceks (.jce扩展名)</li>
+<li>pkcs12 (.p12或.pfx扩展名)</li>
+<li>bks (.bks扩展名)</li>
+<li>uber (.ubr扩展名)<br>其中: 证书格式-file的类型:</li>
+<li>ber (.cer/.crt/.rsa)不含私钥,二进制</li>
+<li>pkcs7 (.p7b/.p7r)</li>
+<li>cms (.p7c/.p7m/.p7s)</li>
+<li>pem (.pem) ascii文件,一般基于base64编码</li>
+<li>pkcs10 (.p10/.csr) 证书签名请求文件,ascii文件,ca签名后一p7r文件回复</li>
+<li>spc (.pvk/.spc)</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/tinytinycn.github.io/2018/01/01/00-hexo-QuickStart/" class="prev">PREV</a><a href="/tinytinycn.github.io/2017/12/14/05-intellij-junit单元测试/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2019 <a href="http://github.com">hang</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
